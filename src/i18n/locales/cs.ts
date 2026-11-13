@@ -46,13 +46,21 @@ export const cs: TranslationDictionary = {
     },
     aboutSection: {
       sectionTitle: 'O mně a praxe',
-      sectionSubtitle: 'Pracovní zkušenosti v pražském IT a retailu doplněné o vysokoškolské studium informatiky.',
+      sectionSubtitle: 'Zkušenosti s analýzou dat a AI v retailu, webovým vývojem a hardwarem doplněné o studium informatiky.',
       bioParagraph:
         'Po maturitě v oboru IT na pražské SPŠE Ječná a certifikaci Harvard CS50 SQL pokračuji ve studiu na ČZU. Zaměřuji se na TypeScript, React, desktopové aplikace v Tauri a C# a návrh relačních databází.',
       workExperienceHeading: 'Pracovní zkušenosti',
       educationHeading: 'Vzdělání a certifikace',
       skillsHeading: 'Technologie',
       workExperiences: [
+        {
+          period: 'Čer 2026 — Čvc 2026 · 2 měs.',
+          role: 'AI koordinátor / Retail Data Analyst',
+          organization: 'Consulting for Retail',
+          location: 'Praha, Česko · Částečný úvazek',
+          summary:
+            'Vývoj aplikací pro optimalizaci a správu vystavení produktů v prodejnách, analýza blokových struktur v master planogramech, automatické generování planogramů a metodiky vývoje softwaru pomocí AI nástrojů.',
+        },
         {
           period: '2026',
           role: 'Webový vývojář',
@@ -61,18 +69,11 @@ export const cs: TranslationDictionary = {
           summary: 'Tvorba responzivní firemní webové prezentace v TypeScriptu.',
         },
         {
-          period: 'Praxe',
-          role: 'IT a softwarová praxe',
-          organization: 'C4R',
-          location: 'Praha',
-          summary: 'Praktická zkušenost s retailovými IT systémy, digitálními procesy a technickou podporou.',
-        },
-        {
-          period: 'Praxe',
-          role: 'Technické poradenství a prodej',
-          organization: 'Smarty CZ',
-          location: 'Praha',
-          summary: 'Zkušenosti s IT hardwarem, spotřební elektronikou a odbornou podporou zákazníků.',
+          period: 'Zář 2025 — Dub 2026 · 8 měs.',
+          role: 'OEM PC technik',
+          organization: 'Smarty BRANDS.',
+          location: 'Praha, Česko · Částečný úvazek',
+          summary: 'Sestavování počítačů, diagnostika hardwaru, opravy a stavba PC.',
         },
       ],
       educationItems: [

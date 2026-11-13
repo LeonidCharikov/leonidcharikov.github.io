@@ -46,13 +46,21 @@ export const en: TranslationDictionary = {
     },
     aboutSection: {
       sectionTitle: 'About & Experience',
-      sectionSubtitle: 'Work experience in Prague retail and IT paired with computer science studies.',
+      sectionSubtitle: 'Experience in retail data & AI tooling, web development, and PC hardware alongside computer science studies.',
       bioParagraph:
         'After graduating in IT from SPŠE Ječná in Prague and completing Harvard CS50 SQL, I am advancing my studies at ČZU. My focus is TypeScript, React, desktop apps in Tauri and C#, and relational database architecture.',
       workExperienceHeading: 'Work Experience',
       educationHeading: 'Education & Certifications',
       skillsHeading: 'Technologies',
       workExperiences: [
+        {
+          period: 'Jun 2026 — Jul 2026 · 2 mos',
+          role: 'AI Coordinator / Retail Data Analyst',
+          organization: 'Consulting for Retail',
+          location: 'Prague, Czechia · Part-time',
+          summary:
+            'Development of applications to optimize and manage product displays in retail stores, analysis of block structures in master planograms, automatic planogram generation, and AI-assisted software development methodologies.',
+        },
         {
           period: '2026',
           role: 'Web Developer',
@@ -61,18 +69,11 @@ export const en: TranslationDictionary = {
           summary: 'Designed and built the responsive corporate website in TypeScript.',
         },
         {
-          period: 'Experience',
-          role: 'IT & Software Specialist',
-          organization: 'C4R',
-          location: 'Prague',
-          summary: 'Practical experience in retail IT systems, digital operations, and technical workflows.',
-        },
-        {
-          period: 'Experience',
-          role: 'Sales & Technical Support',
-          organization: 'Smarty CZ',
-          location: 'Prague',
-          summary: 'Hands-on experience with IT hardware, consumer electronics, and technical customer advising.',
+          period: 'Sep 2025 — Apr 2026 · 8 mos',
+          role: 'OEM PC Technician',
+          organization: 'Smarty BRANDS.',
+          location: 'Prague, Czechia · Part-time',
+          summary: 'Computer assembly, hardware diagnostics, repair, and PC building.',
         },
       ],
       educationItems: [
