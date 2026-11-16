@@ -5,6 +5,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Maximize2,
+  RefreshCw,
   Search,
   X,
 } from 'lucide-react';
@@ -130,6 +131,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeShotIndex, setActiveShotIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [iframeKey, setIframeKey] = useState(0);
 
   const screenshots = t.omnideskPage.screenshots;
   const activeShot = screenshots[activeShotIndex] ?? screenshots[0];
@@ -247,6 +249,12 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
               {t.omnideskPage.navLinks.overview}
             </a>
             <a
+              href="#live"
+              className="text-sm font-medium text-zinc-400 hover:text-white transition-colors whitespace-nowrap shrink-0 py-2"
+            >
+              {t.omnideskPage.navLinks.live}
+            </a>
+            <a
               href="#showcase"
               className="text-sm font-medium text-zinc-400 hover:text-white transition-colors whitespace-nowrap shrink-0 py-2"
             >
@@ -266,15 +274,24 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
             </a>
           </nav>
 
-          {/* Zone 3: Single Primary Action */}
-          <div className="flex items-center shrink-0">
+          {/* Zone 3: Primary Actions */}
+          <div className="flex items-center gap-2 shrink-0">
             <a
               href={EXTERNAL_LINKS.omnideskRepo}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 min-h-[38px] text-xs font-semibold text-zinc-950 bg-zinc-100 rounded-lg hover:bg-white transition-colors whitespace-nowrap shrink-0"
+              className="hidden sm:inline-flex items-center justify-center gap-1.5 px-3 py-2 min-h-[38px] text-xs font-semibold text-zinc-200 bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.12] rounded-lg transition-colors whitespace-nowrap shrink-0"
             >
               <span>{t.omnideskPage.repoCta}</span>
+              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+            </a>
+            <a
+              href={EXTERNAL_LINKS.omnideskLive}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 min-h-[38px] text-xs font-semibold text-white bg-indigo-600/95 hover:bg-indigo-500 border border-indigo-400/30 rounded-lg transition-colors whitespace-nowrap shrink-0"
+            >
+              <span>{t.omnideskPage.liveAppCta}</span>
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
             </a>
           </div>
@@ -308,8 +325,17 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
 
             <div className="lg:col-span-4 flex flex-wrap lg:justify-end items-center gap-3">
               <a
-                href="#catalog"
+                href={EXTERNAL_LINKS.omnideskLive}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] text-sm font-semibold text-white bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/30 rounded-lg shadow-[0_8px_30px_-8px_rgba(99,102,241,0.55)] transition-all duration-150 whitespace-nowrap shrink-0"
+              >
+                <span>{t.omnideskPage.liveAppCta}</span>
+                <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a
+                href="#catalog"
+                className="inline-flex items-center justify-center gap-2 px-5 py-3 min-h-[44px] text-sm font-semibold text-zinc-100 bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-md border border-white/[0.12] rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0"
               >
                 <span>{t.omnideskPage.exploreCatalogCta}</span>
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -318,7 +344,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                 href={EXTERNAL_LINKS.omnideskRepo}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 px-5 py-3 min-h-[44px] text-sm font-semibold text-zinc-100 bg-white/[0.04] hover:bg-white/[0.08] backdrop-blur-md border border-white/[0.12] rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0"
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-3 min-h-[44px] text-sm font-semibold text-zinc-300 hover:text-white bg-transparent border border-white/[0.1] hover:border-white/[0.2] rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0"
               >
                 <span>{t.omnideskPage.repoCta}</span>
                 <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -386,7 +412,80 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
           </div>
         </section>
 
-        {/* Section 2: Interactive 10-Screen Module Showcase */}
+        {/* Section 2: Interactive Embedded Live App Preview */}
+        <section id="live" className="py-16 sm:py-20 border-t border-white/[0.08] space-y-6">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="max-w-2xl space-y-2">
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                {t.omnideskPage.liveSection.heading}
+              </h2>
+              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
+                {t.omnideskPage.liveSection.lead}
+              </p>
+            </div>
+
+            <a
+              href={EXTERNAL_LINKS.omnideskLive}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[42px] text-sm font-semibold text-white bg-indigo-600/90 hover:bg-indigo-500 border border-indigo-400/30 rounded-lg shadow-[0_8px_30px_-8px_rgba(99,102,241,0.45)] transition-all duration-150 whitespace-nowrap shrink-0 self-start md:self-auto"
+            >
+              <span>{t.omnideskPage.liveAppCta}</span>
+              <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+            </a>
+          </div>
+
+          <div className="rounded-2xl p-1.5 bg-white/[0.03] backdrop-blur-xl border border-white/[0.1] shadow-[0_24px_80px_-20px_rgba(79,70,229,0.24)]">
+            <div className="rounded-[11px] overflow-hidden bg-[#06070B]">
+              <div className="px-4 py-2.5 border-b border-white/[0.08] bg-white/[0.02] flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <span className="text-xs font-medium text-zinc-300 shrink-0">
+                    {t.omnideskPage.liveSection.previewLabel}
+                  </span>
+                  <span className="font-mono text-xs text-zinc-500 truncate">
+                    {EXTERNAL_LINKS.omnideskLive}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setIframeKey((prev) => prev + 1)}
+                    aria-label={t.omnideskPage.liveSection.reloadLabel}
+                    title={t.omnideskPage.liveSection.reloadLabel}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-zinc-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.09] border border-white/[0.1] rounded-lg transition-colors cursor-pointer"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" aria-hidden="true" />
+                    <span className="hidden sm:inline">{t.omnideskPage.liveSection.reloadLabel}</span>
+                  </button>
+                  <a
+                    href={EXTERNAL_LINKS.omnideskLive}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-zinc-100 bg-white/[0.06] hover:bg-white/[0.12] border border-white/[0.12] rounded-lg transition-colors whitespace-nowrap"
+                  >
+                    <span>{t.omnideskPage.liveAppCta}</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+                  </a>
+                </div>
+              </div>
+
+              <iframe
+                key={iframeKey}
+                src={EXTERNAL_LINKS.omnideskLive}
+                title={t.omnideskPage.liveSection.iframeTitle}
+                allow="camera; microphone; clipboard-read; clipboard-write"
+                loading="lazy"
+                className="w-full h-[640px] sm:h-[740px] border-0 bg-[#06070B]"
+              />
+            </div>
+          </div>
+
+          <p className="text-xs sm:text-sm text-zinc-400">
+            {t.omnideskPage.liveSection.note}
+          </p>
+        </section>
+
+        {/* Section 3: Interactive 10-Screen Module Showcase */}
         <section id="showcase" className="py-16 sm:py-20 border-t border-white/[0.08] space-y-10">
           <div className="max-w-2xl space-y-2">
             <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">

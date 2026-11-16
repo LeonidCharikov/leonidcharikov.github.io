@@ -242,10 +242,19 @@ export function HomePage({onNavigate}: HomePageProps) {
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </a>
                   <a
-                    href={EXTERNAL_LINKS.omnideskRepo}
+                    href={EXTERNAL_LINKS.omnideskLive}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 min-h-[40px] text-xs sm:text-sm font-semibold text-zinc-200 bg-transparent border border-[#262B42] rounded-lg hover:border-indigo-400 transition-colors whitespace-nowrap shrink-0"
+                  >
+                    <span>{t.home.featured.launchLiveApp}</span>
+                    <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
+                  </a>
+                  <a
+                    href={EXTERNAL_LINKS.omnideskRepo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 min-h-[40px] text-xs sm:text-sm font-medium text-zinc-400 hover:text-zinc-100 transition-colors whitespace-nowrap shrink-0"
                   >
                     <span>{t.home.featured.viewRepository}</span>
                     <ArrowUpRight className="w-4 h-4" aria-hidden="true" />

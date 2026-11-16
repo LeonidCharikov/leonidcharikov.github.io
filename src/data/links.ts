@@ -13,6 +13,7 @@ import omniRandomPickerImg from '../assets/screenshots/omnidesk/random-picker.pn
 export const EXTERNAL_LINKS = {
   githubProfile: 'https://github.com/LeonidCharikov',
   omnideskRepo: 'https://github.com/LeonidCharikov/OmniDesk',
+  omnideskLive: 'https://leonidcharikov.github.io/OmniDesk/',
   rateEverythingRepo: 'https://github.com/LeonidCharikov/RateEverything',
   rateEverythingLive: 'https://rate-everything-omega.vercel.app/',
   linkedin: 'https://www.linkedin.com/in/leonid-charikov/',

@@ -93,6 +93,7 @@ export interface TranslationDictionary {
       readCaseStudy: string;
       viewRepository: string;
       visitLiveSite: string;
+      launchLiveApp: string;
       omnideskMeta: string;
       omnideskTitle: string;
       omnideskSummary: string;
@@ -141,16 +142,26 @@ export interface TranslationDictionary {
     appName: string;
     navLinks: {
       overview: string;
+      live: string;
       showcase: string;
       catalog: string;
       architecture: string;
     };
+    liveAppCta: string;
     repoCta: string;
     metaLine: string;
     title: string;
     lead: string;
     exploreCatalogCta: string;
     heroImageAlt: string;
+    liveSection: {
+      heading: string;
+      lead: string;
+      note: string;
+      iframeTitle: string;
+      reloadLabel: string;
+      previewLabel: string;
+    };
     metrics: {
       toolsLabel: string;
       runtimeValue: string;
