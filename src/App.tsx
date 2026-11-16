@@ -80,7 +80,11 @@ function PortfolioShell() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#09090B] text-zinc-100">
+    <div
+      className={`min-h-screen flex flex-col ${
+        route === 'rate-everything' ? 'bg-[#0C0E12] text-zinc-100' : 'bg-[#09090B] text-zinc-100'
+      }`}
+    >
       {route === 'home' && <Navbar currentRoute={route} onNavigate={handleNavigate} />}
       <div className="flex-1">
         {route === 'omnidesk' && <OmniDeskPage onNavigate={handleNavigate} />}

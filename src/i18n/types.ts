@@ -4,8 +4,6 @@ export type PageRoute = 'home' | 'omnidesk' | 'rate-everything';
 
 export type RepoFilter = 'all' | 'web' | 'desktop' | 'database';
 
-export type RateCategoryFilter = 'all' | 'games' | 'movies' | 'websites';
-
 export type RatePreviewTab = 'main' | 'detail' | 'add';
 
 export interface ExperienceItem {
@@ -34,8 +32,7 @@ export interface OmniDeskToolCard {
   id: string;
   title: string;
   description: string;
-  categoryLabel: string;
-  modeLabel: string;
+  isEverydayBasic?: boolean;
 }
 
 export interface OmniDeskModuleCategory {
@@ -47,25 +44,21 @@ export interface OmniDeskModuleCategory {
 }
 
 export interface OmniDeskScreenshotItem {
-  id: 'mainMenu' | 'chemistry' | 'currency' | 'graph2d';
+  id:
+    | 'dashboard'
+    | 'pdfEditor'
+    | 'audioEditor'
+    | 'calendar'
+    | 'currency'
+    | 'graph2d'
+    | 'chemistry'
+    | 'hashSuite'
+    | 'randomPicker'
+    | 'config';
   title: string;
   caption: string;
 }
 
-export interface RateCatalogEntry {
-  id: string;
-  category: Exclude<RateCategoryFilter, 'all'>;
-  categoryLabel: string;
-  title: string;
-  score: number;
-  description: string;
-  thoughts: string;
-  updatedAt: string;
-  originalUrl: string;
-  specs: {label: string; value: string}[];
-  tags: string[];
-  accentHue: 'crimson' | 'emerald' | 'amber' | 'slate' | 'cobalt' | 'yellow';
-}
 
 export interface TranslationDictionary {
   meta: {
@@ -146,41 +139,54 @@ export interface TranslationDictionary {
   omnideskPage: {
     backToPortfolio: string;
     appName: string;
-    sectionPath: string;
-    localSandboxLabel: string;
-    searchPlaceholder: string;
-    searchEmpty: string;
-    kicker: string;
+    navLinks: {
+      overview: string;
+      showcase: string;
+      catalog: string;
+      architecture: string;
+    };
+    repoCta: string;
+    metaLine: string;
     title: string;
     lead: string;
-    repoCta: string;
+    exploreCatalogCta: string;
+    heroImageAlt: string;
     metrics: {
-      toolsValue: string;
       toolsLabel: string;
       runtimeValue: string;
       runtimeLabel: string;
       localesValue: string;
       localesLabel: string;
-      telemetryValue: string;
-      telemetryLabel: string;
+      securityValue: string;
+      securityLabel: string;
     };
-    galleryHeading: string;
-    galleryLead: string;
+    showcaseHeading: string;
+    showcaseLead: string;
+    expandPreviewLabel: string;
     galleryCloseLabel: string;
     galleryPrevLabel: string;
     galleryNextLabel: string;
     screenshots: OmniDeskScreenshotItem[];
-    explorerHeading: string;
-    explorerLead: string;
+    catalogHeading: string;
+    catalogLead: string;
+    searchPlaceholder: string;
+    clearSearchLabel: string;
+    searchEmpty: string;
     toolsUnitLabel: string;
     allToolsFilter: string;
-    openActionLabel: string;
+    everydayBasicsFilter: string;
+    showingCountPrefix: string;
     categories: OmniDeskModuleCategory[];
     architectureHeading: string;
+    architectureLead: string;
     highlights: {
       title: string;
       description: string;
     }[];
+    themesHeading: string;
+    themesList: string[];
+    widgetsHeading: string;
+    widgetsList: string[];
     stackHeading: string;
     stackItems: {
       layer: string;
@@ -194,58 +200,48 @@ export interface TranslationDictionary {
   rateEverythingPage: {
     backToPortfolio: string;
     appName: string;
+    navLinks: {
+      overview: string;
+      screens: string;
+      stack: string;
+    };
     liveCta: string;
     repoCta: string;
     kicker: string;
     title: string;
     lead: string;
+    ledgerHeading: string;
+    ledgerRows: {
+      label: string;
+      value: string;
+    }[];
     screensHeading: string;
     screensLead: string;
+    expandPreviewLabel: string;
     screenTabs: {
       main: string;
       detail: string;
       add: string;
     };
-    catalogHeading: string;
-    catalogCountSuffix: string;
-    searchPlaceholder: string;
-    emptyState: string;
-    addButtonLabel: string;
-    filters: {
-      all: string;
-      games: string;
-      movies: string;
-      websites: string;
+    screenNotes: {
+      main: string;
+      detail: string;
+      add: string;
     };
-    modalLabels: {
-      about: string;
-      myThoughts: string;
-      details: string;
-      openOriginal: string;
-      updatedPrefix: string;
+    lightboxLabels: {
       closeLabel: string;
-      addTitle: string;
-      categoryField: string;
-      ratingField: string;
-      nameField: string;
-      namePlaceholder: string;
-      authorField: string;
-      pagesField: string;
-      originalLinkField: string;
-      descriptionField: string;
-      thoughtsField: string;
-      tagsField: string;
-      tagsPlaceholder: string;
-      submitAdd: string;
       prevScreenLabel: string;
       nextScreenLabel: string;
     };
-    entries: RateCatalogEntry[];
-    pillarsHeading: string;
-    pillars: {
+    stackHeading: string;
+    stackLead: string;
+    techExperiments: {
+      tag: string;
       title: string;
       description: string;
     }[];
+    alsoTriedLabel: string;
+    alsoTriedItems: string[];
     nextProjectLabel: string;
     nextProjectTitle: string;
     nextProjectCta: string;

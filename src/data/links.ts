@@ -1,8 +1,14 @@
 import darkWorkspaceHeroImg from '../assets/images/dark_workspace_hero_1794578515981.jpg';
-import omniGraphImg from '../assets/screenshots/omnidesk/2d-graph.png';
-import omniChemistryImg from '../assets/screenshots/omnidesk/chemistry.png';
-import omniCurrencyImg from '../assets/screenshots/omnidesk/currency-convertor.png';
-import omniMainMenuImg from '../assets/screenshots/omnidesk/main-menu.png';
+import omniAudioEditorImg from '../assets/screenshots/omnidesk/audio-editor.png';
+import omniCalendarImg from '../assets/screenshots/omnidesk/calendar.png';
+import omniConfigImg from '../assets/screenshots/omnidesk/config.png';
+import omniChemistryImg from '../assets/screenshots/omnidesk/function-chemistry.png';
+import omniGraphImg from '../assets/screenshots/omnidesk/function-grapher.png';
+import omniHashSuiteImg from '../assets/screenshots/omnidesk/hash-suite.png';
+import omniMainMenuImg from '../assets/screenshots/omnidesk/dashboard.png';
+import omniPdfEditorImg from '../assets/screenshots/omnidesk/pdf-editor.png';
+import omniCurrencyImg from '../assets/screenshots/omnidesk/crypto-rates.png';
+import omniRandomPickerImg from '../assets/screenshots/omnidesk/random-picker.png';
 
 export const EXTERNAL_LINKS = {
   githubProfile: 'https://github.com/LeonidCharikov',
@@ -17,9 +23,16 @@ export const MEDIA_ASSETS = {
   darkWorkspaceHero: darkWorkspaceHeroImg,
   omnideskScreens: {
     mainMenu: omniMainMenuImg,
-    chemistry: omniChemistryImg,
+    dashboard: omniMainMenuImg,
+    pdfEditor: omniPdfEditorImg,
+    audioEditor: omniAudioEditorImg,
+    calendar: omniCalendarImg,
     currency: omniCurrencyImg,
     graph2d: omniGraphImg,
+    chemistry: omniChemistryImg,
+    hashSuite: omniHashSuiteImg,
+    randomPicker: omniRandomPickerImg,
+    config: omniConfigImg,
   },
   rateEverythingScreens: {
     main: '/assets/aistudio/rate-main-page_3d8dad1d.png',

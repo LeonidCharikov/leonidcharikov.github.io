@@ -2,7 +2,7 @@ import {SUPPORTED_LOCALES, useI18n} from '../i18n/context';
 
 interface LanguageSwitcherProps {
   className?: string;
-  tone?: 'neutral' | 'indigo' | 'amber';
+  tone?: 'neutral' | 'indigo' | 'teal';
 }
 
 export function LanguageSwitcher({className = '', tone = 'neutral'}: LanguageSwitcherProps) {
@@ -11,16 +11,21 @@ export function LanguageSwitcher({className = '', tone = 'neutral'}: LanguageSwi
   const containerTone =
     tone === 'indigo'
       ? 'bg-[#10121E] border-[#1E2235]'
-      : tone === 'amber'
-        ? 'bg-[#111111] border-zinc-800'
+      : tone === 'teal'
+        ? 'bg-[#131720] border-[#232936]'
         : 'bg-zinc-900 border-zinc-800';
 
   const activeTone =
     tone === 'indigo'
       ? 'bg-indigo-600 text-white'
-      : tone === 'amber'
-        ? 'bg-amber-500 text-black'
+      : tone === 'teal'
+        ? 'bg-[#0F766E] text-white'
         : 'bg-zinc-100 text-zinc-950';
+
+  const inactiveTone =
+    tone === 'teal'
+      ? 'text-slate-400 hover:text-zinc-100'
+      : 'text-zinc-400 hover:text-zinc-100';
 
   return (
     <div
@@ -38,7 +43,7 @@ export function LanguageSwitcher({className = '', tone = 'neutral'}: LanguageSwi
             aria-pressed={isActive}
             title={item.nativeName}
             className={`px-2.5 py-1.5 min-h-[34px] text-xs font-medium rounded-md transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 ${
-              isActive ? activeTone : 'text-zinc-400 hover:text-zinc-100'
+              isActive ? activeTone : inactiveTone
             }`}
           >
             {item.label}
