@@ -3,8 +3,20 @@ import type {TranslationDictionary} from '../types';
 export const cs: TranslationDictionary = {
   meta: {
     homeTitle: 'Leonid Charikov — Portfolio vývojáře',
-    omnideskTitle: 'OmniDesk — Offline pracovní stanice | Leonid Charikov',
+    homeDescription:
+      'Portfolio pražského vývojáře Leonida Charikova: webové a desktopové aplikace v TypeScriptu, Reactu, Tauri, C# a SQL včetně projektů OmniDesk a RateEverything.',
+    homeKeywords:
+      'Leonid Charikov, softwarový vývojář Praha, TypeScript vývojář, React vývojář, Tauri desktopové aplikace, C# WinForms, SQL databáze, ČZU Informatika, OmniDesk, RateEverything, portfolio',
+    omnideskTitle: 'OmniDesk — Lokální pracovní stanice | 99+ nástrojů',
+    omnideskDescription:
+      'Vyzkoušejte OmniDesk: lokální desktopovou a webovou stanici s 99+ offline nástroji pro PDF, kód, audio, matematiku, chemii a finance v Tauri a Reactu.',
+    omnideskKeywords:
+      'OmniDesk, offline pracovní stanice, lokální nástroje, soukromá webová aplikace, Tauri v2, React 19, TypeScript, PWA, PDF editor, střih audia, hash nástroje, AES-256 šifrování, periodická tabulka, vývojářské utility',
     rateEverythingTitle: 'RateEverything — Web & SQL experiment | Leonid Charikov',
+    rateEverythingDescription:
+      'Prohlédněte si RateEverything, experimentální webový projekt Leonida Charikova propojující sémantické HTML, CSS, TypeScript a databázi SQL.',
+    rateEverythingKeywords:
+      'RateEverything, Leonid Charikov, HTML CSS TypeScript SQL, webový experiment, katalog hodnocení',
   },
   nav: {
     brand: 'Leonid Charikov',
@@ -208,10 +220,9 @@ export const cs: TranslationDictionary = {
     appName: 'OmniDesk',
     navLinks: {
       overview: 'Přehled',
-      live: 'Živá aplikace',
+      architecture: 'Architektura',
       showcase: 'Ukázky',
       catalog: 'Katalog',
-      architecture: 'Architektura',
     },
     liveAppCta: 'Spustit živou aplikaci',
     repoCta: 'GitHub',
@@ -220,14 +231,6 @@ export const cs: TranslationDictionary = {
     lead: 'OmniDesk je lokálně orientovaná desktopová a webová pracovní stanice pro dokumenty, kryptografii, matematiku, chemii, finance a plánování — zpracování souborů běží v paměti s volitelným připojením pro živé kurzy, API tester a překladač.',
     exploreCatalogCta: 'Prohlédnout nástroje',
     heroImageAlt: 'Hlavní pracovní plocha OmniDesk s kategorizovanými nástroji a mini-widgety',
-    liveSection: {
-      heading: 'Interaktivní živý náhled',
-      lead: 'Vyzkoušejte funkční webovou aplikaci OmniDesk přímo níže bez opuštění této stránky.',
-      note: 'Otevření aplikace OmniDesk přímo na nové kartě nabízí plnou instalaci jako PWA a nativní systémové dialogy pro ukládání souborů.',
-      iframeTitle: 'Živý náhled webové aplikace OmniDesk',
-      reloadLabel: 'Obnovit náhled',
-      previewLabel: 'Živý webový náhled',
-    },
     metrics: {
       toolsLabel: 'Modulárních nástrojů · Rostoucí katalog',
       runtimeValue: 'Tauri v2 + PWA',

@@ -40,6 +40,26 @@ function routeToPath(route: PageRoute, hash?: string): string {
   return hash ? `${base}#${hash}` : base;
 }
 
+function setMetaTag(selector: string, attribute: 'name' | 'property', key: string, content: string) {
+  let tag = document.head.querySelector<HTMLMetaElement>(selector);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attribute, key);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute('content', content);
+}
+
+function setCanonicalLink(href: string) {
+  let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'canonical');
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
 function PortfolioShell() {
   const {t} = useI18n();
   const [route, setRoute] = useState<PageRoute>(resolveRouteFromLocation);
@@ -53,14 +73,48 @@ function PortfolioShell() {
   }, []);
 
   useEffect(() => {
-    if (route === 'omnidesk') {
-      document.title = t.meta.omnideskTitle;
-    } else if (route === 'rate-everything') {
-      document.title = t.meta.rateEverythingTitle;
-    } else {
-      document.title = t.meta.homeTitle;
-    }
-  }, [route, t.meta.homeTitle, t.meta.omnideskTitle, t.meta.rateEverythingTitle]);
+    const seo =
+      route === 'omnidesk'
+        ? {
+            title: t.meta.omnideskTitle,
+            description: t.meta.omnideskDescription,
+            keywords: t.meta.omnideskKeywords,
+          }
+        : route === 'rate-everything'
+          ? {
+              title: t.meta.rateEverythingTitle,
+              description: t.meta.rateEverythingDescription,
+              keywords: t.meta.rateEverythingKeywords,
+            }
+          : {
+              title: t.meta.homeTitle,
+              description: t.meta.homeDescription,
+              keywords: t.meta.homeKeywords,
+            };
+
+    const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
+
+    document.title = seo.title;
+    setMetaTag('meta[name="description"]', 'name', 'description', seo.description);
+    setMetaTag('meta[name="keywords"]', 'name', 'keywords', seo.keywords);
+    setMetaTag('meta[property="og:title"]', 'property', 'og:title', seo.title);
+    setMetaTag('meta[property="og:description"]', 'property', 'og:description', seo.description);
+    setMetaTag('meta[property="og:url"]', 'property', 'og:url', canonicalUrl);
+    setMetaTag('meta[name="twitter:title"]', 'name', 'twitter:title', seo.title);
+    setMetaTag('meta[name="twitter:description"]', 'name', 'twitter:description', seo.description);
+    setCanonicalLink(canonicalUrl);
+  }, [
+    route,
+    t.meta.homeTitle,
+    t.meta.homeDescription,
+    t.meta.homeKeywords,
+    t.meta.omnideskTitle,
+    t.meta.omnideskDescription,
+    t.meta.omnideskKeywords,
+    t.meta.rateEverythingTitle,
+    t.meta.rateEverythingDescription,
+    t.meta.rateEverythingKeywords,
+  ]);
 
   const handleNavigate = useCallback((nextRoute: PageRoute, hash?: string) => {
     const nextUrl = routeToPath(nextRoute, hash);

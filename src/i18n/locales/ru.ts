@@ -3,8 +3,20 @@ import type {TranslationDictionary} from '../types';
 export const ru: TranslationDictionary = {
   meta: {
     homeTitle: 'Леонид Чариков — Портфолио разработчика',
-    omnideskTitle: 'OmniDesk — Офлайн рабочая станция | Леонид Чариков',
-    rateEverythingTitle: 'RateEverything — Веб и SQL эксперимент | Леонид Чариков',
+    homeDescription:
+      'Портфолио разработчика из Праги Леонида Чарикова: веб и десктоп приложения на TypeScript, React, Tauri, C# и SQL, включая проекты OmniDesk и RateEverything.',
+    homeKeywords:
+      'Леонид Чариков, Leonid Charikov, разработчик ПО Прага, TypeScript, React, Tauri десктоп приложения, C# WinForms, SQL базы данных, ČZU информатика, OmniDesk, RateEverything, портфолио',
+    omnideskTitle: 'OmniDesk — Локальная станция | 99+ утилит',
+    omnideskDescription:
+      'Откройте OmniDesk: локальную станцию с 99+ офлайн-инструментами для PDF, кода, аудио, математики, химии и финансов на базе Tauri и React.',
+    omnideskKeywords:
+      'OmniDesk, офлайн рабочая станция, локальные инструменты, приватное веб-приложение, Tauri v2, React 19, TypeScript, PWA, PDF редактор, аудио редактор, хеш-функции, AES-256 шифрование, таблица Менделеева, утилиты разработчика',
+    rateEverythingTitle: 'RateEverything — Веб и SQL проект | Леонид Чариков',
+    rateEverythingDescription:
+      'Изучите RateEverything — экспериментальный веб-проект Леонида Чарикова, объединяющий HTML, CSS, TypeScript и реляционную базу данных SQL.',
+    rateEverythingKeywords:
+      'RateEverything, Леонид Чариков, HTML CSS TypeScript SQL, веб-песочница, каталог оценок',
   },
   nav: {
     brand: 'Leonid Charikov',
@@ -208,10 +220,9 @@ export const ru: TranslationDictionary = {
     appName: 'OmniDesk',
     navLinks: {
       overview: 'Обзор',
-      live: 'Приложение',
+      architecture: 'Архитектура',
       showcase: 'Экраны',
       catalog: 'Каталог',
-      architecture: 'Архитектура',
     },
     liveAppCta: 'Запустить приложение',
     repoCta: 'GitHub',
@@ -220,14 +231,6 @@ export const ru: TranslationDictionary = {
     lead: 'OmniDesk — локально ориентированная рабочая станция для десктопа и браузера: документы, криптография, математика, химия, финансы и планирование обрабатываются прямо в памяти, а сетевые модули поддерживают курсы валют, API-запросы и онлайн-перевод.',
     exploreCatalogCta: 'Открыть каталог',
     heroImageAlt: 'Главный экран OmniDesk с категориями инструментов и мини-виджетами',
-    liveSection: {
-      heading: 'Интерактивный предпросмотр',
-      lead: 'Попробуйте рабочее веб-приложение OmniDesk прямо здесь, не покидая страницу.',
-      note: 'Открытие OmniDesk в отдельной вкладке даёт полноценную установку PWA и нативные диалоги сохранения файлов в браузере.',
-      iframeTitle: 'Живой предпросмотр веб-приложения OmniDesk',
-      reloadLabel: 'Обновить окно',
-      previewLabel: 'Живой веб-предпросмотр',
-    },
     metrics: {
       toolsLabel: 'Модульных утилит · Растущий реестр',
       runtimeValue: 'Tauri v2 + PWA',

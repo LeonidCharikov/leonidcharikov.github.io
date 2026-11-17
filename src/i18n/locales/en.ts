@@ -3,8 +3,20 @@ import type {TranslationDictionary} from '../types';
 export const en: TranslationDictionary = {
   meta: {
     homeTitle: 'Leonid Charikov — Software Developer Portfolio',
-    omnideskTitle: 'OmniDesk — Offline Workstation | Leonid Charikov',
+    homeDescription:
+      "Explore Leonid Charikov's portfolio: a Prague-based software developer building TypeScript, React, Tauri, C#, and SQL apps like OmniDesk and RateEverything.",
+    homeKeywords:
+      'Leonid Charikov, software developer Prague, TypeScript developer, React developer, Tauri desktop apps, C# WinForms, SQL database developer, ČZU Informatics, OmniDesk, RateEverything, full-stack portfolio',
+    omnideskTitle: 'OmniDesk — Local-First Workstation | 99+ Tools',
+    omnideskDescription:
+      'Discover OmniDesk: a local-first desktop and web workstation with 99+ offline tools for PDF, code, audio, math, chemistry, and finance in Tauri & React.',
+    omnideskKeywords:
+      'OmniDesk, offline workstation, local-first tools, privacy-first web app, Tauri v2, React 19, TypeScript, PWA workstation, PDF editor, audio trimmer, hash suite, AES-256 encryption, periodic table, developer utilities, calculator suite',
     rateEverythingTitle: 'RateEverything — Web & SQL Sandbox | Leonid Charikov',
+    rateEverythingDescription:
+      'Explore RateEverything, an experimental full-stack web sandbox by Leonid Charikov built with HTML, CSS, TypeScript, and SQL persistence.',
+    rateEverythingKeywords:
+      'RateEverything, Leonid Charikov, HTML CSS TypeScript SQL, web sandbox, rating catalog, full-stack experiment',
   },
   nav: {
     brand: 'Leonid Charikov',
@@ -208,10 +220,9 @@ export const en: TranslationDictionary = {
     appName: 'OmniDesk',
     navLinks: {
       overview: 'Overview',
-      live: 'Live App',
+      architecture: 'Architecture',
       showcase: 'Showcase',
       catalog: 'Catalog',
-      architecture: 'Architecture',
     },
     liveAppCta: 'Launch Live App',
     repoCta: 'GitHub',
@@ -220,14 +231,6 @@ export const en: TranslationDictionary = {
     lead: 'OmniDesk is a local-first desktop and web workstation uniting document studios, cryptography, math, chemistry, finance, and planning—processing files directly in memory while supporting optional live APIs for rates, HTTP testing, and translation.',
     exploreCatalogCta: 'Explore tools',
     heroImageAlt: 'OmniDesk main workspace showing categorized tools and sidebar mini-widgets',
-    liveSection: {
-      heading: 'Interactive Live Preview',
-      lead: 'Try the working OmniDesk web application directly below without leaving this page.',
-      note: 'Opening OmniDesk directly in a new tab provides full PWA installability and native browser Save File dialogs.',
-      iframeTitle: 'OmniDesk live web application preview',
-      reloadLabel: 'Reload preview',
-      previewLabel: 'Live Web Preview',
-    },
     metrics: {
       toolsLabel: 'Modular tools · Expanding catalog',
       runtimeValue: 'Tauri v2 + PWA',

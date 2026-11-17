@@ -63,8 +63,14 @@ export interface OmniDeskScreenshotItem {
 export interface TranslationDictionary {
   meta: {
     homeTitle: string;
+    homeDescription: string;
+    homeKeywords: string;
     omnideskTitle: string;
+    omnideskDescription: string;
+    omnideskKeywords: string;
     rateEverythingTitle: string;
+    rateEverythingDescription: string;
+    rateEverythingKeywords: string;
   };
   nav: {
     brand: string;
@@ -142,10 +148,9 @@ export interface TranslationDictionary {
     appName: string;
     navLinks: {
       overview: string;
-      live: string;
+      architecture: string;
       showcase: string;
       catalog: string;
-      architecture: string;
     };
     liveAppCta: string;
     repoCta: string;
@@ -154,14 +159,6 @@ export interface TranslationDictionary {
     lead: string;
     exploreCatalogCta: string;
     heroImageAlt: string;
-    liveSection: {
-      heading: string;
-      lead: string;
-      note: string;
-      iframeTitle: string;
-      reloadLabel: string;
-      previewLabel: string;
-    };
     metrics: {
       toolsLabel: string;
       runtimeValue: string;

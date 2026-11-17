@@ -28,9 +28,63 @@
   }
 }
 
+@keyframes float-slow-a {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(22px, -18px, 0);
+  }
+}
+
+@keyframes float-slow-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-20px, 22px, 0);
+  }
+}
+
+@keyframes float-slow-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, 16px, 0);
+  }
+}
+
+.omnidesk-float-a {
+  will-change: transform;
+  transform: translateZ(0);
+  animation: float-slow-a 18s ease-in-out infinite;
+}
+
+.omnidesk-float-b {
+  will-change: transform;
+  transform: translateZ(0);
+  animation: float-slow-b 22s ease-in-out infinite;
+}
+
+.omnidesk-float-c {
+  will-change: transform;
+  transform: translateZ(0);
+  animation: float-slow-c 26s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .omnidesk-float-a,
+  .omnidesk-float-b,
+  .omnidesk-float-c {
+    animation: none !important;
   }
 
   *,
