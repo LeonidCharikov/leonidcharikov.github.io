@@ -60,6 +60,17 @@ function setCanonicalLink(href: string) {
   link.setAttribute('href', href);
 }
 
+function setFavicon(href: string) {
+  let link = document.head.querySelector<HTMLLinkElement>('link[rel="icon"]');
+  if (!link) {
+    link = document.createElement('link');
+    link.setAttribute('rel', 'icon');
+    link.setAttribute('type', 'image/svg+xml');
+    document.head.appendChild(link);
+  }
+  link.setAttribute('href', href);
+}
+
 function PortfolioShell() {
   const {t} = useI18n();
   const [route, setRoute] = useState<PageRoute>(resolveRouteFromLocation);
@@ -95,6 +106,7 @@ function PortfolioShell() {
     const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
 
     document.title = seo.title;
+    setFavicon('/assets/aistudio/icon_25b02343.svg');
     setMetaTag('meta[name="description"]', 'name', 'description', seo.description);
     setMetaTag('meta[name="keywords"]', 'name', 'keywords', seo.keywords);
     setMetaTag('meta[property="og:title"]', 'property', 'og:title', seo.title);
@@ -136,7 +148,7 @@ function PortfolioShell() {
   return (
     <div
       className={`min-h-screen flex flex-col ${
-        route === 'rate-everything' ? 'bg-[#0C0E12] text-zinc-100' : 'bg-[#09090B] text-zinc-100'
+        route === 'rate-everything' ? 'bg-[#0B0D10] text-zinc-100' : 'bg-[#09090B] text-zinc-100'
       }`}
     >
       {route === 'home' && <Navbar currentRoute={route} onNavigate={handleNavigate} />}

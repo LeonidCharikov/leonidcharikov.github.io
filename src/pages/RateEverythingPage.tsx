@@ -4,10 +4,6 @@ import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
-  Code2,
-  Database,
-  Layers,
-  LayoutGrid,
   Maximize2,
   X,
 } from 'lucide-react';
@@ -28,8 +24,6 @@ const SCREEN_IMAGE_SRC: Record<RatePreviewTab, string> = {
   detail: MEDIA_ASSETS.rateEverythingScreens.detail,
   add: MEDIA_ASSETS.rateEverythingScreens.add,
 };
-
-const TECH_ICONS = [Layers, LayoutGrid, Code2, Database] as const;
 
 export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
   const {t} = useI18n();
@@ -108,88 +102,54 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0C0E12] text-zinc-100">
-      {/* Subtle architectural blueprint dot grid */}
-      <div
-        className="fixed inset-0 pointer-events-none z-0"
-        aria-hidden="true"
-        style={{
-          backgroundImage:
-            'radial-gradient(rgba(148, 163, 184, 0.14) 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-          maskImage:
-            'radial-gradient(ellipse 90% 70% at 50% 15%, black 35%, transparent 100%)',
-        }}
-      />
+    <div className="min-h-screen bg-[#0B0D10] text-zinc-100">
+      {/* Strict 3-Zone Editorial Top Bar */}
+      <header className="sticky top-0 z-40 h-16 bg-[#0B0D10]/95 backdrop-blur-sm border-b border-[#1E232D]">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-8">
+          {/* Zone 1: Single-Line Brand Wordmark */}
+          <a
+            href="#overview"
+            onClick={(e) => scrollToSection(e, 'overview')}
+            className="font-display text-base font-semibold tracking-tight text-zinc-50 hover:text-white transition-colors whitespace-nowrap shrink-0 py-1.5"
+          >
+            {t.rateEverythingPage.appName}
+          </a>
 
-      {/* 3-Zone Dark Editorial Top Bar */}
-      <header className="sticky top-0 z-40 h-16 bg-[#0C0E12]/90 backdrop-blur-md border-b border-[#232936]">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <a
-              href="./index.html"
-              onClick={(e) => handleNav(e, 'home')}
-              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 min-h-[36px] text-xs font-medium text-slate-300 hover:text-white bg-[#131720] border border-[#232936] rounded-lg hover:border-slate-500 transition-colors whitespace-nowrap shrink-0"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="hidden sm:inline">{t.rateEverythingPage.backToPortfolio}</span>
-            </a>
-
-            <div className="flex items-center gap-2 min-w-0">
-              <span
-                className="w-6 h-6 rounded-md bg-[#0F766E] text-white flex items-center justify-center shrink-0"
-                aria-hidden="true"
-              >
-                <Layers className="w-3.5 h-3.5" />
-              </span>
-              <span className="font-display text-sm sm:text-base font-bold tracking-tight text-white truncate">
-                {t.rateEverythingPage.appName}
-              </span>
-            </div>
-          </div>
-
+          {/* Zone 2: Clean Single-Line Nav Links */}
           <nav
             aria-label={t.rateEverythingPage.appName}
-            className="hidden md:flex items-center gap-7 text-xs font-medium text-slate-400"
+            className="hidden md:flex items-center gap-7 text-sm font-medium text-zinc-400"
           >
             <a
               href="#overview"
               onClick={(e) => scrollToSection(e, 'overview')}
-              className="hover:text-teal-400 transition-colors whitespace-nowrap"
+              className="hover:text-zinc-100 transition-colors duration-150 whitespace-nowrap py-1.5"
             >
               {t.rateEverythingPage.navLinks.overview}
             </a>
             <a
               href="#screens"
               onClick={(e) => scrollToSection(e, 'screens')}
-              className="hover:text-teal-400 transition-colors whitespace-nowrap"
+              className="hover:text-zinc-100 transition-colors duration-150 whitespace-nowrap py-1.5"
             >
               {t.rateEverythingPage.navLinks.screens}
             </a>
             <a
               href="#stack"
               onClick={(e) => scrollToSection(e, 'stack')}
-              className="hover:text-teal-400 transition-colors whitespace-nowrap"
+              className="hover:text-zinc-100 transition-colors duration-150 whitespace-nowrap py-1.5"
             >
               {t.rateEverythingPage.navLinks.stack}
             </a>
           </nav>
 
-          <div className="flex items-center gap-2 shrink-0">
-            <a
-              href={EXTERNAL_LINKS.rateEverythingRepo}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 min-h-[36px] text-xs font-semibold text-zinc-200 bg-[#131720] border border-[#232936] rounded-lg hover:border-teal-500/60 hover:text-teal-300 transition-colors whitespace-nowrap shrink-0"
-            >
-              <span>{t.rateEverythingPage.repoCta}</span>
-              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
-            </a>
+          {/* Zone 3: 1 Primary Action */}
+          <div className="flex items-center shrink-0">
             <a
               href={EXTERNAL_LINKS.rateEverythingLive}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[36px] text-xs font-semibold text-white bg-[#0F766E] rounded-lg hover:bg-[#115E59] transition-colors whitespace-nowrap shrink-0"
+              className="inline-flex items-center gap-1.5 px-4 py-2 min-h-[38px] text-xs font-semibold text-white bg-[#0F766E] hover:bg-[#115E59] rounded-md transition-colors duration-150 whitespace-nowrap shrink-0"
             >
               <span>{t.rateEverythingPage.liveCta}</span>
               <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -198,36 +158,47 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
         </div>
       </header>
 
-      <main className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-20">
-        {/* Section 1: Dark Editorial Hero + Project Snapshot Ledger */}
-        <section id="overview" className="scroll-mt-24 space-y-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <p className="font-mono text-xs font-medium tracking-wide text-teal-400 uppercase">
-              {t.rateEverythingPage.kicker}
-            </p>
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section 1: Minimalist Editorial Hero + Specification Ledger */}
+        <section id="overview" className="scroll-mt-20 pt-8 pb-16 sm:pt-12 sm:pb-24 space-y-12">
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-[#1E232D]">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs sm:text-sm">
+              <a
+                href="./index.html"
+                onClick={(e) => handleNav(e, 'home')}
+                className="inline-flex items-center gap-1.5 font-medium text-zinc-400 hover:text-zinc-100 transition-colors duration-150 whitespace-nowrap"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
+                <span>{t.rateEverythingPage.backToPortfolio}</span>
+              </a>
+              <span className="text-zinc-700" aria-hidden="true">
+                /
+              </span>
+              <span className="text-teal-400 font-medium">{t.rateEverythingPage.kicker}</span>
+            </div>
             <LanguageSwitcher tone="teal" />
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
             <motion.div
-              initial={shouldReduceMotion ? false : {opacity: 0, y: 12}}
+              initial={shouldReduceMotion ? false : {opacity: 0, y: 10}}
               animate={{opacity: 1, y: 0}}
-              transition={{duration: 0.45, ease: 'easeOut'}}
+              transition={{duration: 0.34, ease: [0.16, 1, 0.3, 1]}}
               className="lg:col-span-7 space-y-6"
             >
-              <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.35rem] font-bold tracking-tight text-white leading-[1.06] text-balance">
+              <h1 className="font-display text-4xl sm:text-5xl lg:text-[3.4rem] font-bold tracking-tight text-zinc-50 leading-[1.06] text-balance">
                 {t.rateEverythingPage.title}
               </h1>
-              <p className="text-base sm:text-lg text-slate-400 leading-relaxed max-w-2xl">
+              <p className="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl">
                 {t.rateEverythingPage.lead}
               </p>
 
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+              <div className="flex flex-wrap items-center gap-6 pt-2">
                 <a
                   href={EXTERNAL_LINKS.rateEverythingLive}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] text-sm font-semibold text-white bg-[#0F766E] rounded-lg hover:bg-[#115E59] transition-colors whitespace-nowrap"
+                  className="inline-flex items-center gap-2 px-5 py-3 min-h-[44px] text-sm font-semibold text-white bg-[#0F766E] hover:bg-[#115E59] rounded-md transition-colors duration-150 whitespace-nowrap"
                 >
                   <span>{t.rateEverythingPage.liveCta}</span>
                   <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -236,7 +207,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                   href={EXTERNAL_LINKS.rateEverythingRepo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] text-sm font-semibold text-zinc-100 bg-[#131720] border border-[#232936] rounded-lg hover:border-slate-500 transition-colors whitespace-nowrap"
+                  className="inline-flex items-center gap-1.5 py-2 text-sm font-medium text-zinc-300 hover:text-white border-b border-zinc-700 hover:border-zinc-300 transition-colors duration-150 whitespace-nowrap"
                 >
                   <span>{t.rateEverythingPage.repoCta}</span>
                   <ArrowUpRight className="w-4 h-4" aria-hidden="true" />
@@ -244,24 +215,24 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
               </div>
             </motion.div>
 
-            {/* Dark Architectural Ledger */}
+            {/* Unboxed Architectural Ledger */}
             <motion.aside
-              initial={shouldReduceMotion ? false : {opacity: 0, y: 12}}
+              initial={shouldReduceMotion ? false : {opacity: 0, y: 10}}
               animate={{opacity: 1, y: 0}}
-              transition={{duration: 0.45, delay: 0.08, ease: 'easeOut'}}
-              className="lg:col-span-5 bg-[#131720] border border-[#232936] rounded-2xl p-6"
+              transition={{duration: 0.34, delay: 0.06, ease: [0.16, 1, 0.3, 1]}}
+              className="lg:col-span-5"
             >
-              <p className="font-mono text-[11px] font-medium uppercase tracking-wider text-teal-400 pb-4 border-b border-[#232936]">
+              <p className="text-xs font-medium text-teal-400 pb-4 border-b border-[#1E232D]">
                 {t.rateEverythingPage.ledgerHeading}
               </p>
-              <dl className="divide-y divide-[#1E2430]">
+              <dl className="divide-y divide-[#1E232D]">
                 {t.rateEverythingPage.ledgerRows.map((row) => (
                   <div
                     key={row.label}
                     className="py-3.5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4"
                   >
-                    <dt className="font-mono text-xs text-slate-400 shrink-0">{row.label}</dt>
-                    <dd className="text-sm font-medium text-zinc-100 sm:text-right">{row.value}</dd>
+                    <dt className="font-mono text-xs text-zinc-500 shrink-0">{row.label}</dt>
+                    <dd className="text-sm font-medium text-zinc-200 sm:text-right">{row.value}</dd>
                   </div>
                 ))}
               </dl>
@@ -269,19 +240,22 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
           </div>
         </section>
 
-        {/* Section 2: Framed Real Screenshots Showcase */}
-        <section id="screens" className="scroll-mt-24 border-t border-[#232936] pt-14 space-y-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-5">
-            <div className="space-y-2 max-w-2xl">
-              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+        {/* Section 2: Single-Elevation Screenshots Showcase */}
+        <section
+          id="screens"
+          className="scroll-mt-20 border-t border-[#1E232D] py-16 sm:py-24 space-y-10"
+        >
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-zinc-50">
                 {t.rateEverythingPage.screensHeading}
               </h2>
-              <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+              <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
                 {t.rateEverythingPage.screensLead}
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-1 p-1 bg-[#131720] border border-[#232936] rounded-xl self-start">
+            <div className="flex flex-wrap items-center gap-5 border-b border-[#1E232D] self-start">
               {screenItems.map((tab) => {
                 const isActive = activeScreenTab === tab.key;
                 return (
@@ -290,10 +264,10 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                     type="button"
                     onClick={() => setActiveScreenTab(tab.key)}
                     aria-pressed={isActive}
-                    className={`px-3.5 py-2 text-xs font-semibold rounded-lg transition-colors cursor-pointer whitespace-nowrap shrink-0 ${
+                    className={`py-2 min-h-[38px] text-xs sm:text-sm font-medium border-b-2 -mb-px transition-colors duration-150 cursor-pointer whitespace-nowrap shrink-0 ${
                       isActive
-                        ? 'bg-[#0F766E] text-white'
-                        : 'text-slate-400 hover:text-zinc-100'
+                        ? 'text-zinc-50 border-teal-400'
+                        : 'text-zinc-500 border-transparent hover:text-zinc-200'
                     }`}
                   >
                     {tab.label}
@@ -303,13 +277,13 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
             </div>
           </div>
 
-          {/* Framed Preview Stage */}
-          <div className="bg-[#131720] border border-[#232936] rounded-2xl p-3 sm:p-4 space-y-3">
+          {/* Single-Elevation Preview Frame */}
+          <div className="space-y-4">
             <button
               type="button"
               onClick={() => setLightboxIndex(activeScreenIndex >= 0 ? activeScreenIndex : 0)}
               aria-label={`${activeScreen.label} — ${t.rateEverythingPage.expandPreviewLabel}`}
-              className="group relative block w-full text-left bg-[#080A0D] border border-[#232936] rounded-xl overflow-hidden cursor-pointer hover:border-teal-500/60 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+              className="group relative block w-full text-left bg-[#080A0D] border border-[#1E232D] hover:border-teal-500/60 rounded-xl overflow-hidden cursor-pointer transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
             >
               <AnimatePresence mode="wait">
                 <motion.div
@@ -317,7 +291,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                   initial={shouldReduceMotion ? false : {opacity: 0.35, scale: 0.995}}
                   animate={{opacity: 1, scale: 1}}
                   exit={shouldReduceMotion ? undefined : {opacity: 0.35}}
-                  transition={{duration: 0.2, ease: 'easeOut'}}
+                  transition={{duration: 0.18, ease: [0.16, 1, 0.3, 1]}}
                 >
                   <MediaFrame
                     src={activeScreen.src}
@@ -330,7 +304,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
               </AnimatePresence>
 
               <span
-                className="absolute bottom-3.5 right-3.5 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-[#0C0E12]/90 backdrop-blur-sm border border-[#2A3242] text-xs font-medium text-zinc-100 group-hover:bg-[#0F766E] group-hover:border-[#0F766E] transition-colors"
+                className="absolute bottom-3.5 right-3.5 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#0B0D10]/90 border border-[#232A36] text-xs font-medium text-zinc-200 group-hover:text-white transition-colors"
                 aria-hidden="true"
               >
                 <Maximize2 className="w-3.5 h-3.5" />
@@ -338,16 +312,17 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
               </span>
             </button>
 
-            <div className="px-2 py-1 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm">
-              <p className="text-slate-300">{activeScreen.note}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs sm:text-sm">
+              <p className="text-zinc-400">{activeScreen.note}</p>
               <span className="font-mono text-xs text-teal-400 font-medium tabular-nums shrink-0">
-                {String(activeScreenIndex + 1).padStart(2, '0')} / {String(screenItems.length).padStart(2, '0')}
+                {String(activeScreenIndex + 1).padStart(2, '0')} /{' '}
+                {String(screenItems.length).padStart(2, '0')}
               </span>
             </div>
           </div>
 
-          {/* 3-Column Screen Selector Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          {/* 3-Column Hairline Screen Strip */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
             {screenItems.map((item, idx) => {
               const isSelected = activeScreenTab === item.key;
               return (
@@ -357,33 +332,37 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                   onClick={() => setActiveScreenTab(item.key)}
                   onDoubleClick={() => setLightboxIndex(idx)}
                   aria-pressed={isSelected}
-                  className={`group text-left bg-[#131720] border rounded-xl overflow-hidden transition-colors cursor-pointer ${
-                    isSelected
-                      ? 'border-teal-500 ring-1 ring-teal-500/30'
-                      : 'border-[#232936] hover:border-slate-600'
-                  }`}
+                  className="group text-left space-y-3 cursor-pointer"
                 >
-                  <MediaFrame
-                    src={item.src}
-                    alt={item.label}
-                    fallbackTitle={item.label}
-                    className="aspect-[16/9] border-0 border-b border-[#232936] rounded-none bg-[#080A0D]"
-                    imgClassName="object-top"
-                  />
-                  <div className="p-4 space-y-1.5">
-                    <div className="flex items-center justify-between gap-2">
+                  <div
+                    className={`rounded-lg overflow-hidden border transition-colors duration-150 ${
+                      isSelected
+                        ? 'border-teal-500/80'
+                        : 'border-[#1E232D] group-hover:border-zinc-600'
+                    }`}
+                  >
+                    <MediaFrame
+                      src={item.src}
+                      alt={item.label}
+                      fallbackTitle={item.label}
+                      className="aspect-[16/9] border-0 rounded-none bg-[#080A0D]"
+                      imgClassName="object-top"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-baseline justify-between gap-2">
                       <span
-                        className={`font-display text-sm font-bold ${
-                          isSelected ? 'text-teal-400' : 'text-zinc-100 group-hover:text-white'
+                        className={`font-display text-sm font-semibold ${
+                          isSelected ? 'text-teal-300' : 'text-zinc-200 group-hover:text-white'
                         }`}
                       >
                         {item.label}
                       </span>
-                      <span className="font-mono text-[11px] text-slate-400 tabular-nums shrink-0">
+                      <span className="font-mono text-xs text-zinc-600 tabular-nums shrink-0">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed line-clamp-2">
+                    <p className="text-xs text-zinc-500 leading-relaxed line-clamp-2">
                       {item.note}
                     </p>
                   </div>
@@ -393,56 +372,48 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
           </div>
         </section>
 
-        {/* Section 3: Technologies Explored (HTML, CSS, TypeScript, SQL, etc.) */}
-        <section id="stack" className="scroll-mt-24 border-t border-[#232936] pt-14 space-y-8">
-          <div className="space-y-2 max-w-2xl">
-            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-white">
+        {/* Section 3: Technologies Explored — Hairline Architectural Grid */}
+        <section
+          id="stack"
+          className="scroll-mt-20 border-t border-[#1E232D] py-16 sm:py-24 space-y-12"
+        >
+          <div className="space-y-3 max-w-2xl">
+            <h2 className="font-display text-2xl sm:text-3xl font-bold tracking-tight text-zinc-50">
               {t.rateEverythingPage.stackHeading}
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 leading-relaxed">
+            <p className="text-sm sm:text-base text-zinc-400 leading-relaxed">
               {t.rateEverythingPage.stackLead}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {t.rateEverythingPage.techExperiments.map((item, idx) => {
-              const Icon = TECH_ICONS[idx % TECH_ICONS.length];
-              return (
-                <article
-                  key={item.title}
-                  className="bg-[#131720] border border-[#232936] rounded-2xl p-6 sm:p-7 space-y-4"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="font-mono text-xs font-medium text-teal-400">
-                      {item.tag}
-                    </span>
-                    <span className="w-8 h-8 rounded-lg bg-[#181D27] border border-[#273041] text-teal-400 flex items-center justify-center shrink-0">
-                      <Icon className="w-4 h-4" aria-hidden="true" />
-                    </span>
-                  </div>
-                  <div className="space-y-1.5">
-                    <h3 className="font-display text-xl font-bold text-white">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-slate-400 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </article>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#1E232D]">
+            {t.rateEverythingPage.techExperiments.map((item, idx) => (
+              <article
+                key={item.title}
+                className="py-7 md:odd:pr-10 md:even:pl-10 border-b border-[#1E232D] md:even:border-l md:even:border-[#1E232D] space-y-3"
+              >
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="font-mono text-xs text-teal-400 tabular-nums">
+                    {String(idx + 1).padStart(2, '0')}.
+                  </span>
+                  <span className="font-mono text-xs text-zinc-500">{item.tag}</span>
+                </div>
+                <h3 className="font-display text-xl font-semibold text-zinc-100">{item.title}</h3>
+                <p className="text-sm text-zinc-400 leading-relaxed">{item.description}</p>
+              </article>
+            ))}
           </div>
 
-          <div className="bg-[#131720]/80 border border-[#232936] rounded-xl px-5 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <span className="font-mono text-xs font-medium text-slate-400">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 pt-2">
+            <span className="font-mono text-xs text-zinc-500 shrink-0">
               {t.rateEverythingPage.alsoTriedLabel}
             </span>
-            <p className="text-xs sm:text-sm font-medium text-zinc-200">
+            <p className="text-xs sm:text-sm text-zinc-300">
               {t.rateEverythingPage.alsoTriedItems.map((item, idx) => (
                 <span key={item}>
                   {item}
                   {idx < t.rateEverythingPage.alsoTriedItems.length - 1 && (
-                    <span className="mx-2 text-slate-600" aria-hidden="true">
+                    <span className="mx-2 text-zinc-700" aria-hidden="true">
                       ·
                     </span>
                   )}
@@ -452,26 +423,32 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
           </div>
         </section>
 
-        {/* Cross-Link to OmniDesk */}
-        <section className="border-t border-[#232936] pt-12">
-          <div className="bg-[#131720] border border-[#232936] rounded-2xl p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+        {/* Cross-Link to OmniDesk with Uploaded SVG Logo */}
+        <section className="border-t border-[#1E232D] py-14 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <img
+              src={MEDIA_ASSETS.omnideskLogo}
+              alt={t.omnideskPage.appName}
+              referrerPolicy="no-referrer"
+              className="w-11 h-11 rounded-[10px] shrink-0"
+            />
             <div>
-              <p className="font-mono text-xs font-medium text-slate-400">
+              <p className="text-xs font-medium text-zinc-500">
                 {t.rateEverythingPage.nextProjectLabel}
               </p>
-              <p className="mt-1 font-display text-xl sm:text-2xl font-bold text-white">
+              <p className="mt-0.5 font-display text-xl sm:text-2xl font-bold text-zinc-100">
                 {t.rateEverythingPage.nextProjectTitle}
               </p>
             </div>
-            <a
-              href="./omnidesk.html"
-              onClick={(e) => handleNav(e, 'omnidesk')}
-              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[42px] text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 transition-colors whitespace-nowrap shrink-0 self-start sm:self-auto"
-            >
-              <span>{t.rateEverythingPage.nextProjectCta}</span>
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </a>
           </div>
+          <a
+            href="./omnidesk.html"
+            onClick={(e) => handleNav(e, 'omnidesk')}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[42px] text-sm font-semibold text-white bg-[#4F46E5] hover:bg-[#4338CA] rounded-md transition-colors duration-150 whitespace-nowrap shrink-0 self-start sm:self-auto"
+          >
+            <span>{t.rateEverythingPage.nextProjectCta}</span>
+            <ArrowRight className="w-4 h-4" aria-hidden="true" />
+          </a>
         </section>
       </main>
 
@@ -485,16 +462,17 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
           onClick={() => setLightboxIndex(null)}
         >
           <div
-            className="w-full max-w-5xl bg-[#131720] border border-[#232936] rounded-2xl overflow-hidden shadow-2xl"
+            className="w-full max-w-5xl bg-[#0F1218] border border-[#1E232D] rounded-xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between gap-4 px-5 py-3.5 border-b border-[#232936]">
-              <h3 className="font-display text-base font-semibold text-white truncate">
+            <div className="flex items-center justify-between gap-4 px-5 py-3.5 border-b border-[#1E232D]">
+              <h3 className="font-display text-base font-semibold text-zinc-100 truncate">
                 {activeLightboxScreen.label}
               </h3>
-              <div className="flex items-center gap-2 shrink-0">
-                <span className="font-mono text-xs text-slate-400 tabular-nums mr-1">
-                  {lightboxIndex + 1} / {screenItems.length}
+              <div className="flex items-center gap-1.5 shrink-0">
+                <span className="font-mono text-xs text-zinc-500 tabular-nums mr-1.5">
+                  {String(lightboxIndex + 1).padStart(2, '0')} /{' '}
+                  {String(screenItems.length).padStart(2, '0')}
                 </span>
                 <button
                   type="button"
@@ -502,7 +480,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                     setLightboxIndex((lightboxIndex - 1 + screenItems.length) % screenItems.length)
                   }
                   aria-label={t.rateEverythingPage.lightboxLabels.prevScreenLabel}
-                  className="p-2 text-zinc-200 hover:text-teal-400 bg-[#181D27] border border-[#273041] rounded-lg transition-colors cursor-pointer"
+                  className="p-2 text-zinc-300 hover:text-teal-300 border border-[#1E232D] hover:border-zinc-600 rounded-md transition-colors cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" aria-hidden="true" />
                 </button>
@@ -510,7 +488,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                   type="button"
                   onClick={() => setLightboxIndex((lightboxIndex + 1) % screenItems.length)}
                   aria-label={t.rateEverythingPage.lightboxLabels.nextScreenLabel}
-                  className="p-2 text-zinc-200 hover:text-teal-400 bg-[#181D27] border border-[#273041] rounded-lg transition-colors cursor-pointer"
+                  className="p-2 text-zinc-300 hover:text-teal-300 border border-[#1E232D] hover:border-zinc-600 rounded-md transition-colors cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4" aria-hidden="true" />
                 </button>
@@ -518,7 +496,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
                   type="button"
                   onClick={() => setLightboxIndex(null)}
                   aria-label={t.rateEverythingPage.lightboxLabels.closeLabel}
-                  className="p-2 text-zinc-200 hover:text-teal-400 bg-[#181D27] border border-[#273041] rounded-lg transition-colors cursor-pointer"
+                  className="p-2 text-zinc-300 hover:text-teal-300 border border-[#1E232D] hover:border-zinc-600 rounded-md transition-colors cursor-pointer"
                 >
                   <X className="w-4 h-4" aria-hidden="true" />
                 </button>
@@ -529,7 +507,8 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
               <img
                 src={activeLightboxScreen.src}
                 alt={activeLightboxScreen.label}
-                className="w-full max-h-[75vh] object-contain mx-auto rounded-lg"
+                referrerPolicy="no-referrer"
+                className="w-full max-h-[75vh] object-contain mx-auto rounded-md"
               />
             </div>
           </div>

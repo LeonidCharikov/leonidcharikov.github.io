@@ -22,6 +22,7 @@ export const EXTERNAL_LINKS = {
 
 export const MEDIA_ASSETS = {
   darkWorkspaceHero: darkWorkspaceHeroImg,
+  omnideskLogo: '/assets/aistudio/icon_25b02343.svg',
   omnideskScreens: {
     mainMenu: omniMainMenuImg,
     dashboard: omniMainMenuImg,
