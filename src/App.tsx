@@ -6,6 +6,7 @@
 import {useCallback, useEffect, useState} from 'react';
 import {Footer} from './components/Footer';
 import {Navbar} from './components/Navbar';
+import {OMNIDESK_FAVICON_DATA_URI} from './components/OmniDeskLogo';
 import {I18nProvider, useI18n} from './i18n/context';
 import type {PageRoute} from './i18n/types';
 import {HomePage} from './pages/HomePage';
@@ -61,14 +62,18 @@ function setCanonicalLink(href: string) {
 }
 
 function setFavicon(href: string) {
-  let link = document.head.querySelector<HTMLLinkElement>('link[rel="icon"]');
-  if (!link) {
-    link = document.createElement('link');
-    link.setAttribute('rel', 'icon');
+  const rels = ['icon', 'shortcut icon'] as const;
+  for (const rel of rels) {
+    let link = document.head.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', rel);
+      link.setAttribute('type', 'image/svg+xml');
+      document.head.appendChild(link);
+    }
     link.setAttribute('type', 'image/svg+xml');
-    document.head.appendChild(link);
+    link.setAttribute('href', href);
   }
-  link.setAttribute('href', href);
 }
 
 function PortfolioShell() {
@@ -106,7 +111,7 @@ function PortfolioShell() {
     const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
 
     document.title = seo.title;
-    setFavicon('/assets/aistudio/icon_25b02343.svg');
+    setFavicon(OMNIDESK_FAVICON_DATA_URI);
     setMetaTag('meta[name="description"]', 'name', 'description', seo.description);
     setMetaTag('meta[name="keywords"]', 'name', 'keywords', seo.keywords);
     setMetaTag('meta[property="og:title"]', 'property', 'og:title', seo.title);
@@ -148,7 +153,11 @@ function PortfolioShell() {
   return (
     <div
       className={`min-h-screen flex flex-col ${
-        route === 'rate-everything' ? 'bg-[#0B0D10] text-zinc-100' : 'bg-[#09090B] text-zinc-100'
+        route === 'omnidesk'
+          ? 'bg-[#0A0D16] text-[#F8FAFC]'
+          : route === 'rate-everything'
+            ? 'bg-[#0B0D10] text-zinc-100'
+            : 'bg-[#09090B] text-zinc-100'
       }`}
     >
       {route === 'home' && <Navbar currentRoute={route} onNavigate={handleNavigate} />}

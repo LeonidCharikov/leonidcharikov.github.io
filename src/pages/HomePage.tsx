@@ -2,6 +2,7 @@ import {ArrowRight, ArrowUpRight, Check, Copy} from 'lucide-react';
 import {useMemo, useState} from 'react';
 import {LanguageSwitcher} from '../components/LanguageSwitcher';
 import {MediaFrame} from '../components/MediaFrame';
+import {OmniDeskLogo} from '../components/OmniDeskLogo';
 import {EXTERNAL_LINKS, MEDIA_ASSETS} from '../data/links';
 import {useI18n} from '../i18n/context';
 import type {PageRoute, RepoFilter} from '../i18n/types';
@@ -228,19 +229,14 @@ export function HomePage({onNavigate}: HomePageProps) {
 
               <div className="lg:col-span-5 space-y-5">
                 <div className="flex items-center gap-3">
-                  <img
-                    src={MEDIA_ASSETS.omnideskLogo}
-                    alt={t.home.featured.omnideskTitle}
-                    referrerPolicy="no-referrer"
-                    className="w-9 h-9 rounded-[9px] shrink-0"
-                  />
+                  <OmniDeskLogo className="w-9 h-9" title={t.home.featured.omnideskTitle} />
                   <div>
                     <p className="font-mono text-xs text-zinc-500 tabular-nums">01.</p>
                     <h3 className="font-display text-2xl font-bold text-zinc-50 leading-tight">
                       <a
                         href="./omnidesk.html"
                         onClick={(e) => handleProjectLink(e, 'omnidesk')}
-                        className="hover:text-indigo-300 transition-colors duration-150"
+                        className="hover:text-[#6D61FF] transition-colors duration-150"
                       >
                         {t.home.featured.omnideskTitle}
                       </a>
@@ -248,7 +244,7 @@ export function HomePage({onNavigate}: HomePageProps) {
                   </div>
                 </div>
 
-                <p className="text-xs font-medium text-indigo-400">
+                <p className="font-mono text-xs font-medium text-[#6D61FF]">
                   {t.home.featured.omnideskMeta}
                 </p>
 
@@ -260,7 +256,7 @@ export function HomePage({onNavigate}: HomePageProps) {
                   <a
                     href="./omnidesk.html"
                     onClick={(e) => handleProjectLink(e, 'omnidesk')}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] text-xs sm:text-sm font-semibold text-white bg-[#4F46E5] hover:bg-[#4338CA] rounded-md transition-colors duration-150 whitespace-nowrap shrink-0"
+                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[40px] text-xs sm:text-sm font-semibold text-[#F8FAFC] bg-[#5B4EFF] hover:bg-[#6D61FF] rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0"
                   >
                     <span>{t.home.featured.readCaseStudy}</span>
                     <ArrowRight className="w-4 h-4" aria-hidden="true" />

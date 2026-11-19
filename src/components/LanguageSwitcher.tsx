@@ -10,12 +10,20 @@ export function LanguageSwitcher({className = '', tone = 'neutral'}: LanguageSwi
 
   const activeText =
     tone === 'indigo'
-      ? 'text-indigo-300 border-indigo-400'
+      ? 'text-[#6D61FF] border-[#5B4EFF]'
       : tone === 'teal'
         ? 'text-teal-300 border-teal-400'
         : 'text-zinc-100 border-zinc-200';
 
-  const inactiveText = 'text-zinc-500 border-transparent hover:text-zinc-200';
+  const inactiveText =
+    tone === 'indigo'
+      ? 'text-[#8B95B0] border-transparent hover:text-[#F8FAFC]'
+      : 'text-zinc-500 border-transparent hover:text-zinc-100';
+
+  const dividerColor = tone === 'indigo' ? 'text-[#1E2438]' : 'text-zinc-700';
+
+  const focusRing =
+    tone === 'indigo' ? 'focus-visible:outline-[#5B4EFF]' : 'focus-visible:outline-zinc-400';
 
   return (
     <div
@@ -32,14 +40,14 @@ export function LanguageSwitcher({className = '', tone = 'neutral'}: LanguageSwi
               onClick={() => setLocale(item.code)}
               aria-pressed={isActive}
               title={item.nativeName}
-              className={`px-2 py-1.5 min-h-[36px] font-mono text-xs font-medium border-b transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zinc-400 ${
+              className={`px-2 py-1.5 min-h-[36px] font-mono text-xs font-medium border-b transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 ${focusRing} ${
                 isActive ? activeText : inactiveText
               }`}
             >
               {item.label}
             </button>
             {idx < SUPPORTED_LOCALES.length - 1 && (
-              <span className="text-zinc-700 select-none text-xs" aria-hidden="true">
+              <span className={`${dividerColor} select-none text-xs`} aria-hidden="true">
                 /
               </span>
             )}

@@ -11,6 +11,7 @@ import {AnimatePresence, motion, useReducedMotion} from 'motion/react';
 import {useEffect, useMemo, useState} from 'react';
 import {LanguageSwitcher} from '../components/LanguageSwitcher';
 import {MediaFrame} from '../components/MediaFrame';
+import {OmniDeskLogo} from '../components/OmniDeskLogo';
 import {EXTERNAL_LINKS, MEDIA_ASSETS} from '../data/links';
 import {useI18n} from '../i18n/context';
 import type {PageRoute, RatePreviewTab} from '../i18n/types';
@@ -423,15 +424,10 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
           </div>
         </section>
 
-        {/* Cross-Link to OmniDesk with Uploaded SVG Logo */}
+        {/* Cross-Link to OmniDesk with Inline SVG Logo */}
         <section className="border-t border-[#1E232D] py-14 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <img
-              src={MEDIA_ASSETS.omnideskLogo}
-              alt={t.omnideskPage.appName}
-              referrerPolicy="no-referrer"
-              className="w-11 h-11 rounded-[10px] shrink-0"
-            />
+            <OmniDeskLogo className="w-11 h-11" title={t.omnideskPage.appName} />
             <div>
               <p className="text-xs font-medium text-zinc-500">
                 {t.rateEverythingPage.nextProjectLabel}
@@ -444,7 +440,7 @@ export function RateEverythingPage({onNavigate}: RateEverythingPageProps) {
           <a
             href="./omnidesk.html"
             onClick={(e) => handleNav(e, 'omnidesk')}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[42px] text-sm font-semibold text-white bg-[#4F46E5] hover:bg-[#4338CA] rounded-md transition-colors duration-150 whitespace-nowrap shrink-0 self-start sm:self-auto"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 min-h-[42px] text-sm font-semibold text-[#F8FAFC] bg-[#5B4EFF] hover:bg-[#6D61FF] rounded-lg transition-colors duration-150 whitespace-nowrap shrink-0 self-start sm:self-auto"
           >
             <span>{t.rateEverythingPage.nextProjectCta}</span>
             <ArrowRight className="w-4 h-4" aria-hidden="true" />

@@ -3,6 +3,7 @@
 
 @theme {
   --font-display: 'Bricolage Grotesque', system-ui, -apple-system, sans-serif;
+  --font-tech: 'Space Grotesk', system-ui, -apple-system, sans-serif;
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
 }
@@ -25,6 +26,10 @@
     font-family: var(--font-display);
   }
 
+  .font-tech {
+    font-family: var(--font-tech);
+  }
+
   h1,
   h2 {
     text-wrap: balance;
@@ -33,6 +38,10 @@
   body {
     letter-spacing: 0.005em;
   }
+}
+
+.industrial-ease {
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
