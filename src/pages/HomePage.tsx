@@ -222,8 +222,8 @@ export function HomePage({onNavigate}: HomePageProps) {
                   src={MEDIA_ASSETS.omnideskScreens.mainMenu}
                   alt={t.home.featured.omnideskImageAlt}
                   fallbackTitle={t.home.featured.omnideskTitle}
-                  className="aspect-[16/10] border-0 rounded-none bg-[#0D0E12]"
-                  imgClassName="object-top transition-transform duration-300 group-hover:scale-[1.015]"
+                  className="aspect-video border-0 rounded-none bg-[#0D0E12]"
+                  imgClassName="object-cover object-top transition-transform duration-300 group-hover:scale-[1.015]"
                 />
               </a>
 

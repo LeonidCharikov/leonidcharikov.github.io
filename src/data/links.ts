@@ -1,14 +1,4 @@
 import darkWorkspaceHeroImg from '../assets/images/dark_workspace_hero_1794578515981.jpg';
-import omniAudioEditorImg from '../assets/screenshots/omnidesk/audio-editor.png';
-import omniCalendarImg from '../assets/screenshots/omnidesk/calendar.png';
-import omniConfigImg from '../assets/screenshots/omnidesk/config.png';
-import omniChemistryImg from '../assets/screenshots/omnidesk/function-chemistry.png';
-import omniGraphImg from '../assets/screenshots/omnidesk/function-grapher.png';
-import omniHashSuiteImg from '../assets/screenshots/omnidesk/hash-suite.png';
-import omniMainMenuImg from '../assets/screenshots/omnidesk/dashboard.png';
-import omniPdfEditorImg from '../assets/screenshots/omnidesk/pdf-editor.png';
-import omniCurrencyImg from '../assets/screenshots/omnidesk/crypto-rates.png';
-import omniRandomPickerImg from '../assets/screenshots/omnidesk/random-picker.png';
 
 export const EXTERNAL_LINKS = {
   githubProfile: 'https://github.com/LeonidCharikov',
@@ -24,17 +14,16 @@ export const MEDIA_ASSETS = {
   darkWorkspaceHero: darkWorkspaceHeroImg,
   omnideskLogo: '/assets/aistudio/icon_25b02343.svg',
   omnideskScreens: {
-    mainMenu: omniMainMenuImg,
-    dashboard: omniMainMenuImg,
-    pdfEditor: omniPdfEditorImg,
-    audioEditor: omniAudioEditorImg,
-    calendar: omniCalendarImg,
-    currency: omniCurrencyImg,
-    graph2d: omniGraphImg,
-    chemistry: omniChemistryImg,
-    hashSuite: omniHashSuiteImg,
-    randomPicker: omniRandomPickerImg,
-    config: omniConfigImg,
+    mainMenu: '/assets/aistudio/all-tools_29ed4027.webm',
+    dashboard: '/assets/aistudio/all-tools_29ed4027.webm',
+    pdfEditor: '/assets/aistudio/pdf-editor_cdb0140c.webm',
+    calendar: '/assets/aistudio/Calendar_33884140.webm',
+    currency: '/assets/aistudio/currency-convertor_3e6372c0.webm',
+    graph2d: '/assets/aistudio/Graph_46331e83.webm',
+    chemistry: '/assets/aistudio/periodic-table_decd888f.webm',
+    colorPicker: '/assets/aistudio/color-picker_b0071647.webm',
+    themes: '/assets/aistudio/themes_ce441e5b.webm',
+    config: '/assets/aistudio/settings_52d0ca0e.webm',
   },
   rateEverythingScreens: {
     main: '/assets/aistudio/rate-main-page_3d8dad1d.png',

@@ -8,6 +8,8 @@ import {
   Download,
   Layers,
   Maximize2,
+  Pause,
+  Play,
   Search,
   Terminal,
   X,
@@ -28,13 +30,12 @@ interface OmniDeskPageProps {
 const SCREENSHOT_SRC: Record<OmniDeskScreenshotItem['id'], string> = {
   dashboard: MEDIA_ASSETS.omnideskScreens.dashboard,
   pdfEditor: MEDIA_ASSETS.omnideskScreens.pdfEditor,
-  audioEditor: MEDIA_ASSETS.omnideskScreens.audioEditor,
-  hashSuite: MEDIA_ASSETS.omnideskScreens.hashSuite,
   calendar: MEDIA_ASSETS.omnideskScreens.calendar,
   currency: MEDIA_ASSETS.omnideskScreens.currency,
   graph2d: MEDIA_ASSETS.omnideskScreens.graph2d,
   chemistry: MEDIA_ASSETS.omnideskScreens.chemistry,
-  randomPicker: MEDIA_ASSETS.omnideskScreens.randomPicker,
+  colorPicker: MEDIA_ASSETS.omnideskScreens.colorPicker,
+  themes: MEDIA_ASSETS.omnideskScreens.themes,
   config: MEDIA_ASSETS.omnideskScreens.config,
 };
 
@@ -273,6 +274,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
   // Interface Capture Showcase & Lightbox state
   const [activeShotIndex, setActiveShotIndex] = useState(0);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [isVideoPaused, setIsVideoPaused] = useState(false);
 
   const screenshots = t.omnideskPage.screenshots;
   const activeShot = screenshots[activeShotIndex] ?? screenshots[0];
@@ -1043,7 +1045,10 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                     <button
                       key={shot.id}
                       type="button"
-                      onClick={() => setActiveShotIndex(idx)}
+                      onClick={() => {
+                        setActiveShotIndex(idx);
+                        setIsVideoPaused(false);
+                      }}
                       aria-pressed={isSelected}
                       className={`w-full text-left px-4 py-3.5 transition-colors duration-150 industrial-ease cursor-pointer flex items-start gap-3 ${
                         isSelected
@@ -1075,7 +1080,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                   <>
                     <div className="px-4 py-2.5 border-b border-[#1E2438] bg-[#0A0D16] flex items-center justify-between gap-4">
                       <span className="font-mono text-[11px] text-[#F8FAFC] truncate">
-                        CAPTURE_{String(activeShotIndex + 1).padStart(2, '0')} //{' '}
+                        DEMO_{String(activeShotIndex + 1).padStart(2, '0')} //{' '}
                         {activeShot.title.toUpperCase()}
                       </span>
                       <div className="flex items-center gap-1.5 shrink-0">
@@ -1085,11 +1090,24 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                         </span>
                         <button
                           type="button"
-                          onClick={() =>
+                          onClick={() => setIsVideoPaused((prev) => !prev)}
+                          aria-label={isVideoPaused ? 'Play demo video' : 'Pause demo video'}
+                          className="p-1.5 text-[#8B95B0] hover:text-[#F8FAFC] border border-[#1E2438] hover:border-[#5B4EFF] rounded-lg transition-colors duration-150 industrial-ease cursor-pointer"
+                        >
+                          {isVideoPaused ? (
+                            <Play className="w-3.5 h-3.5" aria-hidden="true" />
+                          ) : (
+                            <Pause className="w-3.5 h-3.5" aria-hidden="true" />
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
                             setActiveShotIndex(
                               (activeShotIndex - 1 + screenshots.length) % screenshots.length,
-                            )
-                          }
+                            );
+                            setIsVideoPaused(false);
+                          }}
                           aria-label={t.omnideskPage.galleryPrevLabel}
                           className="p-1.5 text-[#8B95B0] hover:text-[#F8FAFC] border border-[#1E2438] hover:border-[#5B4EFF] rounded-lg transition-colors duration-150 industrial-ease cursor-pointer"
                         >
@@ -1097,9 +1115,10 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                         </button>
                         <button
                           type="button"
-                          onClick={() =>
-                            setActiveShotIndex((activeShotIndex + 1) % screenshots.length)
-                          }
+                          onClick={() => {
+                            setActiveShotIndex((activeShotIndex + 1) % screenshots.length);
+                            setIsVideoPaused(false);
+                          }}
                           aria-label={t.omnideskPage.galleryNextLabel}
                           className="p-1.5 text-[#8B95B0] hover:text-[#F8FAFC] border border-[#1E2438] hover:border-[#5B4EFF] rounded-lg transition-colors duration-150 industrial-ease cursor-pointer"
                         >
@@ -1134,8 +1153,9 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                             src={SCREENSHOT_SRC[activeShot.id]}
                             alt={activeShot.title}
                             fallbackTitle={activeShot.title}
-                            className="aspect-[16/10] border-0 rounded-none bg-[#0A0D16]"
-                            imgClassName="object-top"
+                            isPaused={isVideoPaused || lightboxIndex !== null}
+                            className="aspect-video border-0 rounded-none bg-[#0A0D16]"
+                            imgClassName="object-contain bg-[#0A0D16]"
                           />
                         </motion.div>
                       </AnimatePresence>
@@ -1548,7 +1568,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
               <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-[#1E2438] bg-[#0A0D16]">
                 <div className="min-w-0">
                   <h3 className="font-mono text-xs font-semibold text-[#F8FAFC] truncate">
-                    CAPTURE_{String(lightboxIndex + 1).padStart(2, '0')} //{' '}
+                    DEMO_{String(lightboxIndex + 1).padStart(2, '0')} //{' '}
                     {activeLightboxItem.title.toUpperCase()}
                   </h3>
                   <p className="text-xs text-[#8B95B0] truncate mt-0.5">
@@ -1592,11 +1612,16 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
               </div>
 
               <div className="bg-[#0A0D16] p-2 sm:p-4">
-                <img
+                <video
+                  key={activeLightboxItem.id}
                   src={SCREENSHOT_SRC[activeLightboxItem.id]}
-                  alt={activeLightboxItem.title}
-                  referrerPolicy="no-referrer"
-                  className="w-full max-h-[75vh] object-contain mx-auto rounded-lg"
+                  aria-label={activeLightboxItem.title}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controls
+                  className="w-full max-h-[75vh] object-contain mx-auto rounded-lg bg-[#0A0D16]"
                 />
               </div>
             </motion.div>

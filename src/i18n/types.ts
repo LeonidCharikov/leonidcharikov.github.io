@@ -47,13 +47,12 @@ export interface OmniDeskScreenshotItem {
   id:
     | 'dashboard'
     | 'pdfEditor'
-    | 'audioEditor'
     | 'calendar'
     | 'currency'
     | 'graph2d'
     | 'chemistry'
-    | 'hashSuite'
-    | 'randomPicker'
+    | 'colorPicker'
+    | 'themes'
     | 'config';
   title: string;
   caption: string;
