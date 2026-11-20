@@ -40,51 +40,6 @@ const SCREENSHOT_SRC: Record<OmniDeskScreenshotItem['id'], string> = {
 };
 
 type CatalogFilter = 'basics' | string;
-type TargetPlatform = 'windows' | 'macos' | 'linux' | 'web';
-
-interface PlatformSpec {
-  id: TargetPlatform;
-  label: string;
-  format: string;
-  arch: string;
-  ctaLabel: string;
-  href: string;
-}
-
-const PLATFORM_SPECS: PlatformSpec[] = [
-  {
-    id: 'windows',
-    label: 'WINDOWS',
-    format: '.MSI / .EXE',
-    arch: 'x64 · Tauri v2',
-    ctaLabel: 'DOWNLOAD WINDOWS',
-    href: `${EXTERNAL_LINKS.omnideskRepo}/releases`,
-  },
-  {
-    id: 'macos',
-    label: 'MACOS',
-    format: '.DMG',
-    arch: 'Apple Silicon + Intel',
-    ctaLabel: 'DOWNLOAD MACOS',
-    href: `${EXTERNAL_LINKS.omnideskRepo}/releases`,
-  },
-  {
-    id: 'linux',
-    label: 'LINUX',
-    format: '.APPIMAGE / .DEB',
-    arch: 'x64 · WebKitGTK',
-    ctaLabel: 'DOWNLOAD LINUX',
-    href: `${EXTERNAL_LINKS.omnideskRepo}/releases`,
-  },
-  {
-    id: 'web',
-    label: 'WEB PWA',
-    format: 'OFFLINE PWA',
-    arch: 'In-Browser · Local IDB',
-    ctaLabel: 'LAUNCH WEB APP',
-    href: EXTERNAL_LINKS.omnideskLive,
-  },
-];
 
 interface PaletteToolEntry {
   id: string;
@@ -229,7 +184,7 @@ function ArchitectureDiagrams() {
             TAURI v2 + RUST BACKEND
           </text>
           <text x="24" y="153" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
-            FS · OS PRINT · MCP · HW MONITOR
+            FS · OS PRINT · MCP (24) · UPDATER
           </text>
 
           {/* Right Branch: Web / Offline PWA */}
@@ -245,6 +200,80 @@ function ArchitectureDiagrams() {
           </text>
         </svg>
       </div>
+
+      {/* Diagram 03: Desktop MCP Bridge */}
+      <div className="bg-[#101422] border border-[#1E2438] rounded-xl p-5 space-y-4">
+        <div className="flex items-center justify-between gap-4 border-b border-[#1E2438] pb-3">
+          <span className="font-mono text-[11px] text-[#F8FAFC] tracking-wider">
+            FIG 03 // DESKTOP MCP BRIDGE
+          </span>
+          <span className="font-mono text-[10px] text-[#10B981] tabular-nums">
+            24 TOOLS · 4 RESOURCES
+          </span>
+        </div>
+
+        <svg
+          viewBox="0 0 560 176"
+          className="w-full h-auto block"
+          role="img"
+          aria-label="Desktop MCP Bridge architecture connecting local AI clients to 24 OmniDesk tools over loopback WebSocket or native stdio IPC"
+        >
+          {/* Left: AI Clients */}
+          <rect x="8" y="20" width="152" height="72" rx="6" fill="#0A0D16" stroke="#2D3654" strokeWidth="1" />
+          <text x="20" y="40" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            AI CLIENTS
+          </text>
+          <text x="20" y="59" fill="#F8FAFC" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            CLAUDE · CURSOR
+          </text>
+          <text x="20" y="76" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            VS CODE · WINDSURF
+          </text>
+
+          {/* Arrow 1 -> 2 */}
+          <line x1="160" y1="56" x2="196" y2="56" stroke="#5B4EFF" strokeWidth="1.5" />
+          <polygon points="196,52 204,56 196,60" fill="#5B4EFF" />
+
+          {/* Center: Transport Layer */}
+          <rect x="204" y="20" width="152" height="72" rx="6" fill="#0A0D16" stroke="#5B4EFF" strokeWidth="1.25" />
+          <text x="216" y="40" fill="#6D61FF" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            DUAL TRANSPORT
+          </text>
+          <text x="216" y="59" fill="#F8FAFC" fontSize="10.5" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            WS 127.0.0.1:3847
+          </text>
+          <text x="216" y="76" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            OR --mcp-stdio IPC
+          </text>
+
+          {/* Arrow 2 -> 3 */}
+          <line x1="356" y1="56" x2="392" y2="56" stroke="#5B4EFF" strokeWidth="1.5" />
+          <polygon points="392,52 400,56 392,60" fill="#5B4EFF" />
+
+          {/* Right: Tauri v2 Core */}
+          <rect x="400" y="20" width="152" height="72" rx="6" fill="#0A0D16" stroke="#10B981" strokeWidth="1" />
+          <text x="412" y="40" fill="#10B981" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            TAURI v2 CORE
+          </text>
+          <text x="412" y="59" fill="#F8FAFC" fontSize="11" fontFamily="JetBrains Mono, monospace" fontWeight="600">
+            24 MCP TOOLS
+          </text>
+          <text x="412" y="76" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            4 READ RESOURCES
+          </text>
+
+          {/* Bottom Security Guardrail Bar */}
+          <line x1="280" y1="92" x2="280" y2="114" stroke="#2D3654" strokeWidth="1" />
+          <circle cx="280" cy="92" r="2.5" fill="#10B981" />
+          <rect x="8" y="114" width="544" height="44" rx="6" fill="#0A0D16" stroke="#1E2438" strokeWidth="1" />
+          <text x="24" y="133" fill="#10B981" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            LOCAL SECURITY BOUNDARY // DESKTOP ONLY
+          </text>
+          <text x="24" y="149" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
+            LOOPBACK ONLY · OPTIONAL AUTH TOKEN · WORKSPACE SANDBOX · READONLY/RW · PIN LOCK GUARD
+          </text>
+        </svg>
+      </div>
     </div>
   );
 }
@@ -254,9 +283,6 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
   const shouldReduceMotion = useReducedMotion() ?? false;
 
   const firstCategoryId = t.omnideskPage.categories[0]?.id ?? 'basics';
-
-  // Platform selector state (Hero download CTA)
-  const [selectedPlatform, setSelectedPlatform] = useState<TargetPlatform>('windows');
 
   // Interactive Hero Command Palette state
   const [paletteQuery, setPaletteQuery] = useState('');
@@ -278,8 +304,6 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
 
   const screenshots = t.omnideskPage.screenshots;
   const activeShot = screenshots[activeShotIndex] ?? screenshots[0];
-  const activePlatform =
-    PLATFORM_SPECS.find((p) => p.id === selectedPlatform) ?? PLATFORM_SPECS[0];
 
   // Ensure selectedFilter remains valid if locale categories ever shift
   const activeCategoryFilter = useMemo(() => {
@@ -300,13 +324,15 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
           lowerTitle.includes('pdf') ||
           lowerTitle.includes('audio') ||
           lowerTitle.includes('image') ||
+          lowerTitle.includes('photo') ||
+          lowerTitle.includes('converter') ||
           lowerTitle.includes('hash') ||
           lowerTitle.includes('aes')
             ? 'WEB WORKER'
             : lowerTitle.includes('http') ||
+                lowerTitle.includes('api') ||
                 lowerTitle.includes('currency') ||
-                lowerTitle.includes('crypto') ||
-                lowerTitle.includes('translat')
+                lowerTitle.includes('crypto')
               ? 'HYBRID LOCAL'
               : 'IN-MEMORY';
 
@@ -655,7 +681,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                         OMNIDESK WORKSTATION
                       </p>
                       <p className="text-[#8B95B0] mt-0.5 tabular-nums">
-                        {totalToolsCount}+ MODULES · 0ms LOCAL EXEC
+                        99+ MODULES · 12 THEMES · 0ms LOCAL
                       </p>
                     </div>
                   </div>
@@ -669,43 +695,17 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                   </p>
                 </div>
 
-                {/* OS Selector + Flat Indigo Primary CTA + File Metadata */}
+                {/* Unified Desktop Release CTA + Web PWA + Source */}
                 <div className="space-y-4">
-                  <div
-                    role="tablist"
-                    aria-label="Target operating system"
-                    className="grid grid-cols-2 sm:grid-cols-4 border border-[#1E2438] rounded-lg overflow-hidden divide-x divide-y sm:divide-y-0 divide-[#1E2438] bg-[#101422]"
-                  >
-                    {PLATFORM_SPECS.map((platform) => {
-                      const isActive = platform.id === selectedPlatform;
-                      return (
-                        <button
-                          key={platform.id}
-                          type="button"
-                          role="tab"
-                          aria-selected={isActive}
-                          onClick={() => setSelectedPlatform(platform.id)}
-                          className={`px-3 py-2.5 min-h-[40px] font-mono text-[11px] font-medium tracking-wider transition-colors duration-150 industrial-ease cursor-pointer whitespace-nowrap ${
-                            isActive
-                              ? 'bg-[#171D31] text-[#F8FAFC] border-b-2 border-b-[#5B4EFF]'
-                              : 'text-[#8B95B0] hover:text-[#F8FAFC] hover:bg-[#14192A]'
-                          }`}
-                        >
-                          {platform.label}
-                        </button>
-                      );
-                    })}
-                  </div>
-
                   <div className="flex flex-wrap items-stretch gap-3">
                     <a
-                      href={activePlatform.href}
+                      href={`${EXTERNAL_LINKS.omnideskRepo}/releases`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 min-h-[46px] font-mono text-xs sm:text-sm font-semibold tracking-wide text-[#F8FAFC] bg-[#5B4EFF] hover:bg-[#6D61FF] rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0"
                     >
                       <Download className="w-4 h-4" aria-hidden="true" />
-                      <span>{activePlatform.ctaLabel}</span>
+                      <span>DOWNLOAD DESKTOP</span>
                     </a>
 
                     <a
@@ -730,9 +730,9 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                   </div>
 
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] text-[#8B95B0] tabular-nums">
-                    <span>PKG: {activePlatform.format}</span>
+                    <span>WIN (.MSI/.EXE) · MAC (.DMG) · LINUX (.APPIMAGE/.DEB)</span>
                     <span className="text-[#1E2438]">|</span>
-                    <span>{activePlatform.arch}</span>
+                    <span>Tauri v2 · Offline Web PWA</span>
                   </div>
                 </div>
               </div>
@@ -769,7 +769,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                         setPaletteActiveIdx(0);
                       }}
                       onKeyDown={handlePaletteKeyDown}
-                      placeholder="Filter 99+ tools (e.g. pdf, hash, audio, graph, aes)..."
+                      placeholder={t.omnideskPage.palettePlaceholder}
                       aria-label="Live Command Palette search"
                       className="w-full pl-11 pr-10 py-3.5 bg-transparent font-mono text-xs sm:text-sm text-[#F8FAFC] placeholder:text-[#56607C] focus:outline-none"
                     />
@@ -957,7 +957,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                   01 // TOOL COUNT
                 </p>
                 <p className="mt-2 font-tech text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#F8FAFC] tabular-nums">
-                  {totalToolsCount}+
+                  99+
                 </p>
                 <p className="mt-1 font-mono text-[11px] text-[#8B95B0]">
                   {t.omnideskPage.metrics.toolsLabel}
@@ -1214,32 +1214,32 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                   ))}
                 </div>
 
-                {/* Compact Themes & Native Widgets Spec Box */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 border border-[#1E2438] rounded-xl overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-[#1E2438] bg-[#101422]">
-                  <div className="p-5 space-y-2.5">
+                {/* Compact 12 Themes & Native Widgets Spec Box */}
+                <div className="grid grid-cols-1 sm:grid-cols-12 border border-[#1E2438] rounded-xl overflow-hidden divide-y sm:divide-y-0 sm:divide-x divide-[#1E2438] bg-[#101422]">
+                  <div className="sm:col-span-7 p-5 space-y-2.5">
                     <p className="font-mono text-[10px] tracking-widest text-[#6D61FF]">
                       {t.omnideskPage.themesHeading.toUpperCase()}
                     </p>
-                    <ul className="space-y-1 font-mono text-xs text-[#CBD5E1]">
+                    <ul className="grid grid-cols-2 gap-x-4 gap-y-1 font-mono text-xs text-[#CBD5E1]">
                       {t.omnideskPage.themesList.map((themeName, idx) => (
-                        <li key={themeName} className="flex items-center gap-2">
-                          <span className="text-[#56607C] tabular-nums">
+                        <li key={themeName} className="flex items-center gap-2 min-w-0">
+                          <span className="text-[#56607C] tabular-nums shrink-0">
                             {String(idx + 1).padStart(2, '0')}
                           </span>
-                          <span>{themeName}</span>
+                          <span className="truncate">{themeName}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="p-5 space-y-2.5">
+                  <div className="sm:col-span-5 p-5 space-y-2.5">
                     <p className="font-mono text-[10px] tracking-widest text-[#6D61FF]">
                       {t.omnideskPage.widgetsHeading.toUpperCase()}
                     </p>
                     <ul className="space-y-1 font-mono text-xs text-[#CBD5E1]">
                       {t.omnideskPage.widgetsList.map((widget, idx) => (
                         <li key={widget} className="flex items-center gap-2">
-                          <span className="text-[#56607C] tabular-nums">
+                          <span className="text-[#56607C] tabular-nums shrink-0">
                             {String(idx + 1).padStart(2, '0')}
                           </span>
                           <span>{widget}</span>
@@ -1253,6 +1253,141 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
               {/* Right Column: Minimal Technical SVG Line Diagrams */}
               <div className="lg:col-span-6">
                 <ArchitectureDiagrams />
+              </div>
+            </div>
+
+            {/* Dedicated Desktop MCP Bridge Specification Panel */}
+            <div className="border border-[#1E2438] rounded-xl overflow-hidden bg-[#0A0D16]">
+              {/* Top Header Strip */}
+              <div className="px-5 py-3 border-b border-[#1E2438] bg-[#101422] flex flex-wrap items-center justify-between gap-3">
+                <div className="inline-flex items-center gap-2 font-mono text-[11px] tracking-wider text-[#F8FAFC]">
+                  <span
+                    className="w-2 h-2 rounded-full bg-[#10B981] inline-block shrink-0"
+                    aria-hidden="true"
+                  />
+                  <span>{t.omnideskPage.mcpBridge.badge.toUpperCase()}</span>
+                </div>
+                <span className="font-mono text-[10px] text-[#6D61FF] tracking-wider tabular-nums">
+                  24 TOOLS · 4 RESOURCES · LOOPBACK ONLY
+                </span>
+              </div>
+
+              {/* Overview + Transports & Clients */}
+              <div className="p-5 sm:p-6 border-b border-[#1E2438] grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div className="lg:col-span-6 space-y-2">
+                  <h3 className="font-tech text-xl sm:text-2xl font-bold tracking-[-0.02em] text-[#F8FAFC]">
+                    {t.omnideskPage.mcpBridge.heading}
+                  </h3>
+                  <p className="text-sm text-[#8B95B0] leading-relaxed">
+                    {t.omnideskPage.mcpBridge.lead}
+                  </p>
+                </div>
+
+                <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-[#101422] border border-[#1E2438] rounded-lg p-4 space-y-2.5">
+                    <p className="font-mono text-[10px] tracking-widest text-[#6D61FF]">
+                      {t.omnideskPage.mcpBridge.transportsLabel.toUpperCase()}
+                    </p>
+                    <ul className="space-y-2">
+                      {t.omnideskPage.mcpBridge.transports.map((tr) => (
+                        <li key={tr.name} className="space-y-0.5">
+                          <p className="font-mono text-xs text-[#F8FAFC] font-medium">{tr.name}</p>
+                          <p className="text-[11px] text-[#8B95B0] leading-snug">{tr.detail}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="bg-[#101422] border border-[#1E2438] rounded-lg p-4 space-y-2.5">
+                    <p className="font-mono text-[10px] tracking-widest text-[#6D61FF]">
+                      {t.omnideskPage.mcpBridge.clientsLabel.toUpperCase()}
+                    </p>
+                    <div className="flex flex-wrap gap-1.5">
+                      {t.omnideskPage.mcpBridge.clients.map((client) => (
+                        <span
+                          key={client}
+                          className="px-2.5 py-1 font-mono text-[11px] text-[#CBD5E1] bg-[#0A0D16] border border-[#1E2438] rounded-md"
+                        >
+                          {client}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 4 MCP Tool Groups Matrix */}
+              <div className="border-b border-[#1E2438]">
+                <div className="px-5 py-2.5 border-b border-[#1E2438] bg-[#0D101C]">
+                  <p className="font-mono text-[10px] tracking-widest text-[#8B95B0]">
+                    {t.omnideskPage.mcpBridge.toolGroupsLabel.toUpperCase()}
+                  </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1E2438]">
+                  {t.omnideskPage.mcpBridge.toolGroups.map((group, idx) => (
+                    <div
+                      key={group.group}
+                      className="p-5 space-y-3 bg-[#0A0D16]"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-tech text-sm font-semibold text-[#F8FAFC]">
+                          <span className="font-mono text-[11px] text-[#6D61FF] mr-2 tabular-nums">
+                            0{idx + 1} //
+                          </span>
+                          {group.group}
+                        </span>
+                        <span className="font-mono text-[10px] text-[#8B95B0] tabular-nums">
+                          {group.tools.length} TOOLS
+                        </span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {group.tools.map((toolName) => (
+                          <code
+                            key={toolName}
+                            className="px-2 py-0.5 font-mono text-[11px] text-[#CBD5E1] bg-[#101422] border border-[#1E2438] rounded"
+                          >
+                            {toolName}
+                          </code>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Bottom Strip: Read-Only Resources + Security Guardrails */}
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-[#1E2438] bg-[#0D101C]">
+                <div className="p-5 space-y-2.5">
+                  <p className="font-mono text-[10px] tracking-widest text-[#6D61FF]">
+                    {t.omnideskPage.mcpBridge.resourcesLabel.toUpperCase()}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {t.omnideskPage.mcpBridge.resources.map((uri) => (
+                      <code
+                        key={uri}
+                        className="px-2.5 py-1 font-mono text-[11px] text-[#10B981] bg-[#0A0D16] border border-[#1E2438] rounded"
+                      >
+                        {uri}
+                      </code>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="p-5 space-y-2.5">
+                  <p className="font-mono text-[10px] tracking-widest text-[#10B981]">
+                    {t.omnideskPage.mcpBridge.securityLabel.toUpperCase()}
+                  </p>
+                  <ul className="space-y-1.5 text-xs text-[#CBD5E1]">
+                    {t.omnideskPage.mcpBridge.securityItems.map((rule) => (
+                      <li key={rule} className="flex items-start gap-2">
+                        <span className="font-mono text-[#10B981] shrink-0" aria-hidden="true">
+                          ›
+                        </span>
+                        <span>{rule}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
 

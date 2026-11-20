@@ -176,6 +176,7 @@ export interface TranslationDictionary {
     screenshots: OmniDeskScreenshotItem[];
     catalogHeading: string;
     catalogLead: string;
+    palettePlaceholder: string;
     searchPlaceholder: string;
     clearSearchLabel: string;
     searchEmpty: string;
@@ -194,6 +195,27 @@ export interface TranslationDictionary {
     themesList: string[];
     widgetsHeading: string;
     widgetsList: string[];
+    mcpBridge: {
+      badge: string;
+      heading: string;
+      lead: string;
+      transportsLabel: string;
+      transports: {
+        name: string;
+        detail: string;
+      }[];
+      clientsLabel: string;
+      clients: string[];
+      toolGroupsLabel: string;
+      toolGroups: {
+        group: string;
+        tools: string[];
+      }[];
+      resourcesLabel: string;
+      resources: string[];
+      securityLabel: string;
+      securityItems: string[];
+    };
     stackHeading: string;
     stackItems: {
       layer: string;
