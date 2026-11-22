@@ -11,7 +11,7 @@ export const ru: TranslationDictionary = {
     omnideskDescription:
       'Откройте OmniDesk: офлайн-ориентированную рабочую станцию на Tauri v2 и React 19 с 99+ инструментами, 12 темами, конвертером форматов и Desktop MCP Bridge.',
     omnideskKeywords:
-      'OmniDesk, офлайн рабочая станция, локальные инструменты, 99+ инструментов, MCP bridge, Model Context Protocol, Tauri v2, React 19, TypeScript 7, PWA, PDF студия, CSV редактор, конструктор резюме, SVG оптимизатор, хеш-функции, AES-256, таблица Менделеева',
+      'OmniDesk, офлайн рабочая станция, локальные инструменты, 99+ инструментов, MCP bridge, Model Context Protocol, Tauri v2, React 19, TypeScript 7, PWA, PDF студия, CSV редактор, конструктор резюме, SVG оптимизатор, хеш-функции, AES-256, таблица Менделеева, математический анализ, решатель уравнений, титрование, оптика, орбитальная механика',
     rateEverythingTitle: 'RateEverything — Веб и SQL проект | Леонид Чариков',
     rateEverythingDescription:
       'Изучите RateEverything — экспериментальный веб-проект Леонида Чарикова, объединяющий HTML, CSS, TypeScript и реляционную базу данных SQL.',
@@ -232,7 +232,7 @@ export const ru: TranslationDictionary = {
     exploreCatalogCta: 'Открыть каталог',
     heroImageAlt: 'Главный экран OmniDesk с 99+ инструментами по категориям и мини-виджетами',
     metrics: {
-      toolsLabel: 'Интегрированных утилит · 40 Everyday Basics',
+      toolsLabel: 'Интегрированных утилит · 43 Everyday Basics',
       runtimeValue: 'Tauri v2 + PWA',
       runtimeLabel: '24 Desktop MCP инструмента · Auto-Updater',
       localesValue: '5 языков',
@@ -294,8 +294,8 @@ export const ru: TranslationDictionary = {
       },
     ],
     catalogHeading: 'Полный реестр 99+ инструментов',
-    catalogLead: '99+ специализированных инструментов в 7 основных категориях плюс быстрый фильтр Everyday Basics (40 утилит).',
-    palettePlaceholder: 'Фильтр 99+ утилит (напр. pdf, csv, svg, hash, snippet)…',
+    catalogLead: '99+ специализированных инструментов в 7 основных категориях плюс быстрый фильтр Everyday Basics (43 утилиты).',
+    palettePlaceholder: 'Фильтр 99+ утилит (напр. pdf, calculus, titration, hash, snippet)…',
     searchPlaceholder: 'Фильтр 99+ инструментов по названию или функции…',
     clearSearchLabel: 'Очистить поиск',
     searchEmpty: 'По вашему запросу инструменты не найдены.',
@@ -381,10 +381,21 @@ export const ru: TranslationDictionary = {
       {
         id: 'math',
         title: 'Математика и статистика',
-        subtitle: 'Инженерный калькулятор, матрицы, 2D-графики, LaTeX и анализ данных.',
-        count: 8,
+        subtitle: 'Инженерный калькулятор, уравнения, матанализ, вероятности, регрессия, 3D-векторы, карты Карно и матрицы.',
+        count: 19,
         tools: [
-          {id: 'scientific-calc', title: 'Standard & Scientific Calculator', description: 'Тригонометрия, логарифмы, степени, регистры памяти (M+/MR) и история вычислений.', isEverydayBasic: true},
+          {id: 'scientific-calc', title: 'Standard & Scientific Calculator', description: 'Классическая клавиатура 5×4 с инженерной панелью (2nd, DEG/RAD), тригонометрией, логарифмами, степенями, регистрами памяти (MC/MR/M+/M-), вводом с клавиатуры и историей.', isEverydayBasic: true},
+          {id: 'equation-solver', title: 'Equation & System Solver', description: 'Поиск вещественных и комплексных корней полиномов (Дюран-Кернер), системы Ax = b с шагами метода Гаусса и численный поиск корней f(x) = 0 (бисекция / Ньютон-Рафсон).'},
+          {id: 'calculus-workbench', title: 'Calculus Workbench', description: 'Численные 1-я и 2-я производные, определённые интегралы с SVG-заливкой площади, односторонние пределы и полиномы Тейлора.'},
+          {id: 'probability-stats', title: 'Probability Distributions & Hypothesis Testing', description: 'Кривые PDF/CDF для нормального, t-Стьюдента, хи-квадрат, биномиального и пуассоновского распределений плюс A/B-тест значимости двух долей.'},
+          {id: 'curve-fitting', title: 'Regression & Curve Fitting', description: 'Аппроксимация X/Y-данных линейной, квадратичной, кубической, экспоненциальной, логарифмической или степенной моделью с R², остатками и прогнозом.'},
+          {id: 'vector-geometry', title: 'Vector & 3D Geometry Calculator', description: 'Скалярное и векторное произведения, угол, проекция, единичные векторы, уравнение плоскости по 3 точкам и интерактивное изометрическое 3D-превью.'},
+          {id: 'complex-numbers', title: 'Complex Numbers & Polar Form Studio', description: 'Арифметика, перевод алгебраической ↔ полярной формы, степени Муавра и корни n-й степени с графиком на комплексной плоскости Аргана.'},
+          {id: 'geometry-trig', title: 'Geometry & Trigonometry Solver', description: 'Решение треугольников SSS/SAS/ASA/AAS (теоремы синусов и косинусов), а также калькуляторы площадей, периметров и объёмов 2D/3D-фигур.', isEverydayBasic: true},
+          {id: 'fraction-calc', title: 'Exact Fraction & Rational Calculator', description: 'Точная арифметика дробей на BigInt, смешанные числа, перевод периодических дробей (0.(3)) и цепные дроби.', isEverydayBasic: true},
+          {id: 'boolean-algebra', title: 'Boolean Algebra & Truth Table Studio', description: 'Парсер логических выражений, таблицы истинности, карты Карно для 2–4 переменных в коде Грея, минтермы/макстермы и минимизация Куайна-МакКласки.'},
+          {id: 'formula-pad', title: 'Unit-Aware Formula Scratchpad', description: 'Многострочный живой расчётный блокнот, где переменные передаются от строки к строке с автоконвертацией единиц измерения.', isEverydayBasic: true},
+          {id: 'error-propagation', title: 'Error Propagation & Significant Figures', description: 'Суммарная погрешность δf через численные частные производные, вклад дисперсий и анализ/округление значащих цифр.'},
           {id: 'matrix-calc', title: 'Dynamic Matrix Calculator (1×1 — 6×6)', description: 'Умножение (A×B, B×A), определители, обратные матрицы, транспонирование и след.'},
           {id: 'function-grapher', title: '2D Function Grapher & Plotter', description: 'Построение f(x), g(x), h(x) с масштабом, анализом касательной и экспортом PNG.'},
           {id: 'latex-visualizer', title: 'LaTeX Formula Visualizer', description: 'Живой рендер формул, палитра символов, библиотека уравнений и экспорт SVG/MathML.'},
@@ -397,11 +408,22 @@ export const ru: TranslationDictionary = {
       {
         id: 'science',
         title: 'Наука, химия и инженерия',
-        subtitle: 'Таблица Менделеева IUPAC, стехиометрия, электроника, ДНК, GPS и эфемериды.',
-        count: 8,
+        subtitle: 'Таблица IUPAC, титрование, VSEPR, термо-/электрохимия, оптика, Фурье/Боде, орбитальная механика, ПЦР и CODATA.',
+        count: 19,
         tools: [
           {id: 'periodic-table', title: 'Chemistry & Periodic Table (118 элементов)', description: '18-колоночная таблица IUPAC, фильтры орбиталей, молярная масса и молярность (c = n/V).'},
           {id: 'chem-balancer', title: 'Chemical Equation Balancer & Stoichiometry', description: 'Автоматическая расстановка коэффициентов, лимитирующий реагент и выход реакции.'},
+          {id: 'ph-titration', title: 'pH, Buffers & Titration Curve Simulator', description: 'pH сильных/слабых кислот и оснований, расчёт буферов (Хендерсон-Хассельбах) и живые кривые титрования с точками эквивалентности.'},
+          {id: 'solution-dilution', title: 'Solution Dilution & Serial Dilution Planner', description: 'C₁V₁ = C₂V₂, таблицы серийного разведения, конвертер ppm/ppb/% w/v/молярности и печатные лабораторные бланки.'},
+          {id: 'molecular-vsepr', title: 'Molecular Geometry & VSEPR Explorer', description: 'Геометрия молекул по VSEPR, гибридизация, валентные углы и полярность с SVG-схемами и справочником функциональных групп.'},
+          {id: 'thermochemistry-eq', title: 'Thermochemistry & Chemical Equilibrium', description: 'Энергия Гиббса (ΔG° = ΔH° − TΔS°), температура перехода T*, решатель равновесия ICE 1:1 и таблица стандартных ΔH°f / S°.'},
+          {id: 'electrochemistry-redox', title: 'Electrochemistry & Redox Studio', description: 'Стандартные восстановительные потенциалы (E°), ЭДС элементов с поправкой Нернста и расчёт массы электролиза по Фарадею.'},
+          {id: 'isotope-decay', title: 'Isotope & Radioactive Decay Calculator', description: 'Пресеты изотопов, период полураспада / постоянная распада λ / среднее время жизни τ, кривая активности и радиометрическое датирование.'},
+          {id: 'optics-ray-sim', title: 'Optics & Lens / Snell Ray Simulator', description: 'Формула тонкой линзы с живой 3-лучевой SVG-диаграммой, увеличение, преломление Снеллиуса, критический угол (ПВО) и угол Брюстера.'},
+          {id: 'signal-wave-lab', title: 'Signal & Wave Lab (Fourier / Bode / Doppler)', description: 'Гармонический синтезатор волн Фурье, диаграмма Боде для RC-фильтров и калькулятор акустического эффекта Доплера.'},
+          {id: 'orbital-mechanics', title: 'Astrophysics & Orbital Mechanics', description: 'Первая и вторая космические скорости, периоды Кеплера, гомановский перелёт Δv и радиус Шварцшильда с пресетами Солнечной системы.'},
+          {id: 'lab-bio-pcr', title: 'Microbiology & PCR / Lab Bio Calculator', description: 'Tm праймеров, % GC, 3′-GC-зажим, сканер сайтов рестрикции, конвертер нг/мкл ↔ нМ и пропорции для лигирования.'},
+          {id: 'materials-mechanics', title: 'Materials, Structural Mechanics & CODATA', description: 'Прогиб и изгибающий момент балок, число Рейнольдса в трубах, свойства инженерных материалов и физические константы CODATA.'},
           {id: 'physics-toolkit', title: 'Physics & Mechanics Toolkit', description: 'Баллистика, закон идеального газа (PV=nRT), энергия, волны и децибелы.'},
           {id: 'electronics-calc', title: 'Electronics & Circuit Calculator', description: 'Закон Ома, резисторы, делители напряжения, расчёт резистора для LED и RC-фильтры.'},
           {id: 'dna-analyzer', title: 'DNA / RNA & Protein Sequence Analyzer', description: 'Комплементарная цепь, транскрипция мРНК, трансляция в 3 рамках и % GC.'},
@@ -470,7 +492,7 @@ export const ru: TranslationDictionary = {
       },
       {
         title: 'Двойной рантайм: Tauri v2 Desktop и офлайн PWA',
-        description: 'Собирается в лёгкий нативный бинарник на Rust с подписанным автообновлением GitHub Releases, сохранением геометрии окон, нативной печатью в 11 инструментах, телеметрией sysinfo и полным бэкапом AES-256-GCM — или работает как офлайн PWA.',
+        description: 'Собирается в лёгкий нативный бинарник на Rust с подписанным автообновлением GitHub Releases, сохранением геометрии окон, двойным кликом по заголовку для разворачивания, нативной печатью в 12 инструментах (включая лабораторные бланки), телеметрией sysinfo и полным бэкапом AES-256-GCM — или работает как офлайн PWA.',
       },
       {
         title: 'Desktop MCP Bridge (24 инструмента и 4 ресурса)',
@@ -572,8 +594,8 @@ export const ru: TranslationDictionary = {
       },
       {
         layer: 'Локальные движки',
-        technologies: 'pdf-lib · pdfjs-dist · Tesseract.js · Mammoth · js-yaml · jsQR',
-        note: 'Офлайн Multi-Format Converter Hub, визуальный PDF-редактор, OCR, YAML 1.2, чтение QR и Web Audio.',
+        technologies: 'pdf-lib · pdfjs-dist · Tesseract.js · Mammoth · js-yaml · jsQR · Чистые STEM-решатели',
+        note: 'Офлайн Multi-Format Converter Hub, визуальный PDF-редактор, OCR, YAML 1.2, чтение QR, Web Audio и чистые математические и научные модули.',
       },
       {
         layer: 'Качество и i18n',

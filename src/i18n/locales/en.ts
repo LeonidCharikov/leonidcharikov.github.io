@@ -11,7 +11,7 @@ export const en: TranslationDictionary = {
     omnideskDescription:
       'Discover OmniDesk: an offline-first desktop and web workstation with 99+ local tools, 12 themes, Multi-Format Converter Hub, and Desktop MCP Bridge in Tauri v2 & React 19.',
     omnideskKeywords:
-      'OmniDesk, offline workstation, local-first tools, 99+ tools, MCP bridge, Model Context Protocol, Tauri v2, React 19, TypeScript 7, PWA workstation, PDF studio, CSV editor, resume builder, SVG optimizer, audio trimmer, hash suite, AES-256 encryption, periodic table, developer utilities',
+      'OmniDesk, offline workstation, local-first tools, 99+ tools, MCP bridge, Model Context Protocol, Tauri v2, React 19, TypeScript 7, PWA workstation, PDF studio, CSV editor, resume builder, SVG optimizer, audio trimmer, hash suite, AES-256 encryption, periodic table, calculus workbench, equation solver, titration simulator, optics ray simulator, orbital mechanics, developer utilities',
     rateEverythingTitle: 'RateEverything — Web & SQL Sandbox | Leonid Charikov',
     rateEverythingDescription:
       'Explore RateEverything, an experimental full-stack web sandbox by Leonid Charikov built with HTML, CSS, TypeScript, and SQL persistence.',
@@ -232,7 +232,7 @@ export const en: TranslationDictionary = {
     exploreCatalogCta: 'Explore tools',
     heroImageAlt: 'OmniDesk main workspace showing 99+ categorized tools and sidebar mini-widgets',
     metrics: {
-      toolsLabel: 'Integrated tools · 40 Everyday Basics',
+      toolsLabel: 'Integrated tools · 43 Everyday Basics',
       runtimeValue: 'Tauri v2 + PWA',
       runtimeLabel: '24 Desktop MCP Tools · Auto-Updater',
       localesValue: '5 Locales',
@@ -294,8 +294,8 @@ export const en: TranslationDictionary = {
       },
     ],
     catalogHeading: 'Complete 99+ Tool Directory',
-    catalogLead: '99+ specialized tools organized across 7 primary categories, plus the Everyday Basics (40 tools) quick filter for daily workflows.',
-    palettePlaceholder: 'Filter 99+ tools (e.g. pdf, csv, svg, hash, snippet)...',
+    catalogLead: '99+ specialized tools organized across 7 primary categories, plus the Everyday Basics (43 tools) quick filter for daily workflows.',
+    palettePlaceholder: 'Filter 99+ tools (e.g. pdf, calculus, titration, hash, snippet)...',
     searchPlaceholder: 'Filter 99+ tools by name or capability…',
     clearSearchLabel: 'Clear search',
     searchEmpty: 'No tools match the current filter.',
@@ -381,10 +381,21 @@ export const en: TranslationDictionary = {
       {
         id: 'math',
         title: 'Mathematics & Statistics',
-        subtitle: 'Scientific computation, matrices, 2D plotting, LaTeX, and descriptive stats.',
-        count: 8,
+        subtitle: 'Scientific calculator, equation & calculus solvers, probability, curve fitting, 3D vectors, K-maps, and matrices.',
+        count: 19,
         tools: [
-          {id: 'scientific-calc', title: 'Standard & Scientific Calculator', description: 'Trigonometry, logarithms, powers, memory registers (M+/MR) & calculation history.', isEverydayBasic: true},
+          {id: 'scientific-calc', title: 'Standard & Scientific Calculator', description: 'Classic 5×4 keypad with aligned scientific panel (2nd shift, DEG/RAD), trigonometry, logarithms, powers, memory registers (MC/MR/M+/M-), keyboard support & calculation history.', isEverydayBasic: true},
+          {id: 'equation-solver', title: 'Equation & System Solver', description: 'Polynomial root finder (real & complex roots via Durand-Kerner), linear systems Ax = b with Gaussian elimination steps, and numerical f(x) = 0 root finding (Bisection / Newton-Raphson).'},
+          {id: 'calculus-workbench', title: 'Calculus Workbench', description: 'Numerical first & second derivatives, definite integrals with shaded SVG area, left/right limits & Taylor polynomial overlays.'},
+          {id: 'probability-stats', title: 'Probability Distributions & Hypothesis Testing', description: 'Normal, Student-t, Chi-Square, Binomial & Poisson PDF/CDF curves plus two-proportion A/B significance testing.'},
+          {id: 'curve-fitting', title: 'Regression & Curve Fitting', description: 'Fit linear, quadratic, cubic, exponential, logarithmic, or power models to X/Y datasets with R², residuals & predictions.'},
+          {id: 'vector-geometry', title: 'Vector & 3D Geometry Calculator', description: 'Dot/cross products, angle, projection, unit vectors, 3-point plane equations & interactive isometric 3D preview.'},
+          {id: 'complex-numbers', title: 'Complex Numbers & Polar Form Studio', description: 'Arithmetic, rectangular ↔ polar conversion, De Moivre powers & n-th roots with live Argand plane plotting.'},
+          {id: 'geometry-trig', title: 'Geometry & Trigonometry Solver', description: 'Solve SSS/SAS/ASA/AAS triangles (Law of Sines/Cosines) plus 2D & 3D area, perimeter, surface area & volume calculators.', isEverydayBasic: true},
+          {id: 'fraction-calc', title: 'Exact Fraction & Rational Calculator', description: 'Arbitrary-precision BigInt fraction arithmetic, mixed numbers, repeating decimal conversion (0.(3)) & continued fractions.', isEverydayBasic: true},
+          {id: 'boolean-algebra', title: 'Boolean Algebra & Truth Table Studio', description: 'Logic parser, truth tables, 2–4 variable Gray-code Karnaugh maps, canonical minterms/maxterms & Quine-McCluskey SOP simplification.'},
+          {id: 'formula-pad', title: 'Unit-Aware Formula Scratchpad', description: 'Multi-line live calculation notepad where variables flow line-to-line with automatic unit conversions.', isEverydayBasic: true},
+          {id: 'error-propagation', title: 'Error Propagation & Significant Figures', description: 'Combined uncertainty δf via numerical partial derivatives, variance share breakdown & significant-figures analyzer/rounder.'},
           {id: 'matrix-calc', title: 'Dynamic Matrix Calculator (1×1 to 6×6)', description: 'Multiplication (A×B, B×A), determinants, inverses, transpose & trace.'},
           {id: 'function-grapher', title: '2D Function Grapher & Plotter', description: 'Plot f(x), g(x), h(x) with pan/zoom, point tangent slope inspection & PNG export.'},
           {id: 'latex-visualizer', title: 'LaTeX Formula Visualizer', description: 'Live math preview, symbol palette, equation library & SVG/MathML export.'},
@@ -397,11 +408,22 @@ export const en: TranslationDictionary = {
       {
         id: 'science',
         title: 'Science, Chemistry & Engineering',
-        subtitle: 'IUPAC periodic table, stoichiometry, circuits, DNA sequences, GPS, and ephemeris.',
-        count: 8,
+        subtitle: 'IUPAC periodic table, titration, VSEPR, thermo/electrochemistry, optics, Fourier/Bode, orbital mechanics, PCR, and CODATA.',
+        count: 19,
         tools: [
           {id: 'periodic-table', title: 'Chemistry & Periodic Table (118 Elements)', description: 'Official 18-column IUPAC table, orbital block filters, molar mass parser & solution molarity (c = n/V).'},
           {id: 'chem-balancer', title: 'Chemical Equation Balancer & Stoichiometry', description: 'Automatic reaction balancing, limiting reactant & theoretical yield.'},
+          {id: 'ph-titration', title: 'pH, Buffers & Titration Curve Simulator', description: 'Strong/weak acid-base pH, Henderson-Hasselbalch buffer designer & live titration curves with equivalence markers.'},
+          {id: 'solution-dilution', title: 'Solution Dilution & Serial Dilution Planner', description: 'C₁V₁ = C₂V₂, multi-step serial dilution tables, ppm/ppb/% w/v/molarity converter & printable lab bench sheets.'},
+          {id: 'molecular-vsepr', title: 'Molecular Geometry & VSEPR Explorer', description: 'Steric-number VSEPR shape, hybridization, bond angle & polarity explorer with SVG schematics and organic functional groups reference.'},
+          {id: 'thermochemistry-eq', title: 'Thermochemistry & Chemical Equilibrium', description: 'Gibbs free energy (ΔG° = ΔH° − TΔS°), crossover temperature T*, 1:1 ICE equilibrium solver & standard ΔH°f / S° table.'},
+          {id: 'electrochemistry-redox', title: 'Electrochemistry & Redox Studio', description: 'Standard reduction potentials (E°), galvanic/electrolytic cell voltage with Nernst correction & Faraday electrolysis mass deposition.'},
+          {id: 'isotope-decay', title: 'Isotope & Radioactive Decay Calculator', description: 'Preset isotopes, half-life / decay constant λ / mean lifetime τ, remaining mass/activity curve & radiometric dating.'},
+          {id: 'optics-ray-sim', title: 'Optics & Lens / Snell Ray Simulator', description: 'Thin-lens equation with live 3-ray SVG diagram, magnification, Snell refraction, critical angle (TIR) & Brewster angle.'},
+          {id: 'signal-wave-lab', title: 'Signal & Wave Lab (Fourier / Bode / Doppler)', description: 'Harmonic Fourier waveform synthesizer, RC low/high-pass Bode plot & acoustic Doppler shift calculator.'},
+          {id: 'orbital-mechanics', title: 'Astrophysics & Orbital Mechanics', description: 'Circular & escape velocities, Kepler orbital periods, Hohmann transfer Δv diagram & Schwarzschild radius across solar-system presets.'},
+          {id: 'lab-bio-pcr', title: 'Microbiology & PCR / Lab Bio Calculator', description: 'Primer Tm, GC%, 3′ GC clamp, restriction enzyme cut-site scanner, ng/µL ↔ nM converter & cloning ligation ratios.'},
+          {id: 'materials-mechanics', title: 'Materials, Structural Mechanics & CODATA', description: 'Beam bending deflection & max moment, pipe flow Reynolds number regime, engineering material properties & CODATA physical constants.'},
           {id: 'physics-toolkit', title: 'Physics & Mechanics Toolkit', description: 'Projectile motion, ideal gas law (PV=nRT), energy, wave equations & decibels.'},
           {id: 'electronics-calc', title: 'Electronics & Circuit Calculator', description: 'Ohm’s law, series/parallel resistors, voltage dividers, LED current-limiting resistor & RC filters.'},
           {id: 'dna-analyzer', title: 'DNA / RNA & Protein Sequence Analyzer', description: 'Complement, reverse complement, mRNA transcription, 3-frame translation & GC%.'},
@@ -470,7 +492,7 @@ export const en: TranslationDictionary = {
       },
       {
         title: 'Dual Runtime: Tauri v2 Desktop & Offline PWA',
-        description: 'Compiles into a lightweight native Rust binary with signed GitHub Releases Auto-Updater, persistent multi-monitor window geometry, native OS printing across 11 tools, sysinfo telemetry, and AES-256-GCM Full Workspace Backup—or installs as a streamlined offline PWA.',
+        description: 'Compiles into a lightweight native Rust binary with signed GitHub Releases Auto-Updater, multi-monitor-safe persistent window geometry, double-click titlebar maximize/restore, native OS printing across 12 tools (including lab bench sheets), sysinfo telemetry, and AES-256-GCM Full Workspace Backup—or installs as a streamlined offline PWA.',
       },
       {
         title: 'Desktop MCP Bridge (24 Tools & 4 Resources)',
@@ -572,8 +594,8 @@ export const en: TranslationDictionary = {
       },
       {
         layer: 'Local Engines',
-        technologies: 'pdf-lib · pdfjs-dist · Tesseract.js · Mammoth · js-yaml · jsQR',
-        note: 'Offline Multi-Format Converter Hub, PDF visual editor, OCR, YAML 1.2, QR decoding, and Web Audio synthesis.',
+        technologies: 'pdf-lib · pdfjs-dist · Tesseract.js · Mammoth · js-yaml · jsQR · Pure STEM Solvers',
+        note: 'Offline Multi-Format Converter Hub, PDF visual editor, OCR, YAML 1.2, QR decoding, Web Audio, and pure math/science compute suites.',
       },
       {
         layer: 'Quality & i18n',

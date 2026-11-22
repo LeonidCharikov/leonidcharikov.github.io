@@ -11,7 +11,7 @@ export const cs: TranslationDictionary = {
     omnideskDescription:
       'Vyzkoušejte OmniDesk: offline-first desktopovou a webovou stanici s 99+ nástroji, 12 motivy, převodníkem formátů a Desktop MCP Bridge v Tauri v2 a Reactu 19.',
     omnideskKeywords:
-      'OmniDesk, offline pracovní stanice, lokální nástroje, 99+ nástrojů, MCP bridge, Model Context Protocol, Tauri v2, React 19, TypeScript 7, PWA, PDF studio, CSV editor, životopis, SVG optimalizátor, hash, AES-256, periodická tabulka, vývojářské utility',
+      'OmniDesk, offline pracovní stanice, lokální nástroje, 99+ nástrojů, MCP bridge, Model Context Protocol, Tauri v2, React 19, TypeScript 7, PWA, PDF studio, CSV editor, životopis, SVG optimalizátor, hash, AES-256, periodická tabulka, kalkulus, řešitel rovnic, titrace, optika, orbitální mechanika, vývojářské utility',
     rateEverythingTitle: 'RateEverything — Web & SQL experiment | Leonid Charikov',
     rateEverythingDescription:
       'Prohlédněte si RateEverything, experimentální webový projekt Leonida Charikova propojující sémantické HTML, CSS, TypeScript a databázi SQL.',
@@ -232,7 +232,7 @@ export const cs: TranslationDictionary = {
     exploreCatalogCta: 'Prohlédnout nástroje',
     heroImageAlt: 'Hlavní pracovní plocha OmniDesk s 99+ kategorizovanými nástroji a mini-widgety',
     metrics: {
-      toolsLabel: 'Integrovaných nástrojů · 40 Everyday Basics',
+      toolsLabel: 'Integrovaných nástrojů · 43 Everyday Basics',
       runtimeValue: 'Tauri v2 + PWA',
       runtimeLabel: '24 Desktop MCP nástrojů · Auto-Updater',
       localesValue: '5 jazyků',
@@ -294,8 +294,8 @@ export const cs: TranslationDictionary = {
       },
     ],
     catalogHeading: 'Kompletní rejstřík 99+ nástrojů',
-    catalogLead: '99+ specializovaných nástrojů rozdělených do 7 hlavních kategorií a rychlého filtru Everyday Basics (40 nástrojů).',
-    palettePlaceholder: 'Filtrovat 99+ nástrojů (např. pdf, csv, svg, hash, snippet)…',
+    catalogLead: '99+ specializovaných nástrojů rozdělených do 7 hlavních kategorií a rychlého filtru Everyday Basics (43 nástrojů).',
+    palettePlaceholder: 'Filtrovat 99+ nástrojů (např. pdf, calculus, titration, hash, snippet)…',
     searchPlaceholder: 'Filtrovat 99+ nástrojů podle názvu nebo funkce…',
     clearSearchLabel: 'Vymazat hledání',
     searchEmpty: 'Zvolenému filtru neodpovídá žádný nástroj.',
@@ -381,10 +381,21 @@ export const cs: TranslationDictionary = {
       {
         id: 'math',
         title: 'Matematika a statistika',
-        subtitle: 'Vědecká kalkulačka, matice, 2D grafy, LaTeX a popisná statistika.',
-        count: 8,
+        subtitle: 'Vědecká kalkulačka, rovnice, kalkulus, pravděpodobnost, regrese, 3D vektory, Karnaughovy mapy a matice.',
+        count: 19,
         tools: [
-          {id: 'scientific-calc', title: 'Standard & Scientific Calculator', description: 'Trigonometrie, logaritmy, mocniny, paměťové registry (M+/MR) a historie výpočtů.', isEverydayBasic: true},
+          {id: 'scientific-calc', title: 'Standard & Scientific Calculator', description: 'Klasická klávesnice 5×4 s vědeckým panelem (2nd, DEG/RAD), trigonometrií, logaritmy, mocninami, pamětí (MC/MR/M+/M-), klávesovými zkratkami a historií.', isEverydayBasic: true},
+          {id: 'equation-solver', title: 'Equation & System Solver', description: 'Hledání reálných i komplexních kořenů polynomů (Durand-Kerner), soustavy Ax = b s kroky Gaussovy eliminace a numerické hledání kořenů f(x) = 0 (bisekce / Newton-Raphson).'},
+          {id: 'calculus-workbench', title: 'Calculus Workbench', description: 'Numerické první a druhé derivace, určité integrály se stínovaným SVG grafem, jednostranné limity a Taylorovy polynomy.'},
+          {id: 'probability-stats', title: 'Probability Distributions & Hypothesis Testing', description: 'PDF/CDF křivky pro normální, Studentovo t, chí-kvadrát, binomické a Poissonovo rozdělení plus A/B testování hypotéz dvou podílů.'},
+          {id: 'curve-fitting', title: 'Regression & Curve Fitting', description: 'Proložení X/Y dat lineárním, kvadratickým, kubickým, exponenciálním, logaritmickým nebo mocninným modelem s R², rezidui a predikcí.'},
+          {id: 'vector-geometry', title: 'Vector & 3D Geometry Calculator', description: 'Skalární a vektorový součin, úhel, projekce, jednotkové vektory, rovnice roviny ze 3 bodů a interaktivní izometrický 3D náhled.'},
+          {id: 'complex-numbers', title: 'Complex Numbers & Polar Form Studio', description: 'Aritmetika komplexních čísel, převod algebraický ↔ goniometrický tvar, Moivreovy mocniny a n-té odmocniny s živým Argandovým grafem.'},
+          {id: 'geometry-trig', title: 'Geometry & Trigonometry Solver', description: 'Řešení trojúhelníků SSS/SAS/ASA/AAS (sinová a kosinová věta) a kalkulačky 2D/3D obsahů, obvodů, povrchů a objemů.', isEverydayBasic: true},
+          {id: 'fraction-calc', title: 'Exact Fraction & Rational Calculator', description: 'Přesná zlomková aritmetika s BigInt, smíšená čísla, periodická desetinná čísla (0.(3)) a řetězové zlomky.', isEverydayBasic: true},
+          {id: 'boolean-algebra', title: 'Boolean Algebra & Truth Table Studio', description: 'Parser logických výrazů, pravdivostní tabulky, Karnaughovy mapy pro 2–4 proměnné, mintermy/maxtermy a zjednodušení Quine-McCluskey.'},
+          {id: 'formula-pad', title: 'Unit-Aware Formula Scratchpad', description: 'Víceřádkový živý výpočetní blok, kde se proměnné přenášejí mezi řádky s automatickými převody jednotek.', isEverydayBasic: true},
+          {id: 'error-propagation', title: 'Error Propagation & Significant Figures', description: 'Kombinovaná nejistota δf pomocí numerických parciálních derivací, podíly rozptylu a analýza/zaokrouhlování platných číslic.'},
           {id: 'matrix-calc', title: 'Dynamic Matrix Calculator (1×1 až 6×6)', description: 'Násobení (A×B, B×A), determinanty, inverze, transpozice a stopa matice.'},
           {id: 'function-grapher', title: '2D Function Grapher & Plotter', description: 'Grafy f(x), g(x), h(x) s posunem, zoomem, inspektorem tečny a exportem PNG.'},
           {id: 'latex-visualizer', title: 'LaTeX Formula Visualizer', description: 'Živý náhled matematických vzorců, paleta symbolů a export do SVG/MathML.'},
@@ -397,11 +408,22 @@ export const cs: TranslationDictionary = {
       {
         id: 'science',
         title: 'Věda, chemie a inženýrství',
-        subtitle: 'Periodická tabulka IUPAC, stechiometrie, obvody, DNA, GPS a astronomická efemerida.',
-        count: 8,
+        subtitle: 'Tabulka IUPAC, titrace, VSEPR, termochemie/elektrochemie, optika, Fourier/Bode, orbitální mechanika, PCR a CODATA.',
+        count: 19,
         tools: [
           {id: 'periodic-table', title: 'Chemistry & Periodic Table (118 prvků)', description: '18sloupcová tabulka IUPAC, filtry orbitalů, molární hmotnost a molarita (c = n/V).'},
           {id: 'chem-balancer', title: 'Chemical Equation Balancer & Stoichiometry', description: 'Automatické vyčíslování rovnic, limitující reaktant a teoretický výtěžek.'},
+          {id: 'ph-titration', title: 'pH, Buffers & Titration Curve Simulator', description: 'pH silných i slabých kyselin/zásad, návrh pufrů (Henderson-Hasselbalch) a živé titrační křivky s body ekvivalence.'},
+          {id: 'solution-dilution', title: 'Solution Dilution & Serial Dilution Planner', description: 'Výpočty C₁V₁ = C₂V₂, vícekrokové sériové ředění, převod ppm/ppb/% w/v/molarity a tisknutelné laboratorní protokoly.'},
+          {id: 'molecular-vsepr', title: 'Molecular Geometry & VSEPR Explorer', description: 'Tvar molekul VSEPR podle sterického čísla, hybridizace, vazebné úhly a polarita s SVG schématy a přehledem funkčních skupin.'},
+          {id: 'thermochemistry-eq', title: 'Thermochemistry & Chemical Equilibrium', description: 'Gibbsova volná energie (ΔG° = ΔH° − TΔS°), teplota zvratu T*, řešitel rovnováhy ICE 1:1 a tabulka standardních hodnot ΔH°f / S°.'},
+          {id: 'electrochemistry-redox', title: 'Electrochemistry & Redox Studio', description: 'Standardní redukční potenciály (E°), napětí galvanických/elektrolytických článků s Nernstovou korekcí a Faradayovy zákony elektrolýzy.'},
+          {id: 'isotope-decay', title: 'Isotope & Radioactive Decay Calculator', description: 'Přednastavené izotopy, poločas rozpadu / rozpadová konstanta λ / střední doba života τ, křivka aktivity a radiometrické datování.'},
+          {id: 'optics-ray-sim', title: 'Optics & Lens / Snell Ray Simulator', description: 'Zobrazovací rovnice tenké čočky s živým 3paprskovým SVG diagramem, zvětšení, Snellův zákon, mezní úhel (TIR) a Brewsterův úhel.'},
+          {id: 'signal-wave-lab', title: 'Signal & Wave Lab (Fourier / Bode / Doppler)', description: 'Harmonický Fourierův syntezátor průběhů, Bodeho charakteristika RC filtrů a výpočet akustického Dopplerova jevu.'},
+          {id: 'orbital-mechanics', title: 'Astrophysics & Orbital Mechanics', description: 'Kruhové a únikové rychlosti, Keplerovy oběžné doby, Hohmannův přechod Δv a Schwarzschildův poloměr s předvolbami sluneční soustavy.'},
+          {id: 'lab-bio-pcr', title: 'Microbiology & PCR / Lab Bio Calculator', description: 'Teplota tání primerů Tm, % GC, 3′ GC svorka, hledání restrikčních míst enzymů, převod ng/µL ↔ nM a poměry pro ligaci.'},
+          {id: 'materials-mechanics', title: 'Materials, Structural Mechanics & CODATA', description: 'Průhyb a ohybový moment nosníků, Reynoldsovo číslo proudění v potrubí, vlastnosti konstrukčních materiálů a fyzikální konstanty CODATA.'},
           {id: 'physics-toolkit', title: 'Physics & Mechanics Toolkit', description: 'Šikmý vrh, stavová rovnice ideálního plynu (PV=nRT), energie, vlny a decibely.'},
           {id: 'electronics-calc', title: 'Electronics & Circuit Calculator', description: 'Ohmův zákon, sériové/paralelní rezistory, děliče napětí, LED předřadný odpor a RC filtry.'},
           {id: 'dna-analyzer', title: 'DNA / RNA & Protein Sequence Analyzer', description: 'Komplement, reverzní komplement, transkripce mRNA, translace ve 3 rámcích a GC%.'},
@@ -470,7 +492,7 @@ export const cs: TranslationDictionary = {
       },
       {
         title: 'Duální běh: Tauri v2 Desktop a offline PWA',
-        description: 'Kompiluje se jako lehká nativní aplikace v Rustu s podepsaným Auto-Updaterem z GitHub Releases, pamětí polohy okna napříč monitory, nativním tiskem v 11 nástrojích, sysinfo telemetrií a šifrovanou plnou zálohou prostoru — nebo běží jako offline PWA.',
+        description: 'Kompiluje se jako lehká nativní aplikace v Rustu s podepsaným Auto-Updaterem z GitHub Releases, pamětí polohy okna napříč monitory, dvojklikem lišty pro maximalizaci, nativním tiskem ve 12 nástrojích (včetně laboratorních protokolů), sysinfo telemetrií a šifrovanou plnou zálohou prostoru — nebo běží jako offline PWA.',
       },
       {
         title: 'Desktop MCP Bridge (24 nástrojů a 4 zdroje)',
@@ -572,8 +594,8 @@ export const cs: TranslationDictionary = {
       },
       {
         layer: 'Lokální knihovny',
-        technologies: 'pdf-lib · pdfjs-dist · Tesseract.js · Mammoth · js-yaml · jsQR',
-        note: 'Offline Multi-Format Converter Hub, vizuální PDF editor, OCR, YAML 1.2, čtení QR a Web Audio.',
+        technologies: 'pdf-lib · pdfjs-dist · Tesseract.js · Mammoth · js-yaml · jsQR · Čisté STEM výpočty',
+        note: 'Offline Multi-Format Converter Hub, vizuální PDF editor, OCR, YAML 1.2, čtení QR, Web Audio a čisté matematicko-vědecké sady.',
       },
       {
         layer: 'Kvalita a i18n',
