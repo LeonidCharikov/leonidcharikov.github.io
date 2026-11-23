@@ -58,6 +58,7 @@ interface PaletteToolEntry {
   shortcut: string;
   runtime: string;
   isEverydayBasic: boolean;
+  isDesktopOnly: boolean;
 }
 
 function ArchitectureDiagrams() {
@@ -315,7 +316,7 @@ function ArchitectureDiagrams() {
                 TAURI v2 + RUST BACKEND
               </text>
               <text x="24" y="153" fill="#8B95B0" fontSize="9" fontFamily="JetBrains Mono, monospace">
-                FS · OS PRINT · MCP (24) · UPDATER
+                OS TOOLS (5) · MCP (24) · PRINT · UPDATER
               </text>
             </motion.g>
 
@@ -550,14 +551,15 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
     t.omnideskPage.categories.forEach((cat, catIndex) => {
       cat.tools.forEach((tool, toolIndex) => {
         const lowerTitle = tool.title.toLowerCase();
-        const runtime =
-          lowerTitle.includes('pdf') ||
-          lowerTitle.includes('audio') ||
-          lowerTitle.includes('image') ||
-          lowerTitle.includes('photo') ||
-          lowerTitle.includes('converter') ||
-          lowerTitle.includes('hash') ||
-          lowerTitle.includes('aes')
+        const runtime = tool.isDesktopOnly
+          ? 'TAURI RUST'
+          : lowerTitle.includes('pdf') ||
+              lowerTitle.includes('audio') ||
+              lowerTitle.includes('image') ||
+              lowerTitle.includes('photo') ||
+              lowerTitle.includes('converter') ||
+              lowerTitle.includes('hash') ||
+              lowerTitle.includes('aes')
             ? 'WEB WORKER'
             : lowerTitle.includes('http') ||
                 lowerTitle.includes('api') ||
@@ -575,6 +577,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
           shortcut: `#${catIndex + 1}-${String(toolIndex + 1).padStart(2, '0')}`,
           runtime,
           isEverydayBasic: Boolean(tool.isEverydayBasic),
+          isDesktopOnly: Boolean(tool.isDesktopOnly),
         });
       });
     });
@@ -1082,7 +1085,7 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                               : 'text-[#8B95B0] border-[#1E2438] hover:text-[#F8FAFC] hover:border-[#344063]'
                           }`}
                         >
-                          0{idx + 1} {cat.title.split(' ')[0].toUpperCase()}
+                          {String(idx + 1).padStart(2, '0')} {cat.title.split(' ')[0].toUpperCase()}
                         </button>
                       );
                     })}
@@ -2015,14 +2018,18 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                                   className={`font-mono text-[9px] px-2 py-0.5 border rounded-lg tabular-nums ${
                                     isHighlighted
                                       ? 'border-[#5B4EFF] bg-[#5B4EFF] text-[#F8FAFC]'
-                                      : 'border-[#1E2438] bg-[#101422] text-[#8B95B0]'
+                                      : tool.isDesktopOnly
+                                        ? 'border-[#10B981]/40 bg-[#10B981]/10 text-[#10B981]'
+                                        : 'border-[#1E2438] bg-[#101422] text-[#8B95B0]'
                                   }`}
                                 >
-                                  {tool.isEverydayBasic
-                                    ? 'BASIC'
-                                    : category.indexNumber === 0
-                                      ? '⌘B'
-                                      : `⌘${category.indexNumber}`}
+                                  {tool.isDesktopOnly
+                                    ? 'DESKTOP'
+                                    : tool.isEverydayBasic
+                                      ? 'BASIC'
+                                      : category.indexNumber === 0
+                                        ? '⌘B'
+                                        : `⌘${category.indexNumber}`}
                                 </kbd>
                               </div>
                               <h4 className="font-tech text-sm sm:text-[15px] font-semibold tracking-[-0.01em] text-[#F8FAFC]">

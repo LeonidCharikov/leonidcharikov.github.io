@@ -33,6 +33,7 @@ export interface OmniDeskToolCard {
   title: string;
   description: string;
   isEverydayBasic?: boolean;
+  isDesktopOnly?: boolean;
 }
 
 export interface OmniDeskModuleCategory {
