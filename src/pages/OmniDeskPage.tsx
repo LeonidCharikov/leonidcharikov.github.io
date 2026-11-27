@@ -10,7 +10,7 @@ import {
   X,
 } from 'lucide-react';
 import {AnimatePresence, motion, useReducedMotion} from 'motion/react';
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {LanguageSwitcher} from '../components/LanguageSwitcher';
 import {MediaFrame} from '../components/MediaFrame';
 import {OmniDeskLogo} from '../components/OmniDeskLogo';
@@ -399,6 +399,7 @@ export function OmniDeskPage() {
   // Auto-cycling Hero tools showcase state
   const [heroSlideIdx, setHeroSlideIdx] = useState(0);
   const [isHeroPaused, setIsHeroPaused] = useState(false);
+  const progressBarRef = useRef<HTMLSpanElement>(null);
 
   // Showcase state (top 4 flagship stacked + expandable remaining grid + Lightbox)
   const [showMoreDemos, setShowMoreDemos] = useState(false);
@@ -501,16 +502,42 @@ export function OmniDeskPage() {
 
   const activeHeroSlide = heroSlides.length > 0 ? heroSlides[heroSlideIdx % heroSlides.length] : null;
 
-  // Auto-cycle hero tools smoothly every HERO_CYCLE_MS unless hovered, focused, or reduced-motion
+  // Synchronized auto-cycle timer & GPU progress bar (works reliably on mobile touch & battery-saver modes)
   useEffect(() => {
-    if (shouldReduceMotion || isHeroPaused || heroSlides.length <= 1) {
+    if (heroSlides.length <= 1) {
       return;
     }
-    const timer = window.setInterval(() => {
-      setHeroSlideIdx((prev) => (prev + 1) % heroSlides.length);
-    }, HERO_CYCLE_MS);
-    return () => window.clearInterval(timer);
-  }, [heroSlides.length, isHeroPaused, shouldReduceMotion]);
+
+    if (isHeroPaused) {
+      return;
+    }
+
+    let frameId = 0;
+    const startTime = performance.now();
+
+    if (progressBarRef.current) {
+      progressBarRef.current.style.transform = 'scaleX(0)';
+    }
+
+    const tick = (now: number) => {
+      const elapsed = now - startTime;
+      const ratio = Math.min(elapsed / HERO_CYCLE_MS, 1);
+
+      if (progressBarRef.current) {
+        progressBarRef.current.style.transform = `scaleX(${ratio})`;
+      }
+
+      if (elapsed >= HERO_CYCLE_MS) {
+        setHeroSlideIdx((prev) => (prev + 1) % heroSlides.length);
+        return;
+      }
+
+      frameId = window.requestAnimationFrame(tick);
+    };
+
+    frameId = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(frameId);
+  }, [heroSlideIdx, heroSlides.length, isHeroPaused]);
 
   const {totalToolsCount, everydayBasicsCount} = useMemo(() => {
     let total = 0;
@@ -811,10 +838,16 @@ export function OmniDeskPage() {
                   <ScrollReveal immediate direction="up" distance={18} delay={0.14}>
                     {activeHeroSlide && (
                       <div
-                        onMouseEnter={() => setIsHeroPaused(true)}
-                        onMouseLeave={() => setIsHeroPaused(false)}
-                        onFocus={() => setIsHeroPaused(true)}
-                        onBlur={() => setIsHeroPaused(false)}
+                        onPointerEnter={(e) => {
+                          if (e.pointerType === 'mouse') {
+                            setIsHeroPaused(true);
+                          }
+                        }}
+                        onPointerLeave={(e) => {
+                          if (e.pointerType === 'mouse') {
+                            setIsHeroPaused(false);
+                          }
+                        }}
                         className="omnidesk-glass rounded-xl overflow-hidden shadow-[0_24px_60px_-24px_rgba(0,0,0,0.65)]"
                       >
                         {/* Quiet Slide Header: Current Category + Index & Prev/Next */}
@@ -931,16 +964,10 @@ export function OmniDeskPage() {
                                 >
                                   <span className="relative block w-full h-[3px] rounded-full bg-white/[0.1] overflow-hidden">
                                     {isCurrent && (
-                                      <motion.span
-                                        key={`${slide.categoryId}-${isHeroPaused ? 'paused' : 'run'}`}
-                                        initial={{scaleX: shouldReduceMotion || isHeroPaused ? 1 : 0}}
-                                        animate={{scaleX: 1}}
-                                        transition={
-                                          shouldReduceMotion || isHeroPaused
-                                            ? {duration: 0}
-                                            : {duration: HERO_CYCLE_MS / 1000, ease: 'linear'}
-                                        }
-                                        className="absolute inset-0 origin-left bg-[#5B4EFF] rounded-full"
+                                      <span
+                                        ref={progressBarRef}
+                                        style={{transform: 'scaleX(0)'}}
+                                        className="absolute inset-0 origin-left bg-[#5B4EFF] rounded-full will-change-transform"
                                       />
                                     )}
                                   </span>
@@ -1003,9 +1030,44 @@ export function OmniDeskPage() {
 
               <div className="space-y-1.5">
                 <p className="font-mono text-[11px] text-[#8B95B0]">Platforms</p>
-                <p className="font-tech text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[#F8FAFC]">
-                  Win / Mac / Linux
-                </p>
+                <div
+                  role="img"
+                  aria-label="Windows, macOS, and Linux"
+                  className="flex items-center gap-4 min-h-[32px] sm:min-h-[36px] text-[#F8FAFC]"
+                >
+                  <span title="Windows" className="inline-flex items-center">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-5 h-5 sm:w-[22px] sm:h-[22px]"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 2h9.2v9.2H2V2zm10.8 0H22v9.2h-9.2V2zM2 12.8h9.2V22H2v-9.2zm10.8 0H22V22h-9.2v-9.2z" />
+                    </svg>
+                  </span>
+                  <span title="macOS" className="inline-flex items-center">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-[22px] h-[22px] sm:w-6 sm:h-6 -mt-0.5"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                    </svg>
+                  </span>
+                  <span title="Linux" className="inline-flex items-center">
+                    <svg
+                      viewBox="0 0 24 24"
+                      className="w-[22px] h-[22px] sm:w-6 sm:h-6"
+                      fill="currentColor"
+                      fillRule="evenodd"
+                      clipRule="evenodd"
+                      aria-hidden="true"
+                    >
+                      <path d="M12 2c-2.6 0-4.3 1.9-4.3 4.8 0 1.3.3 2.3.5 3.1-.9 1.1-2.2 3-2.6 5.2-.3 1.6.1 2.7.9 3.3-.6.5-1.1 1.2-1 1.9.1.7.9 1.2 2.2 1.2 1.2 0 2.2-.4 2.9-.8.5.1 1 .2 1.4.2s.9-.1 1.4-.2c.7.4 1.7.8 2.9.8 1.3 0 2.1-.5 2.2-1.2.1-.7-.4-1.4-1-1.9.8-.6 1.2-1.7.9-3.3-.4-2.2-1.7-4.1-2.6-5.2.2-.8.5-1.8.5-3.1C16.3 3.9 14.6 2 12 2zm-1.6 3.5c.5 0 .9.5.9 1.1s-.4 1.1-.9 1.1-.9-.5-.9-1.1.4-1.1.9-1.1zm3.2 0c.5 0 .9.5.9 1.1s-.4 1.1-.9 1.1-.9-.5-.9-1.1.4-1.1.9-1.1zm-1.6 2c.9 0 1.9.6 1.9 1.1 0 .4-.9 1-1.9 1s-1.9-.6-1.9-1c0-.5 1-1.1 1.9-1.1zm0 3.3c2.2 0 3.7 2.2 3.7 5.2 0 1.6-.6 2.8-1.6 3.3-.3-.3-.8-.5-1.3-.5h-1.6c-.5 0-1 .2-1.3.5-1-.5-1.6-1.7-1.6-3.3 0-3 1.5-5.2 3.7-5.2z" />
+                    </svg>
+                  </span>
+                </div>
                 <p className="text-xs text-[#8B95B0]">
                   {t.omnideskPage.metrics.runtimeValue} · {t.omnideskPage.metrics.localesValue}
                 </p>
@@ -1234,41 +1296,43 @@ export function OmniDeskPage() {
               </div>
             </div>
 
-            {/* Quiet Open Spec Summary (Themes, Widgets & Stack — Borderless, Generous Whitespace) */}
-            <div className="pt-8 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14">
-              <div className="lg:col-span-4 space-y-4">
-                <p className="font-mono text-xs text-[#6D61FF] tracking-wide">
+            {/* Quiet Open Spec Summary (Themes, Widgets & Stack — Balanced 3-Column Rhythm) */}
+            <div className="pt-8 grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-12 items-start">
+              <div className="space-y-4 min-w-0">
+                <p className="font-mono text-xs text-[#6D61FF] tracking-wide leading-snug">
                   {t.omnideskPage.themesHeading}
                 </p>
-                <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs text-[#CBD5E1]">
+                <ul className="grid grid-cols-2 gap-x-5 gap-y-2.5 text-[13px] leading-snug text-[#8B95B0]">
                   {t.omnideskPage.themesList.map((themeName) => (
-                    <li key={themeName} className="truncate text-[#8B95B0]">
+                    <li key={themeName} className="truncate">
                       {themeName}
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="lg:col-span-3 space-y-4">
-                <p className="font-mono text-xs text-[#6D61FF] tracking-wide">
+              <div className="space-y-4 min-w-0">
+                <p className="font-mono text-xs text-[#6D61FF] tracking-wide leading-snug">
                   {t.omnideskPage.widgetsHeading}
                 </p>
-                <ul className="space-y-2 text-xs text-[#8B95B0]">
+                <ul className="space-y-2.5 text-[13px] leading-snug text-[#8B95B0]">
                   {t.omnideskPage.widgetsList.map((widget) => (
                     <li key={widget}>{widget}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="lg:col-span-5 space-y-4">
-                <p className="font-mono text-xs text-[#6D61FF] tracking-wide">
+              <div className="space-y-4 min-w-0">
+                <p className="font-mono text-xs text-[#6D61FF] tracking-wide leading-snug">
                   {t.omnideskPage.stackHeading}
                 </p>
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {t.omnideskPage.stackItems.map((row) => (
-                    <div key={row.layer} className="space-y-0.5">
-                      <p className="text-xs font-semibold text-[#F8FAFC]">{row.layer}</p>
-                      <p className="font-mono text-[11px] text-[#8B95B0]">{row.technologies}</p>
+                    <div key={row.layer} className="space-y-1">
+                      <p className="text-[13px] font-medium text-[#F8FAFC] leading-snug">
+                        {row.layer}
+                      </p>
+                      <p className="text-xs text-[#8B95B0] leading-relaxed">{row.technologies}</p>
                     </div>
                   ))}
                 </div>
