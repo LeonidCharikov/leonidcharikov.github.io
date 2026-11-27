@@ -1542,7 +1542,16 @@ export function OmniDeskPage() {
                 {VIDEO_SRC_REGEX.test(SCREENSHOT_SRC[activeLightboxItem.id]) ? (
                   <video
                     key={activeLightboxItem.id}
-                    src={SCREENSHOT_SRC[activeLightboxItem.id]}
+                    ref={(el) => {
+                      if (el) {
+                        el.muted = true;
+                        el.defaultMuted = true;
+                        el.playsInline = true;
+                        el.setAttribute('muted', '');
+                        el.setAttribute('playsinline', '');
+                        el.setAttribute('webkit-playsinline', '');
+                      }
+                    }}
                     poster={SCREENSHOT_POSTER[activeLightboxItem.id]}
                     aria-label={activeLightboxItem.title}
                     autoPlay
@@ -1551,7 +1560,13 @@ export function OmniDeskPage() {
                     playsInline
                     controls
                     className="w-full max-h-[75vh] object-contain mx-auto rounded-lg bg-[#0A0D16]"
-                  />
+                  >
+                    <source
+                      src={SCREENSHOT_SRC[activeLightboxItem.id].replace(/\.webm(\?.*)?$/i, '.mp4$1')}
+                      type="video/mp4"
+                    />
+                    <source src={SCREENSHOT_SRC[activeLightboxItem.id]} type="video/webm" />
+                  </video>
                 ) : (
                   <img
                     key={activeLightboxItem.id}
