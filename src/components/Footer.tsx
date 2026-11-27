@@ -23,75 +23,69 @@ export function Footer({currentRoute, onNavigate}: FooterProps) {
 
   if (currentRoute === 'omnidesk') {
     return (
-      <footer className="bg-[#0A0D16] border-t border-[#1E2438] text-[#F8FAFC]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 divide-y sm:divide-y-0 sm:divide-x divide-[#1E2438]">
-            {/* Cell 1: Brand & Runtime Identity */}
-            <div className="p-6 flex flex-col justify-between gap-4">
+      <footer className="relative z-10 bg-transparent text-[#F8FAFC]">
+        <div className="max-w-[1080px] mx-auto px-5 sm:px-8" aria-hidden="true">
+          <div className="omnidesk-section-divider" />
+        </div>
+        <div className="max-w-[1080px] mx-auto px-5 sm:px-8 py-14 sm:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+            <div className="space-y-4">
               <div className="flex items-center gap-2.5">
                 <OmniDeskLogo className="w-6 h-6" title={t.omnideskPage.appName} />
                 <span className="font-mono text-xs font-semibold tracking-wider text-[#F8FAFC]">
                   OMNIDESK
                 </span>
               </div>
-              <p className="font-mono text-[11px] text-[#8B95B0] leading-relaxed">
+              <p className="text-xs text-[#8B95B0] leading-relaxed">
                 {t.footer.copyright} · {t.footer.basedIn}
               </p>
             </div>
 
-            {/* Cell 2: Navigation & Source */}
-            <div className="p-6 space-y-2.5">
-              <p className="font-mono text-[10px] tracking-widest text-[#8B95B0]">LINKS</p>
-              <nav className="flex flex-col gap-1.5 font-mono text-xs">
+            <div className="space-y-3">
+              <p className="font-mono text-[11px] tracking-wider text-[#8B95B0]">Links</p>
+              <nav className="flex flex-col gap-2 text-xs">
                 <a
                   href={EXTERNAL_LINKS.omnideskRepo}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-[#F8FAFC] hover:text-[#6D61FF] transition-colors duration-150 industrial-ease w-fit"
                 >
-                  <span>GITHUB REPOSITORY</span>
-                  <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
+                  <span>GitHub Repository</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </a>
                 <a
                   href="./index.html"
                   onClick={(e) => handleLink(e, 'home')}
                   className="text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150 industrial-ease w-fit"
                 >
-                  {t.footer.homeLink.toUpperCase()}
-                </a>
-                <a
-                  href="./rate-everything.html"
-                  onClick={(e) => handleLink(e, 'rate-everything')}
-                  className="text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150 industrial-ease w-fit"
-                >
-                  {t.footer.rateEverythingLink.toUpperCase()}
+                  {t.footer.homeLink}
                 </a>
               </nav>
             </div>
 
-            {/* Cell 3: Version Changelog */}
-            <div className="p-6 space-y-2.5">
-              <p className="font-mono text-[10px] tracking-widest text-[#8B95B0]">VERSION</p>
-              <div className="font-mono text-xs space-y-1.5">
+            <div className="space-y-3">
+              <p className="font-mono text-[11px] tracking-wider text-[#8B95B0]">Releases</p>
+              <div className="text-xs space-y-2">
                 <a
                   href={`${EXTERNAL_LINKS.omnideskRepo}/commits/main`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-[#8B95B0] hover:text-[#6D61FF] transition-colors duration-150 industrial-ease"
+                  className="inline-flex items-center gap-1 text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150 industrial-ease"
                 >
-                  <span>CHANGELOG &amp; COMMITS</span>
-                  <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
+                  <span>Changelog &amp; Commits</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
                 </a>
               </div>
             </div>
 
-            {/* Cell 4: License & Language */}
-            <div className="p-6 flex flex-col justify-between gap-4">
-              <div className="space-y-1.5">
-                <p className="font-mono text-[10px] tracking-widest text-[#8B95B0]">LICENSE</p>
-                <p className="font-mono text-xs text-[#F8FAFC]">MIT // ZERO TELEMETRY</p>
+            <div className="space-y-3">
+              <p className="font-mono text-[11px] tracking-wider text-[#8B95B0]">Privacy &amp; Language</p>
+              <p className="text-xs text-[#8B95B0]">
+                MIT · <span className="text-[#10B981]">Zero telemetry</span>
+              </p>
+              <div className="pt-1">
+                <LanguageSwitcher tone="indigo" />
               </div>
-              <LanguageSwitcher tone="indigo" />
             </div>
           </div>
         </div>

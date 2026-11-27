@@ -44,9 +44,80 @@
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
 }
 
+@keyframes omnidesk-wave-a {
+  0% {
+    transform: translate3d(-4%, -3%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(6%, 5%, 0) scale(1.07);
+  }
+  100% {
+    transform: translate3d(-2%, 6%, 0) scale(1.02);
+  }
+}
+
+@keyframes omnidesk-wave-b {
+  0% {
+    transform: translate3d(4%, 3%, 0) scale(1.03);
+  }
+  50% {
+    transform: translate3d(-6%, -4%, 0) scale(0.97);
+  }
+  100% {
+    transform: translate3d(3%, -5%, 0) scale(1.05);
+  }
+}
+
+.omnidesk-wave-primary {
+  animation: omnidesk-wave-a 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.omnidesk-wave-secondary {
+  animation: omnidesk-wave-b 34s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.omnidesk-dot-matrix {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.omnidesk-glass {
+  background: rgba(16, 20, 34, 0.58);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.omnidesk-section-divider {
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.09) 50%, transparent 100%);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.fade-mask-right {
+  mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent 100%);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .omnidesk-wave-primary,
+  .omnidesk-wave-secondary {
+    animation: none;
   }
 
   *,

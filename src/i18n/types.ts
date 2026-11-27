@@ -47,6 +47,10 @@ export interface OmniDeskModuleCategory {
 export interface OmniDeskScreenshotItem {
   id:
     | 'dashboard'
+    | 'charts'
+    | 'diagram'
+    | 'systemMonitor'
+    | 'crosshair'
     | 'pdfEditor'
     | 'calendar'
     | 'currency'
@@ -174,6 +178,8 @@ export interface TranslationDictionary {
     galleryCloseLabel: string;
     galleryPrevLabel: string;
     galleryNextLabel: string;
+    showMoreDemosLabel: string;
+    hideMoreDemosLabel: string;
     screenshots: OmniDeskScreenshotItem[];
     catalogHeading: string;
     catalogLead: string;
