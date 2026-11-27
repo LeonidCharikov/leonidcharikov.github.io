@@ -110,8 +110,14 @@ function PortfolioShell() {
 
     const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
 
+    const routeBg =
+      route === 'omnidesk' ? '#0A0D16' : route === 'rate-everything' ? '#0B0D10' : '#09090B';
+
     document.title = seo.title;
+    document.documentElement.style.backgroundColor = routeBg;
+    document.body.style.backgroundColor = routeBg;
     setFavicon(OMNIDESK_FAVICON_DATA_URI);
+    setMetaTag('meta[name="theme-color"]', 'name', 'theme-color', routeBg);
     setMetaTag('meta[name="description"]', 'name', 'description', seo.description);
     setMetaTag('meta[name="keywords"]', 'name', 'keywords', seo.keywords);
     setMetaTag('meta[property="og:title"]', 'property', 'og:title', seo.title);
@@ -162,7 +168,7 @@ function PortfolioShell() {
     >
       {route === 'home' && <Navbar currentRoute={route} onNavigate={handleNavigate} />}
       <div className="flex-1">
-        {route === 'omnidesk' && <OmniDeskPage onNavigate={handleNavigate} />}
+        {route === 'omnidesk' && <OmniDeskPage />}
         {route === 'rate-everything' && <RateEverythingPage onNavigate={handleNavigate} />}
         {route === 'home' && <HomePage onNavigate={handleNavigate} />}
       </div>

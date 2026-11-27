@@ -14,6 +14,7 @@
     scroll-behavior: smooth;
     background-color: #09090b;
     color: #f4f4f5;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -37,6 +38,7 @@
 
   body {
     letter-spacing: 0.005em;
+    overflow-x: clip;
   }
 }
 
@@ -79,7 +81,7 @@
 }
 
 .omnidesk-dot-matrix {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.038) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 
@@ -108,6 +110,13 @@
 .fade-mask-right {
   mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent 100%);
   -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent 100%);
+}
+
+@media (min-width: 640px) {
+  .sm\:mask-none {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

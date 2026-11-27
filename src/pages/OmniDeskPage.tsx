@@ -1,19 +1,16 @@
 import {
-  ArrowLeft,
   ArrowUpRight,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
-  CornerDownLeft,
   Download,
   Layers,
   Maximize2,
   Search,
-  Terminal,
   X,
 } from 'lucide-react';
 import {AnimatePresence, motion, useReducedMotion} from 'motion/react';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {LanguageSwitcher} from '../components/LanguageSwitcher';
 import {MediaFrame} from '../components/MediaFrame';
 import {OmniDeskLogo} from '../components/OmniDeskLogo';
@@ -26,11 +23,7 @@ import {
 } from '../components/OmniDeskMotion';
 import {EXTERNAL_LINKS, MEDIA_ASSETS} from '../data/links';
 import {useI18n} from '../i18n/context';
-import type {OmniDeskScreenshotItem, PageRoute} from '../i18n/types';
-
-interface OmniDeskPageProps {
-  onNavigate: (route: PageRoute, hash?: string) => void;
-}
+import type {OmniDeskScreenshotItem} from '../i18n/types';
 
 const VIDEO_SRC_REGEX = /\.(webm|mp4|ogg)(\?.*)?$/i;
 
@@ -73,17 +66,47 @@ const FLAGSHIP_DEMO_IDS: readonly OmniDeskScreenshotItem['id'][] = [
   'themes',
 ];
 
+const HERO_CYCLE_MS = 4800;
+
+const HERO_TOOL_GROUPS: readonly {categoryId: string; toolIds: readonly string[]}[] = [
+  {
+    categoryId: 'files',
+    toolIds: ['pdf-studio', 'multi-converter', 'csv-editor', 'audio-editor'],
+  },
+  {
+    categoryId: 'code',
+    toolIds: ['hash-suite', 'aes-studio', 'sql-playground', 'regex-builder'],
+  },
+  {
+    categoryId: 'math',
+    toolIds: ['function-grapher', 'chart-graph-studio', 'calculus-workbench', 'linear-programming'],
+  },
+  {
+    categoryId: 'design',
+    toolIds: ['diagram-editor', 'color-studio', 'svg-optimizer', 'css-visual-studio'],
+  },
+  {
+    categoryId: 'finance',
+    toolIds: ['currency-crypto', 'options-black-scholes', 'invoice-generator', 'fire-simulator'],
+  },
+  {
+    categoryId: 'desktop',
+    toolIds: ['system-monitor', 'port-process-manager', 'crosshair-overlay', 'network-diagnostics'],
+  },
+];
+
 type CatalogFilter = 'basics' | string;
 
-interface PaletteToolEntry {
-  id: string;
-  title: string;
-  description: string;
+interface HeroToolSlide {
   categoryId: string;
   categoryTitle: string;
-  runtime: string;
-  isEverydayBasic: boolean;
-  isDesktopOnly: boolean;
+  tools: {
+    id: string;
+    title: string;
+    description: string;
+    categoryId: string;
+    runtime: string;
+  }[];
 }
 
 function ArchitectureDiagrams() {
@@ -367,18 +390,15 @@ function ArchitectureDiagrams() {
   );
 }
 
-export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
+export function OmniDeskPage() {
   const {t} = useI18n();
   const shouldReduceMotion = useReducedMotion() ?? false;
 
   const firstCategoryId = t.omnideskPage.categories[0]?.id ?? 'basics';
 
-  // Interactive Hero Command Palette state
-  const [paletteQuery, setPaletteQuery] = useState('');
-  const [paletteCategory, setPaletteCategory] = useState<string>('all');
-  const [paletteActiveIdx, setPaletteActiveIdx] = useState(0);
-  const [inspectedToolId, setInspectedToolId] = useState<string | null>(null);
-  const paletteInputRef = useRef<HTMLInputElement>(null);
+  // Auto-cycling Hero tools showcase state
+  const [heroSlideIdx, setHeroSlideIdx] = useState(0);
+  const [isHeroPaused, setIsHeroPaused] = useState(false);
 
   // Showcase state (top 4 flagship stacked + expandable remaining grid + Lightbox)
   const [showMoreDemos, setShowMoreDemos] = useState(false);
@@ -423,43 +443,74 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
     return exists ? selectedFilter : firstCategoryId;
   }, [firstCategoryId, selectedFilter, t.omnideskPage.categories]);
 
-  // Flatten all real OmniDesk tools for the Live Command Palette
-  const allPaletteTools: PaletteToolEntry[] = useMemo(() => {
-    const entries: PaletteToolEntry[] = [];
-    t.omnideskPage.categories.forEach((cat) => {
-      cat.tools.forEach((tool) => {
-        const lowerTitle = tool.title.toLowerCase();
-        const runtime = tool.isDesktopOnly
-          ? 'Tauri Rust'
-          : lowerTitle.includes('pdf') ||
-              lowerTitle.includes('audio') ||
-              lowerTitle.includes('image') ||
-              lowerTitle.includes('photo') ||
-              lowerTitle.includes('converter') ||
-              lowerTitle.includes('hash') ||
-              lowerTitle.includes('aes')
-            ? 'Web Worker'
-            : lowerTitle.includes('http') ||
-                lowerTitle.includes('api') ||
-                lowerTitle.includes('currency') ||
-                lowerTitle.includes('crypto')
-              ? 'Hybrid Local'
-              : 'In-Memory';
+  // Build curated rotating slides from real localized OmniDesk tools
+  const heroSlides: HeroToolSlide[] = useMemo(() => {
+    const categoryMap = new Map(t.omnideskPage.categories.map((cat) => [cat.id, cat]));
 
-        entries.push({
-          id: tool.id,
-          title: tool.title,
-          description: tool.description,
-          categoryId: cat.id,
-          categoryTitle: cat.title,
-          runtime,
-          isEverydayBasic: Boolean(tool.isEverydayBasic),
-          isDesktopOnly: Boolean(tool.isDesktopOnly),
-        });
-      });
-    });
-    return entries;
+    const resolveRuntime = (title: string, isDesktopOnly?: boolean) => {
+      if (isDesktopOnly) {
+        return 'Tauri Rust';
+      }
+      const lower = title.toLowerCase();
+      if (
+        lower.includes('pdf') ||
+        lower.includes('audio') ||
+        lower.includes('image') ||
+        lower.includes('photo') ||
+        lower.includes('converter') ||
+        lower.includes('hash') ||
+        lower.includes('aes')
+      ) {
+        return 'Web Worker';
+      }
+      if (
+        lower.includes('http') ||
+        lower.includes('api') ||
+        lower.includes('currency') ||
+        lower.includes('crypto')
+      ) {
+        return 'Hybrid Local';
+      }
+      return 'In-Memory';
+    };
+
+    return HERO_TOOL_GROUPS.map((group) => {
+      const cat = categoryMap.get(group.categoryId);
+      if (!cat) {
+        return null;
+      }
+      const toolMap = new Map(cat.tools.map((tool) => [tool.id, tool]));
+      const selected = group.toolIds
+        .map((id) => toolMap.get(id))
+        .filter((item): item is NonNullable<typeof item> => Boolean(item));
+      const finalTools = (selected.length >= 4 ? selected : cat.tools.slice(0, 4)).map((tool) => ({
+        id: tool.id,
+        title: tool.title,
+        description: tool.description,
+        categoryId: cat.id,
+        runtime: resolveRuntime(tool.title, tool.isDesktopOnly),
+      }));
+
+      return {
+        categoryId: cat.id,
+        categoryTitle: cat.title,
+        tools: finalTools,
+      };
+    }).filter((slide): slide is HeroToolSlide => Boolean(slide && slide.tools.length > 0));
   }, [t.omnideskPage.categories]);
+
+  const activeHeroSlide = heroSlides.length > 0 ? heroSlides[heroSlideIdx % heroSlides.length] : null;
+
+  // Auto-cycle hero tools smoothly every HERO_CYCLE_MS unless hovered, focused, or reduced-motion
+  useEffect(() => {
+    if (shouldReduceMotion || isHeroPaused || heroSlides.length <= 1) {
+      return;
+    }
+    const timer = window.setInterval(() => {
+      setHeroSlideIdx((prev) => (prev + 1) % heroSlides.length);
+    }, HERO_CYCLE_MS);
+    return () => window.clearInterval(timer);
+  }, [heroSlides.length, isHeroPaused, shouldReduceMotion]);
 
   const {totalToolsCount, everydayBasicsCount} = useMemo(() => {
     let total = 0;
@@ -475,46 +526,6 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
     return {totalToolsCount: total, everydayBasicsCount: basics};
   }, [t.omnideskPage.categories]);
 
-  // Show 5 spacious rows instead of 7 cramped ones
-  const paletteResults = useMemo(() => {
-    const q = paletteQuery.trim().toLowerCase();
-    return allPaletteTools
-      .filter((entry) => {
-        if (paletteCategory === 'basics' && !entry.isEverydayBasic) {
-          return false;
-        }
-        if (
-          paletteCategory !== 'all' &&
-          paletteCategory !== 'basics' &&
-          entry.categoryId !== paletteCategory
-        ) {
-          return false;
-        }
-        if (!q) {
-          return true;
-        }
-        return (
-          entry.title.toLowerCase().includes(q) ||
-          entry.description.toLowerCase().includes(q) ||
-          entry.categoryTitle.toLowerCase().includes(q)
-        );
-      })
-      .slice(0, 5);
-  }, [allPaletteTools, paletteCategory, paletteQuery]);
-
-  const clampedPaletteIdx =
-    paletteResults.length > 0 ? Math.min(paletteActiveIdx, paletteResults.length - 1) : 0;
-
-  const inspectedTool = useMemo(() => {
-    if (inspectedToolId) {
-      const found = allPaletteTools.find((item) => item.id === inspectedToolId);
-      if (found) {
-        return found;
-      }
-    }
-    return paletteResults[clampedPaletteIdx] ?? allPaletteTools[0] ?? null;
-  }, [allPaletteTools, clampedPaletteIdx, inspectedToolId, paletteResults]);
-
   // Clear temporary tool highlight after 2.6s
   useEffect(() => {
     if (!highlightedToolId) {
@@ -524,25 +535,20 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
     return () => window.clearTimeout(timer);
   }, [highlightedToolId]);
 
-  // Global keyboard shortcuts (Ctrl+K / Cmd+K focuses command palette, lightbox keys)
+  // Lightbox keyboard navigation
   useEffect(() => {
+    if (lightboxIndex === null) {
+      return;
+    }
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (lightboxIndex !== null) {
-        if (event.key === 'Escape') {
-          setLightboxIndex(null);
-        } else if (event.key === 'ArrowLeft') {
-          setLightboxIndex((prev) =>
-            prev === null ? null : (prev - 1 + screenshots.length) % screenshots.length,
-          );
-        } else if (event.key === 'ArrowRight') {
-          setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % screenshots.length));
-        }
-        return;
-      }
-
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        paletteInputRef.current?.focus();
+      if (event.key === 'Escape') {
+        setLightboxIndex(null);
+      } else if (event.key === 'ArrowLeft') {
+        setLightboxIndex((prev) =>
+          prev === null ? null : (prev - 1 + screenshots.length) % screenshots.length,
+        );
+      } else if (event.key === 'ArrowRight') {
+        setLightboxIndex((prev) => (prev === null ? null : (prev + 1) % screenshots.length));
       }
     };
     window.addEventListener('keydown', handleKeyDown);
@@ -560,42 +566,6 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
     if (el) {
       el.scrollIntoView({behavior: shouldReduceMotion ? 'auto' : 'smooth', block: 'start'});
     }
-  };
-
-  const handlePaletteKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (paletteResults.length === 0) {
-      return;
-    }
-    if (event.key === 'ArrowDown') {
-      event.preventDefault();
-      const next = (clampedPaletteIdx + 1) % paletteResults.length;
-      setPaletteActiveIdx(next);
-      setInspectedToolId(paletteResults[next].id);
-    } else if (event.key === 'ArrowUp') {
-      event.preventDefault();
-      const prev = (clampedPaletteIdx - 1 + paletteResults.length) % paletteResults.length;
-      setPaletteActiveIdx(prev);
-      setInspectedToolId(paletteResults[prev].id);
-    } else if (event.key === 'Enter') {
-      event.preventDefault();
-      const chosen = paletteResults[clampedPaletteIdx];
-      if (chosen) {
-        setInspectedToolId(chosen.id);
-        jumpToToolInCatalog(chosen.categoryId, chosen.id);
-      }
-    } else if (event.key === 'Escape') {
-      setPaletteQuery('');
-      setPaletteCategory('all');
-      setPaletteActiveIdx(0);
-    }
-  };
-
-  const handleNav = (event: React.MouseEvent<HTMLAnchorElement>, route: PageRoute) => {
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-      return;
-    }
-    event.preventDefault();
-    onNavigate(route);
   };
 
   const visibleCatalogSections = useMemo(() => {
@@ -677,24 +647,24 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
     : t.omnideskPage.showMoreDemosLabel.replace('{count}', String(additionalDemos.length));
 
   return (
-    <div className="relative isolate min-h-screen bg-[#0A0D16] text-[#F8FAFC] selection:bg-[#5B4EFF] selection:text-[#F8FAFC]">
-      {/* Fixed Full-Viewport Calm Futuristic Background Layer */}
+    <div className="relative min-h-screen bg-transparent text-[#F8FAFC] selection:bg-[#5B4EFF] selection:text-[#F8FAFC]">
+      {/* Fixed Full-Viewport Calm Futuristic Background Layer (z-0 for reliable mobile Safari/Chrome compositing) */}
       <div
         aria-hidden="true"
-        className="fixed inset-0 -z-10 pointer-events-none overflow-hidden"
+        className="fixed inset-0 min-h-[100lvh] z-0 pointer-events-none overflow-hidden bg-[#0A0D16]"
       >
         <div
-          className="absolute -top-[18%] -left-[12%] w-[78vw] max-w-[960px] h-[78vw] max-h-[960px] rounded-full omnidesk-wave-primary"
+          className="absolute -top-[10%] -left-[28%] sm:-top-[18%] sm:-left-[12%] w-[140vw] h-[140vw] sm:w-[82vw] sm:h-[82vw] max-w-[960px] max-h-[960px] rounded-full omnidesk-wave-primary"
           style={{
             background:
-              'radial-gradient(circle at 50% 50%, rgba(91, 78, 255, 0.115) 0%, rgba(91, 78, 255, 0.04) 42%, transparent 72%)',
+              'radial-gradient(circle at 50% 50%, rgba(91, 78, 255, 0.135) 0%, rgba(91, 78, 255, 0.045) 45%, transparent 72%)',
           }}
         />
         <div
-          className="absolute top-[26%] -right-[14%] w-[74vw] max-w-[920px] h-[74vw] max-h-[920px] rounded-full omnidesk-wave-secondary"
+          className="absolute top-[34%] -right-[28%] sm:top-[26%] sm:-right-[14%] w-[135vw] h-[135vw] sm:w-[76vw] sm:h-[76vw] max-w-[920px] max-h-[920px] rounded-full omnidesk-wave-secondary"
           style={{
             background:
-              'radial-gradient(circle at 50% 50%, rgba(58, 108, 196, 0.095) 0%, rgba(58, 108, 196, 0.03) 44%, transparent 72%)',
+              'radial-gradient(circle at 50% 50%, rgba(58, 108, 196, 0.11) 0%, rgba(58, 108, 196, 0.035) 46%, transparent 72%)',
           }}
         />
         <div className="absolute inset-0 omnidesk-dot-matrix" />
@@ -702,26 +672,17 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
 
       {/* 1. Sticky Frosted Navbar — Centered 1080px Container */}
       <header className="sticky top-0 z-40 h-16 omnidesk-glass border-x-0 border-t-0">
-        <div className="max-w-[1080px] mx-auto px-5 sm:px-8 h-full flex items-center justify-between gap-6">
-          {/* Left: Brand Wordmark + Subtle Back to Portfolio */}
-          <div className="flex items-center gap-4 min-w-0 shrink-0">
+        <div className="max-w-[1080px] mx-auto px-4 sm:px-8 h-full flex items-center justify-between gap-2 sm:gap-6">
+          {/* Left: Brand Wordmark */}
+          <div className="flex items-center min-w-0 shrink-0">
             <a
               href="#overview"
-              className="inline-flex items-center gap-2.5 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5B4EFF]"
+              className="inline-flex items-center gap-2 sm:gap-2.5 whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#5B4EFF]"
             >
-              <OmniDeskLogo className="w-6 h-6" title={t.omnideskPage.appName} />
-              <span className="font-mono text-sm font-semibold tracking-wider text-[#F8FAFC]">
+              <OmniDeskLogo className="w-6 h-6 shrink-0" title={t.omnideskPage.appName} />
+              <span className="font-mono text-xs sm:text-sm font-semibold tracking-wider text-[#F8FAFC]">
                 OMNIDESK
               </span>
-            </a>
-
-            <a
-              href="./index.html"
-              onClick={(e) => handleNav(e, 'home')}
-              className="hidden sm:inline-flex items-center gap-1.5 text-xs text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-              <span>{t.omnideskPage.backToPortfolio}</span>
             </a>
           </div>
 
@@ -751,14 +712,14 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
           </nav>
 
           {/* Right: Language Switcher + Primary Download CTA */}
-          <div className="flex items-center gap-3 sm:gap-5 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-5 shrink-0">
             <LanguageSwitcher tone="indigo" />
 
             <a
               href={`${EXTERNAL_LINKS.omnideskRepo}/releases`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 min-h-[38px] font-mono text-xs font-semibold tracking-wide text-[#F8FAFC] bg-[#5B4EFF] hover:bg-[#6D61FF] rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B4EFF]"
+              className="inline-flex items-center justify-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 min-h-[36px] sm:min-h-[38px] font-mono text-[11px] sm:text-xs font-semibold tracking-wide text-[#F8FAFC] bg-[#5B4EFF] hover:bg-[#6D61FF] rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B4EFF]"
             >
               <Download className="w-3.5 h-3.5" aria-hidden="true" />
               <span>DOWNLOAD</span>
@@ -770,20 +731,8 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
 
       <main className="relative z-10 overflow-x-clip">
         {/* 2. HERO & LIVE COMMAND PALETTE */}
-        <section id="overview" className="pt-14 pb-20 sm:pt-20 sm:pb-24">
-          <div className="max-w-[1080px] mx-auto px-5 sm:px-8 space-y-12">
-              {/* Mobile back link */}
-              <div className="sm:hidden -mb-12">
-                <a
-                  href="./index.html"
-                  onClick={(e) => handleNav(e, 'home')}
-                  className="inline-flex items-center gap-1.5 text-xs text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5" aria-hidden="true" />
-                  <span>{t.omnideskPage.backToPortfolio}</span>
-                </a>
-              </div>
-
+        <section id="overview" className="pt-12 pb-16 sm:pt-20 sm:pb-24">
+          <div className="max-w-[1080px] mx-auto px-5 sm:px-8">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
                 {/* Left Column: Headline, Tight 2-3 Line Copy & Unified CTAs */}
                 <div className="lg:col-span-6 space-y-8">
@@ -857,202 +806,160 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
                   </ScrollReveal>
                 </div>
 
-                {/* Right Column: Frosted Live Command Palette (5 spacious rows, no dividers, hidden scrollbar + fade mask) */}
+                {/* Right Column: Smooth Auto-Cycling Tools Showcase */}
                 <div className="lg:col-span-6">
                   <ScrollReveal immediate direction="up" distance={18} delay={0.14}>
-                    <div className="omnidesk-glass rounded-xl overflow-hidden shadow-[0_24px_60px_-24px_rgba(0,0,0,0.65)]">
-                      {/* Palette Header */}
-                      <div className="px-4 py-3 border-b border-white/[0.06] flex items-center justify-between gap-3">
-                        <div className="inline-flex items-center gap-2 font-mono text-[11px] text-[#F8FAFC]">
-                          <Terminal className="w-3.5 h-3.5 text-[#5B4EFF]" aria-hidden="true" />
-                          <span>Live Command Palette</span>
-                        </div>
-                        <div className="flex items-center gap-1.5 font-mono text-[10px] text-[#8B95B0]">
-                          <kbd className="px-1.5 py-0.5 bg-white/[0.05] text-[#F8FAFC] rounded">
-                            ⌘K
-                          </kbd>
-                          <span>Type to filter</span>
-                        </div>
-                      </div>
-
-                      {/* Search Input */}
-                      <div className="relative border-b border-white/[0.06]">
-                        <Search
-                          className="w-4 h-4 text-[#5B4EFF] absolute left-4 top-1/2 -translate-y-1/2"
-                          aria-hidden="true"
-                        />
-                        <input
-                          ref={paletteInputRef}
-                          type="text"
-                          value={paletteQuery}
-                          onChange={(e) => {
-                            setPaletteQuery(e.target.value);
-                            setPaletteActiveIdx(0);
-                          }}
-                          onKeyDown={handlePaletteKeyDown}
-                          placeholder={t.omnideskPage.palettePlaceholder}
-                          aria-label="Live Command Palette search"
-                          className="w-full pl-11 pr-10 py-3.5 bg-transparent font-mono text-xs sm:text-sm text-[#F8FAFC] placeholder:text-[#56607C] focus:outline-none"
-                        />
-                        {paletteQuery && (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPaletteQuery('');
-                              setPaletteActiveIdx(0);
-                            }}
-                            aria-label={t.omnideskPage.clearSearchLabel}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150 cursor-pointer"
-                          >
-                            <X className="w-3.5 h-3.5" aria-hidden="true" />
-                          </button>
-                        )}
-                      </div>
-
-                      {/* Scrollable Category Filter Pills — hidden scrollbar + right-edge fade mask */}
-                      <div className="px-3 py-2.5 border-b border-white/[0.06]">
-                        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar fade-mask-right pr-8">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPaletteCategory('all');
-                              setPaletteActiveIdx(0);
-                            }}
-                            className={`px-2.5 py-1.5 font-mono text-[10px] tracking-wide rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 cursor-pointer ${
-                              paletteCategory === 'all'
-                                ? 'bg-[#5B4EFF] text-[#F8FAFC] font-semibold'
-                                : 'text-[#8B95B0] hover:text-[#F8FAFC] hover:bg-white/[0.04]'
-                            }`}
-                          >
-                            All ({totalToolsCount})
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setPaletteCategory('basics');
-                              setPaletteActiveIdx(0);
-                            }}
-                            className={`px-2.5 py-1.5 font-mono text-[10px] tracking-wide rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 cursor-pointer ${
-                              paletteCategory === 'basics'
-                                ? 'bg-[#5B4EFF] text-[#F8FAFC] font-semibold'
-                                : 'text-[#8B95B0] hover:text-[#F8FAFC] hover:bg-white/[0.04]'
-                            }`}
-                          >
-                            Basics ({everydayBasicsCount})
-                          </button>
-                          {t.omnideskPage.categories.map((cat) => {
-                            const active = paletteCategory === cat.id;
-                            return (
-                              <button
-                                key={cat.id}
-                                type="button"
-                                onClick={() => {
-                                  setPaletteCategory(cat.id);
-                                  setPaletteActiveIdx(0);
-                                }}
-                                className={`px-2.5 py-1.5 font-mono text-[10px] tracking-wide rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 cursor-pointer ${
-                                  active
-                                    ? 'bg-[#5B4EFF] text-[#F8FAFC] font-semibold'
-                                    : 'text-[#8B95B0] hover:text-[#F8FAFC] hover:bg-white/[0.04]'
-                                }`}
+                    {activeHeroSlide && (
+                      <div
+                        onMouseEnter={() => setIsHeroPaused(true)}
+                        onMouseLeave={() => setIsHeroPaused(false)}
+                        onFocus={() => setIsHeroPaused(true)}
+                        onBlur={() => setIsHeroPaused(false)}
+                        className="omnidesk-glass rounded-xl overflow-hidden shadow-[0_24px_60px_-24px_rgba(0,0,0,0.65)]"
+                      >
+                        {/* Quiet Slide Header: Current Category + Index & Prev/Next */}
+                        <div className="px-5 py-3.5 flex items-center justify-between gap-3">
+                          <div className="min-w-0 flex items-center gap-2.5">
+                            <span className="font-mono text-[11px] text-[#6D61FF] tabular-nums shrink-0">
+                              {String((heroSlideIdx % heroSlides.length) + 1).padStart(2, '0')} /{' '}
+                              {String(heroSlides.length).padStart(2, '0')}
+                            </span>
+                            <span className="text-white/20 shrink-0" aria-hidden="true">
+                              ·
+                            </span>
+                            <AnimatePresence mode="wait" initial={false}>
+                              <motion.span
+                                key={activeHeroSlide.categoryId}
+                                initial={shouldReduceMotion ? false : {opacity: 0, y: 4}}
+                                animate={{opacity: 1, y: 0}}
+                                exit={shouldReduceMotion ? undefined : {opacity: 0, y: -4}}
+                                transition={{duration: 0.25, ease: [0.22, 1, 0.36, 1]}}
+                                className="font-mono text-[11px] tracking-wide text-[#F8FAFC] truncate"
                               >
-                                {cat.title.split(/[&,]/)[0].trim()}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-
-                      {/* Interactive Results List — 5 spacious rows, NO inner divider lines, NO #1-01 badges */}
-                      <div className="p-2 space-y-1 min-h-[296px]">
-                        {paletteResults.length === 0 ? (
-                          <div className="py-16 px-6 text-center font-mono text-xs text-[#8B95B0]">
-                            No module matches &ldquo;{paletteQuery}&rdquo; — try &ldquo;pdf&rdquo;,
-                            &ldquo;hash&rdquo;, or &ldquo;graph&rdquo;
+                                {activeHeroSlide.categoryTitle}
+                              </motion.span>
+                            </AnimatePresence>
                           </div>
-                        ) : (
-                          paletteResults.map((item, idx) => {
-                            const isSelected = idx === clampedPaletteIdx;
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onMouseEnter={() => {
-                                  setPaletteActiveIdx(idx);
-                                  setInspectedToolId(item.id);
-                                }}
-                                onClick={() => {
-                                  setPaletteActiveIdx(idx);
-                                  setInspectedToolId(item.id);
-                                }}
-                                className={`w-full text-left px-3.5 py-2.5 rounded-lg flex items-center justify-between gap-4 transition-colors duration-150 industrial-ease cursor-pointer ${
-                                  isSelected
-                                    ? 'bg-white/[0.07] text-[#F8FAFC]'
-                                    : 'text-[#8B95B0] hover:bg-white/[0.035]'
-                                }`}
-                              >
-                                <div className="min-w-0 space-y-0.5">
-                                  <p
-                                    className={`text-sm font-medium truncate ${
-                                      isSelected ? 'text-[#F8FAFC]' : 'text-[#CBD5E1]'
-                                    }`}
-                                  >
-                                    {item.title}
-                                  </p>
-                                  <p className="font-mono text-[11px] text-[#8B95B0] truncate">
-                                    {item.categoryTitle} · {item.runtime}
-                                  </p>
-                                </div>
 
-                                <span
-                                  className={`font-mono text-xs shrink-0 transition-opacity duration-150 ${
-                                    isSelected ? 'text-[#6D61FF] opacity-100' : 'opacity-0'
-                                  }`}
-                                  aria-hidden="true"
-                                >
-                                  ↵
-                                </span>
-                              </button>
-                            );
-                          })
-                        )}
-                      </div>
-
-                      {/* Active Selection Inspector Bar */}
-                      {inspectedTool && (
-                        <div className="px-4 py-3.5 border-t border-white/[0.06] bg-[#0A0D16]/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                          <div className="min-w-0 space-y-0.5">
-                            <p className="font-mono text-[10px] text-[#6D61FF] tracking-wide">
-                              {inspectedTool.runtime} · 0ms local
-                            </p>
-                            <p className="text-xs text-[#CBD5E1] truncate">
-                              {inspectedTool.description}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0 self-start sm:self-auto">
+                          <div className="flex items-center gap-1 shrink-0">
                             <button
                               type="button"
                               onClick={() =>
-                                jumpToToolInCatalog(inspectedTool.categoryId, inspectedTool.id)
+                                setHeroSlideIdx(
+                                  (prev) => (prev - 1 + heroSlides.length) % heroSlides.length,
+                                )
                               }
-                              className="inline-flex items-center gap-1.5 px-3 py-1.5 font-mono text-[11px] font-semibold text-[#F8FAFC] bg-[#5B4EFF] hover:bg-[#6D61FF] rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0 cursor-pointer"
+                              aria-label={t.omnideskPage.galleryPrevLabel}
+                              className="p-1.5 text-[#8B95B0] hover:text-[#F8FAFC] hover:bg-white/[0.06] rounded-lg transition-colors duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B4EFF]"
                             >
-                              <CornerDownLeft className="w-3 h-3" aria-hidden="true" />
-                              <span>Open in index</span>
+                              <ChevronLeft className="w-3.5 h-3.5" aria-hidden="true" />
                             </button>
-                            <a
-                              href={EXTERNAL_LINKS.omnideskLive}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 px-2.5 py-1.5 font-mono text-[11px] font-medium text-[#8B95B0] hover:text-[#F8FAFC] bg-white/[0.04] hover:bg-white/[0.08] rounded-lg transition-colors duration-150 industrial-ease whitespace-nowrap shrink-0"
+                            <button
+                              type="button"
+                              onClick={() =>
+                                setHeroSlideIdx((prev) => (prev + 1) % heroSlides.length)
+                              }
+                              aria-label={t.omnideskPage.galleryNextLabel}
+                              className="p-1.5 text-[#8B95B0] hover:text-[#F8FAFC] hover:bg-white/[0.06] rounded-lg transition-colors duration-150 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B4EFF]"
                             >
-                              <span>PWA</span>
-                              <ArrowUpRight className="w-3 h-3" aria-hidden="true" />
-                            </a>
+                              <ChevronRight className="w-3.5 h-3.5" aria-hidden="true" />
+                            </button>
                           </div>
                         </div>
-                      )}
-                    </div>
+
+                        {/* Smoothly Animated Tool Rows — Borderless, Clickable to Jump to Catalog */}
+                        <div className="px-3 pb-3 min-h-[312px] flex flex-col justify-center">
+                          <AnimatePresence mode="wait" initial={false}>
+                            <motion.div
+                              key={activeHeroSlide.categoryId}
+                              initial={shouldReduceMotion ? false : {opacity: 0}}
+                              animate={{opacity: 1}}
+                              exit={shouldReduceMotion ? undefined : {opacity: 0}}
+                              transition={{duration: 0.22, ease: [0.22, 1, 0.36, 1]}}
+                              className="space-y-1.5"
+                            >
+                              {activeHeroSlide.tools.map((item, idx) => (
+                                <motion.button
+                                  key={item.id}
+                                  type="button"
+                                  onClick={() => jumpToToolInCatalog(item.categoryId, item.id)}
+                                  initial={shouldReduceMotion ? false : {opacity: 0, y: 10}}
+                                  animate={{opacity: 1, y: 0}}
+                                  exit={shouldReduceMotion ? undefined : {opacity: 0, y: -6}}
+                                  transition={{
+                                    duration: 0.34,
+                                    delay: shouldReduceMotion ? 0 : idx * 0.045,
+                                    ease: [0.22, 1, 0.36, 1],
+                                  }}
+                                  className="group w-full text-left px-3.5 py-3 rounded-lg flex items-start justify-between gap-4 hover:bg-white/[0.05] transition-colors duration-150 industrial-ease cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B4EFF]"
+                                >
+                                  <div className="min-w-0 space-y-1">
+                                    <p className="font-tech text-sm font-semibold text-[#F8FAFC] group-hover:text-white truncate">
+                                      {item.title}
+                                    </p>
+                                    <p className="text-xs text-[#8B95B0] line-clamp-1 leading-relaxed">
+                                      {item.description}
+                                    </p>
+                                  </div>
+                                  <span className="font-mono text-[10px] text-[#8B95B0]/80 group-hover:text-[#6D61FF] transition-colors duration-150 whitespace-nowrap shrink-0 pt-0.5">
+                                    {item.runtime}
+                                  </span>
+                                </motion.button>
+                              ))}
+                            </motion.div>
+                          </AnimatePresence>
+                        </div>
+
+                        {/* Interactive Progress Segments + Quiet Catalog Shortcut */}
+                        <div className="px-5 py-3.5 bg-[#0A0D16]/45 flex items-center justify-between gap-4">
+                          <div
+                            className="flex items-center gap-1.5 flex-1 max-w-[200px]"
+                            role="tablist"
+                            aria-label="Tool preview groups"
+                          >
+                            {heroSlides.map((slide, idx) => {
+                              const isCurrent = idx === heroSlideIdx % heroSlides.length;
+                              return (
+                                <button
+                                  key={slide.categoryId}
+                                  type="button"
+                                  role="tab"
+                                  aria-selected={isCurrent}
+                                  aria-label={slide.categoryTitle}
+                                  onClick={() => setHeroSlideIdx(idx)}
+                                  className="relative h-6 flex-1 flex items-center cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#5B4EFF] rounded"
+                                >
+                                  <span className="relative block w-full h-[3px] rounded-full bg-white/[0.1] overflow-hidden">
+                                    {isCurrent && (
+                                      <motion.span
+                                        key={`${slide.categoryId}-${isHeroPaused ? 'paused' : 'run'}`}
+                                        initial={{scaleX: shouldReduceMotion || isHeroPaused ? 1 : 0}}
+                                        animate={{scaleX: 1}}
+                                        transition={
+                                          shouldReduceMotion || isHeroPaused
+                                            ? {duration: 0}
+                                            : {duration: HERO_CYCLE_MS / 1000, ease: 'linear'}
+                                        }
+                                        className="absolute inset-0 origin-left bg-[#5B4EFF] rounded-full"
+                                      />
+                                    )}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => jumpToToolInCatalog(activeHeroSlide.categoryId)}
+                            className="inline-flex items-center gap-1.5 font-mono text-[11px] text-[#8B95B0] hover:text-[#F8FAFC] transition-colors duration-150 whitespace-nowrap shrink-0 cursor-pointer"
+                          >
+                            <span>{t.omnideskPage.exploreCatalogCta}</span>
+                            <ArrowUpRight className="w-3 h-3 text-[#6D61FF]" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </ScrollReveal>
                 </div>
               </div>
@@ -1437,14 +1344,14 @@ export function OmniDeskPage({onNavigate}: OmniDeskPageProps) {
             </div>
 
             {/* Translucent Catalog Container (No Divider Lines Inside) */}
-            <div className="omnidesk-glass rounded-xl p-6 sm:p-8 space-y-10">
+            <div className="omnidesk-glass rounded-xl p-4 sm:p-8 space-y-8 sm:space-y-10">
               {/* Clean Category Tabs Bar */}
               <div
                 role="tablist"
                 aria-label={t.omnideskPage.catalogHeading}
-                className="flex flex-wrap items-center justify-between gap-4"
+                className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center justify-between gap-3 sm:gap-4"
               >
-                <div className="flex flex-wrap items-center gap-1.5">
+                <div className="flex flex-nowrap sm:flex-wrap items-center gap-1.5 overflow-x-auto sm:overflow-visible no-scrollbar fade-mask-right sm:mask-none pr-8 sm:pr-0 min-w-0">
                   {t.omnideskPage.categories.map((cat) => {
                     const isSelected = !expandAll && !searchQuery.trim() && activeCategoryFilter === cat.id;
                     return (
